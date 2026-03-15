@@ -1,0 +1,12 @@
+[
+    {
+        "grantedRoleId": 123456,
+        "grantedRoleName": "first role name",
+        "grantedRoleDescription": "first role description"
+    },
+    {
+        "grantedRoleId": 654321,
+        "grantedRoleName": "second role name",
+        "grantedRoleDescription": "second role description"
+    }
+]
