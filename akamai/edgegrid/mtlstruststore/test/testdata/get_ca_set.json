@@ -1,0 +1,48 @@
+{
+  "TestGetCASet": {
+    "200 OK": {
+      "httpStatus": 200,
+      "body": {
+        "accountId": "A-CCOUNT",
+        "caSetId": "199",
+        "caSetLink": "/mtls-edge-truststore/v2/ca-sets/199",
+        "caSetName": "test",
+        "caSetStatus": "NOT_DELETED",
+        "createdBy": "jdoe",
+        "createdDate": "2025-04-01T15:33:48.464941Z",
+        "deletedBy": null,
+        "deletedDate": null,
+        "description": "",
+        "latestVersion": null,
+        "latestVersionLink": null,
+        "productionVersion": null,
+        "productionVersionLink": null,
+        "stagingVersion": null,
+        "stagingVersionLink": null,
+        "versionsLink": "/mtls-edge-truststore/v2/ca-sets/199/versions/"
+      }
+    },
+    "404 ca set key not found - custom error check": {
+      "httpStatus": 404,
+      "body": {
+        "contextInfo": {
+          "caSetId": "10"
+        },
+        "detail": "Cannot get CA set as the CA set with caSetId 10 is not found.",
+        "status": 404,
+        "title": "CA set is not found.",
+        "type": "/mtls-edge-truststore/error-types/ca-set-not-found"
+      }
+    },
+    "500 internal server error": {
+      "httpStatus": 500,
+      "body": {
+        "type": "internal-server-error",
+        "title": "Internal Server Error",
+        "detail": "Error processing request",
+        "instance": "TestInstances",
+        "status": 500
+      }
+    }
+  }
+}
