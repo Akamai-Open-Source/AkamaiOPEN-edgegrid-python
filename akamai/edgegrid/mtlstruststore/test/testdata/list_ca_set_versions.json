@@ -1,0 +1,239 @@
+{
+    "TestListCASetVersions": {
+        "200 Successfully Lists versions": {
+            "httpStatus": 200,
+            "body": {
+                "versions": [
+                    {
+                        "version": 1,
+                        "versionLink": "/mtls-edge-truststore/v2/ca-sets/1000/versions/1",
+                        "caSetId": "1000",
+                        "caSetName": "test1",
+                        "description": "Optional description for this version.",
+                        "allowInsecureSha1": false,
+                        "stagingStatus": "ACTIVE",
+                        "productionStatus": "INACTIVE",
+                        "createdDate": "2023-01-10T11:00:00.435643Z",
+                        "createdBy": "jsmith",
+                        "modifiedDate": "2023-01-10T12:00:00.925684Z",
+                        "modifiedBy": "jsmith",
+                        "certificates": [
+                            {
+                                "subject": "C=US,ST=MA,L=Cambridge,O=Akamai,CN=intermediate.tcm-11-example.com",
+                                "issuer": "C=US,ST=MA,L=Cambridge,O=Akamai,CN=tcm-13-example.com",
+                                "endDate": "2020-04-07T17:33:39Z",
+                                "startDate": "2019-04-08T17:33:39Z",
+                                "fingerprint": "1E:DD:AD:32:C3:54:3F:C3:6F:7F:94:51:8D:5E:F7:ED:7C:DB:5D:A5",
+                                "certificatePem": "-----BEGIN CERTIFICATE-----...-----END CERTIFICATE-----",
+                                "serialNumber": "11612024106234270900",
+                                "signatureAlgorithm": "SHA256WITHRSA",
+                                "createdDate": "2020-04-07T17:33:39.247917Z",
+                                "createdBy": "jsmith2",
+                                "description": "Optional description for the certificate"
+                            },
+                            {
+                                "subject": "C=US,ST=MA,L=Cambridge,O=Akamai,CN=intermediate1.tcm-11-example.com",
+                                "issuer": "C=US,ST=MA,L=Cambridge,O=Akamai,CN=intermediate.tcm-11-example.com",
+                                "endDate": "2020-04-07T17:43:58Z",
+                                "startDate": "2019-04-08T17:43:58Z",
+                                "fingerprint": "1F:DD:AD:32:C3:54:3F:C3:6F:7F:04:51:8D:5E:F7:ED:7C:DB:5D:A5",
+                                "certificatePem": "-----BEGIN CERTIFICATE-----...-----END CERTIFICATE-----",
+                                "serialNumber": "11612024106234270901",
+                                "signatureAlgorithm": "SHA256WITHRSA",
+                                "createdDate": "2020-04-07T17:33:39.883429Z",
+                                "createdBy": "jsmith2",
+                                "description": "Optional description for the certificate"
+                            }
+                        ],
+                        "validation": null
+                    },
+                    {
+                        "caSetId": "1000",
+                        "caSetName": "test1",
+                        "version": 2,
+                        "versionLink": "/mtls-edge-truststore/v2/ca-sets/1000/versions/2",
+                        "description": null,
+                        "allowInsecureSha1": true,
+                        "stagingStatus": "ACTIVE",
+                        "productionStatus": "INACTIVE",
+                        "createdDate": "2023-01-10T11:00:00.876324Z",
+                        "createdBy": "jsmith",
+                        "modifiedDate": "2023-01-10T12:00:00.897323Z",
+                        "modifiedBy": "jsmith",
+                        "certificates": [
+                            {
+                                "subject": "C=US,ST=MA,L=Cambridge,O=Akamai,CN=intermediate.tcm-11-example.com",
+                                "issuer": "C=US,ST=MA,L=Cambridge,O=Akamai,CN=tcm-13-example.com",
+                                "endDate": "2020-04-07T17:33:39Z",
+                                "startDate": "2019-04-08T17:33:39Z",
+                                "fingerprint": "1E:DD:AD:32:C3:54:3F:C3:6F:7F:94:51:8D:5E:F7:ED:7C:DB:5D:A5",
+                                "certificatePem": "-----BEGIN CERTIFICATE-----...-----END CERTIFICATE-----",
+                                "serialNumber": "11612024106234270900",
+                                "signatureAlgorithm": "SHA256WITHRSA",
+                                "createdDate": "2020-04-07T17:33:39.247917Z",
+                                "createdBy": "jsmith2",
+                                "description": "Optional description for the certificate"
+                            },
+                            {
+                                "subject": "C=US,ST=MA,L=Cambridge,O=Akamai,CN=intermediate1.tcm-11-example.com",
+                                "issuer": "C=US,ST=MA,L=Cambridge,O=Akamai,CN=intermediate.tcm-11-example.com",
+                                "endDate": "2020-04-07T17:43:58Z",
+                                "startDate": "2019-04-08T17:43:58Z",
+                                "fingerprint": "1F:DD:AD:32:C3:54:3F:C3:6F:7F:04:51:8D:5E:F7:ED:7C:DB:5D:A6",
+                                "certificatePem": "-----BEGIN CERTIFICATE-----...-----END CERTIFICATE-----",
+                                "serialNumber": "11612024106234270901",
+                                "signatureAlgorithm": "SHA256WITHRSA",
+                                "createdDate": "2020-04-07T17:33:39.738219Z",
+                                "createdBy": "jsmith2",
+                                "description": "Optional description for the certificate"
+                            }
+                        ],
+                        "validation": null
+                    }
+                ]
+            }
+        },
+        "200 Successfully Lists versions with activeVersionsOnly=true and includeCertificates=true": {
+            "httpStatus": 200,
+            "body": {
+                "versions": [
+                    {
+                        "version": 1,
+                        "versionLink": "/mtls-edge-truststore/v2/ca-sets/1000/versions/1",
+                        "caSetId": "1000",
+                        "caSetName": "test1",
+                        "description": "Optional description for this version.",
+                        "allowInsecureSha1": false,
+                        "stagingStatus": "ACTIVE",
+                        "productionStatus": "ACTIVE",
+                        "createdDate": "2023-01-10T11:00:00.633918Z",
+                        "createdBy": "jsmith",
+                        "modifiedDate": "2023-01-10T12:00:00.733190Z",
+                        "modifiedBy": "jsmith",
+                        "certificates": [
+                            {
+                                "subject": "C=US,ST=MA,L=Cambridge,O=Akamai,CN=intermediate.tcm-11-example.com",
+                                "issuer": "C=US,ST=MA,L=Cambridge,O=Akamai,CN=tcm-13-example.com",
+                                "endDate": "2020-04-07T17:33:39Z",
+                                "startDate": "2019-04-08T17:33:39Z",
+                                "fingerprint": "1E:DD:AD:32:C3:54:3F:C3:6F:7F:94:51:8D:5E:F7:ED:7C:DB:5D:A5",
+                                "certificatePem": "-----BEGIN CERTIFICATE-----...-----END CERTIFICATE-----",
+                                "serialNumber": "11612024106234270900",
+                                "signatureAlgorithm": "SHA256WITHRSA",
+                                "createdDate": "2020-04-07T17:33:39.110283Z",
+                                "createdBy": "jsmith2",
+                                "description": "Optional description for the certificate"
+                            },
+                            {
+                                "subject": "C=US,ST=MA,L=Cambridge,O=Akamai,CN=intermediate1.tcm-11-example.com",
+                                "issuer": "C=US,ST=MA,L=Cambridge,O=Akamai,CN=intermediate.tcm-11-example.com",
+                                "endDate": "2020-04-07T17:43:58Z",
+                                "startDate": "2019-04-08T17:43:58Z",
+                                "fingerprint": "1F:DD:AD:32:C3:54:3F:C3:6F:7F:04:51:8D:5E:F7:ED:7C:DB:5D:A5",
+                                "certificatePem": "-----BEGIN CERTIFICATE-----...-----END CERTIFICATE-----",
+                                "serialNumber": "11612024106234270901",
+                                "signatureAlgorithm": "SHA256WITHRSA",
+                                "createdDate": "2020-04-07T17:33:39.110553Z",
+                                "createdBy": "jsmith2",
+                                "description": "Optional description for the certificate"
+                            }
+                        ],
+                        "validation": null
+                    },
+                    {
+                        "caSetId": "1000",
+                        "caSetName": "test1",
+                        "version": 2,
+                        "versionLink": "/mtls-edge-truststore/v2/ca-sets/1000/versions/2",
+                        "description": null,
+                        "allowInsecureSha1": true,
+                        "stagingStatus": "ACTIVE",
+                        "productionStatus": "ACTIVE",
+                        "createdDate": "2023-01-10T11:00:00.633919Z",
+                        "createdBy": "jsmith",
+                        "modifiedDate": "2023-01-10T12:00:00.733191Z",
+                        "modifiedBy": "jsmith",
+                        "certificates": [
+                            {
+                                "subject": "C=US,ST=MA,L=Cambridge,O=Akamai,CN=intermediate.tcm-11-example.com",
+                                "issuer": "C=US,ST=MA,L=Cambridge,O=Akamai,CN=tcm-13-example.com",
+                                "endDate": "2020-04-07T17:33:39Z",
+                                "startDate": "2019-04-08T17:33:39Z",
+                                "fingerprint": "1E:DD:AD:32:C3:54:3F:C3:6F:7F:94:51:8D:5E:F7:ED:7C:DB:5D:A5",
+                                "certificatePem": "-----BEGIN CERTIFICATE-----...-----END CERTIFICATE-----",
+                                "serialNumber": "11612024106234270900",
+                                "signatureAlgorithm": "SHA256WITHRSA",
+                                "createdDate": "2020-04-07T17:33:39.110284Z",
+                                "createdBy": "jsmith2",
+                                "description": "Optional description for the certificate"
+                            },
+                            {
+                                "subject": "C=US,ST=MA,L=Cambridge,O=Akamai,CN=intermediate1.tcm-11-example.com",
+                                "issuer": "C=US,ST=MA,L=Cambridge,O=Akamai,CN=intermediate.tcm-11-example.com",
+                                "endDate": "2020-04-07T17:43:58Z",
+                                "startDate": "2019-04-08T17:43:58Z",
+                                "fingerprint": "1F:DD:AD:32:C3:54:3F:C3:6F:7F:04:51:8D:5E:F7:ED:7C:DB:5D:A6",
+                                "certificatePem": "-----BEGIN CERTIFICATE-----...-----END CERTIFICATE-----",
+                                "serialNumber": "11612024106234270901",
+                                "signatureAlgorithm": "SHA256WITHRSA",
+                                "createdDate": "2020-04-07T17:33:39.110443Z",
+                                "createdBy": "jsmith2",
+                                "description": "Optional description for the certificate"
+                            }
+                        ],
+                        "validation": null
+                    }
+                ]
+            }
+        },
+        "200 Successfully Lists versions with activeVersionsOnly=true": {
+            "httpStatus": 200,
+            "body": {
+                "versions": [
+                    {
+                        "version": 1,
+                        "versionLink": "/mtls-edge-truststore/v2/ca-sets/1000/versions/1",
+                        "caSetId": "1000",
+                        "caSetName": "test1",
+                        "description": "Optional description for this version.",
+                        "allowInsecureSha1": false,
+                        "stagingStatus": "ACTIVE",
+                        "productionStatus": "ACTIVE",
+                        "createdDate": "2023-01-10T11:00:00.633918Z",
+                        "createdBy": "jsmith",
+                        "modifiedDate": "2023-01-10T12:00:00.733190Z",
+                        "modifiedBy": "jsmith",
+                        "validation": null
+                    },
+                    {
+                        "caSetId": "1000",
+                        "caSetName": "test1",
+                        "version": 2,
+                        "versionLink": "/mtls-edge-truststore/v2/ca-sets/1000/versions/2",
+                        "description": null,
+                        "allowInsecureSha1": true,
+                        "stagingStatus": "ACTIVE",
+                        "productionStatus": "ACTIVE",
+                        "createdDate": "2023-01-10T11:00:00.633919Z",
+                        "createdBy": "jsmith",
+                        "modifiedDate": "2023-01-10T12:00:00.733191Z",
+                        "modifiedBy": "jsmith",
+                        "validation": null
+                    }
+                ]
+            }
+        },
+        "Error Response - CA set is not found": {
+            "httpStatus": 404,
+            "body": {
+                "type": "/mtls-edge-truststore/error-types/ca-set-not-found",
+                "title": "CA set not found.",
+                "status": 404,
+                "detail": "Cannot get CA set version as the CA set with caSetId 123 is not found.",
+                "contextInfo": {
+                    "caSetId": "123"
+                }
+            }
+        }
+    }
+}
