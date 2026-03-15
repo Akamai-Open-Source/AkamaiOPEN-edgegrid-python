@@ -1,0 +1,66 @@
+{
+  "TestListCASetVersionActivations": {
+    "200 OK": {
+      "httpStatus": 200,
+      "body": {
+        "activations": [
+          {
+            "activationId": 84571,
+            "activationLink": "/mtls-edge-truststore/v2/ca-sets/1000/versions/2/activations/84571",
+            "caSetId": "1000",
+            "caSetName": "test1",
+            "caSetLink": "/mtls-edge-truststore/v2/ca-sets/1000",
+            "percentComplete": 100,
+            "validation": null,
+            "version": 2,
+            "versionLink": "/mtls-edge-truststore/v2/ca-sets/1000/versions/3",
+            "network": "STAGING",
+            "activationType": "DEACTIVATE",
+            "activationStatus": "COMPLETE",
+            "createdDate": "2023-01-11T11:00:00.385674Z",
+            "createdBy": "someone",
+            "failureReason": null,
+            "modifiedDate": "2023-01-11T12:00:00.358292Z",
+            "modifiedBy": "someone"
+          }
+        ]
+      }
+    },
+    "404 ca-set-not-found": {
+      "httpStatus": 404,
+      "body": {
+        "type": "/mtls-edge-truststore/error-types/ca-set-not-found",
+        "title": "CA set not found.",
+        "status": 404,
+        "detail": "Cannot get CA set activations as the CA set with caSetId 1000 is not found.",
+        "contextInfo": {
+          "caSetId": "1000"
+        }
+      }
+    },
+    "404 ca-set-version-not-found": {
+      "httpStatus": 404,
+      "body": {
+        "type": "/mtls-edge-truststore/error-types/ca-set-version-not-found",
+        "title": "CA set version not found",
+        "status": 404,
+        "detail": "Cannot get CA set activations as the CA set version with version 2 is not found in the CA set under caSetName foo.",
+        "contextInfo": {
+          "caSetName": "foo",
+          "caSetId": "1000",
+          "version": 2
+        }
+      }
+    },
+    "500 internal server error": {
+      "httpStatus": 500,
+      "body": {
+        "type": "internal-server-error",
+        "title": "Internal Server Error",
+        "detail": "Error processing request",
+        "instance": "TestInstances",
+        "status": 500
+      }
+    }
+  }
+}
