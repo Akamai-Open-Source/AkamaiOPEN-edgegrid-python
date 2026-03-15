@@ -1,0 +1,7 @@
+{
+    "instance": "",
+    "httpStatus": 403,
+    "detail": "Not Authorized to perform this action",
+    "title": "Forbidden",
+    "type": "/useradmin-api/error-types/1001"
+}
