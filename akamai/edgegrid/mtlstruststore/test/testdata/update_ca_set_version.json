@@ -1,0 +1,384 @@
+{
+  "TestUpdateCASetVersion": {
+    "200 Successful update": {
+      "httpStatus": 200,
+      "body": {
+        "caSetId": "123",
+        "version": 1,
+        "caSetName": "Test CA Set",
+        "versionLink": "/mtls-edge-truststore/v2/ca-sets/123/versions/1",
+        "description": "Test CA Set Version",
+        "allowInsecureSha1": false,
+        "stagingStatus": "PENDING",
+        "productionStatus": "PENDING",
+        "createdDate": "2025-04-10T00:00:00.986647Z",
+        "createdBy": "tester",
+        "modifiedDate": "2025-04-10T00:00:00.029349Z",
+        "modifiedBy": "tester",
+        "certificates": [
+          {
+            "subject": "Test Subject",
+            "issuer": "Test Issuer",
+            "endDate": "2025-12-31T00:00:00Z",
+            "startDate": "2025-01-01T00:00:00Z",
+            "fingerprint": "abc123",
+            "certificatePem": "-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----",
+            "serialNumber": "123456789",
+            "signatureAlgorithm": "SHA256WithRSA",
+            "createdDate": "2025-04-10T00:00:00.959343Z",
+            "createdBy": "tester"
+          }
+        ],
+        "validation": {
+          "warnings": []
+        }
+      },
+      "requestBody": {
+        "allowInsecureSha1": false,
+        "certificates": [
+          {
+            "certificatePem": "-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----"
+          }
+        ],
+        "description": "Test CA Set Version"
+      }
+    },
+    "200 Successful update with missing description": {
+      "httpStatus": 200,
+      "body": {
+        "caSetId": "123",
+        "version": 1,
+        "caSetName": "Test CA Set",
+        "versionLink": "/mtls-edge-truststore/v2/ca-sets/123/versions/1",
+        "allowInsecureSha1": false,
+        "stagingStatus": "PENDING",
+        "productionStatus": "PENDING",
+        "createdDate": "2025-04-10T00:00:00.986647Z",
+        "createdBy": "tester",
+        "modifiedDate": "2025-04-10T00:00:00.029349Z",
+        "modifiedBy": "tester",
+        "certificates": [
+          {
+            "subject": "Test Subject",
+            "issuer": "Test Issuer",
+            "endDate": "2025-12-31T00:00:00Z",
+            "startDate": "2025-01-01T00:00:00Z",
+            "fingerprint": "abc123",
+            "certificatePem": "-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----",
+            "serialNumber": "123456789",
+            "signatureAlgorithm": "SHA256WithRSA",
+            "createdDate": "2025-04-10T00:00:00.959343Z",
+            "createdBy": "tester"
+          }
+        ],
+        "validation": {
+          "warnings": []
+        }
+      },
+      "requestBody": {
+        "allowInsecureSha1": false,
+        "certificates": [
+          {
+            "certificatePem": "-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----"
+          }
+        ]
+      }
+    },
+    "200 Successful update but with duplicated certificates (warning)": {
+      "httpStatus": 200,
+      "body": {
+        "caSetId": "123",
+        "version": 1,
+        "caSetName": "Test CA Set",
+        "versionLink": "/mtls-edge-truststore/v2/ca-sets/123/versions/1",
+        "description": "Test CA Set Version",
+        "allowInsecureSha1": false,
+        "stagingStatus": "PENDING",
+        "productionStatus": "PENDING",
+        "createdDate": "2025-04-10T00:00:00.986647Z",
+        "createdBy": "tester",
+        "modifiedDate": "2025-04-10T00:00:00.029349Z",
+        "modifiedBy": "tester",
+        "certificates": [
+          {
+            "subject": "Test Subject",
+            "issuer": "Test Issuer",
+            "endDate": "2025-12-31T00:00:00Z",
+            "startDate": "2025-01-01T00:00:00Z",
+            "fingerprint": "abc123",
+            "certificatePem": "-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----",
+            "serialNumber": "123456789",
+            "signatureAlgorithm": "SHA256WithRSA",
+            "createdDate": "2025-04-10T00:00:00.959343Z",
+            "createdBy": "tester"
+          }
+        ],
+        "validation": {
+          "warnings": [
+            {
+              "contextInfo": {
+                "description": null,
+                "fingerprint": "abc123"
+              },
+              "detail": "The certificate with the fingerprint abc123 has been submitted more than once. Duplicate certificates are not allowed.",
+              "pointer": "/certificates/1",
+              "title": "Duplicate certificate has been submitted in the certificates.",
+              "type": "/mtls-edge-truststore/error-types/duplicate-certificate"
+            }
+          ]
+        }
+      },
+      "requestBody": {
+        "allowInsecureSha1": false,
+        "certificates": [
+          {
+            "certificatePem": "-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----"
+          },
+          {
+            "certificatePem": "-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----"
+          }
+        ],
+        "description": "Test CA Set Version"
+      }
+    },
+    "Error Response - CA set not found": {
+      "httpStatus": 404,
+      "body": {
+        "type": "/mtls-edge-truststore/error-types/ca-set-not-found",
+        "title": "CA set is not found.",
+        "status": 404,
+        "detail": "Cannot create a CA set version as the CA set with caSetId 123 is not found.",
+        "contextInfo": {
+          "caSetId": "123"
+        }
+      },
+      "requestBody": {
+        "allowInsecureSha1": false,
+        "certificates": [
+          {
+            "certificatePem": "-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----"
+          }
+        ],
+        "description": "Test CA Set Version"
+      }
+    },
+    "Error Response - CA set version not found": {
+      "httpStatus": 404,
+      "body": {
+        "type": "/mtls-edge-truststore/error-types/ca-set-version-not-found",
+        "title": "CA set is not found.",
+        "status": 404,
+        "detail": "Cannot create a CA set version as the CA set with caSetId 123 is not found.",
+        "contextInfo": {
+          "caSetName": "test1",
+          "caSetId": "2",
+          "version": 12
+        }
+      },
+      "requestBody": {
+        "allowInsecureSha1": false,
+        "certificates": [
+          {
+            "certificatePem": "-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----"
+          }
+        ],
+        "description": "Test CA Set Version"
+      }
+    },
+    "Error Response - Deletion in progress for the CA Set on any network": {
+      "httpStatus": 409,
+      "body": {
+        "type": "/mtls-edge-truststore/error-types/delete-ca-set-request-in-progress",
+        "title": "DELETE request is in progress for the CA set on the network.",
+        "status": 409,
+        "detail": "Cannot update CA set version as the CA set is being deleted on one or more networks.",
+        "contextInfo": {
+          "caSetId": "1",
+          "caSetName": "caSetName-123",
+          "deletionLink": "/mtls-edge-truststore/v2/ca-sets/1/status/delete",
+          "productionStatus": "IN_PROGRESS",
+          "stagingStatus": "IN_PROGRESS",
+          "version": 1
+        }
+      },
+      "requestBody": {
+        "allowInsecureSha1": false,
+        "certificates": [
+          {
+            "certificatePem": "-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----"
+          }
+        ],
+        "description": "Test CA Set Version"
+      }
+    },
+    "Error Response - Version is being activated or deactivated on either network (STAGING or PRODUCTION)": {
+      "httpStatus": 422,
+      "body": {
+        "type": "/mtls-edge-truststore/error-types/ca-set-version-is-active",
+        "title": "CA set version is currently active.",
+        "status": 422,
+        "detail": "Cannot update the CA set version with version 1 as it is active on production network.",
+        "contextInfo": {
+          "caSetId": "1",
+          "caSetName": "tést",
+          "version": 1
+        }
+      },
+      "requestBody": {
+        "allowInsecureSha1": false,
+        "certificates": [
+          {
+            "certificatePem": "-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----"
+          }
+        ],
+        "description": "Test CA Set Version"
+      }
+    },
+    "Error Response - CA set version is currently active (Production)": {
+      "httpStatus": 422,
+      "body": {
+        "contextInfo": {
+          "caSetId": "1",
+          "caSetName": "tést",
+          "version": 1
+        },
+        "detail": "Cannot update the CA set version with version 1 as it is active on production network.",
+        "status": 422,
+        "title": "CA set version is currently active.",
+        "type": "/mtls-edge-truststore/error-types/ca-set-version-is-active"
+      },
+      "requestBody": {
+        "allowInsecureSha1": false,
+        "certificates": [
+          {
+            "certificatePem": "-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----"
+          }
+        ],
+        "description": "Test CA Set Version"
+      }
+    },
+    "Error Response - CA set version is currently active (Staging)": {
+      "httpStatus": 422,
+      "body": {
+        "type": "/mtls-edge-truststore/error-types/ca-set-version-is-active",
+        "title": "CA set version is currently active.",
+        "status": 422,
+        "detail": "Cannot update the CA set version with version 1 as it is  active on staging network/s.",
+        "contextInfo": {
+          "caSetName": "tést",
+          "caSetId": "1",
+          "version": 1
+        }
+      },
+      "requestBody": {
+        "allowInsecureSha1": false,
+        "certificates": [
+          {
+            "certificatePem": "-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----"
+          }
+        ],
+        "description": "Test CA Set Version"
+      }
+    },
+    "Error Response - CA set version was previously active": {
+      "httpStatus": 422,
+      "body": {
+        "contextInfo": {
+          "caSetId": "123",
+          "caSetName": "1.13_bc_testing-COPY",
+          "version": 1
+        },
+        "detail": "Cannot update the CA set version with version 1 as it was previously active on one ore more networks.",
+        "status": 422,
+        "title": "CA set version was previously active.",
+        "type": "/mtls-edge-truststore/error-types/ca-set-version-was-previously-active"
+      },
+      "requestBody": {
+        "allowInsecureSha1": false,
+        "certificates": [
+          {
+            "certificatePem": "-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----"
+          }
+        ],
+        "description": "Test CA Set Version"
+      }
+    },
+    "Error Response - One or more certificates is invalid": {
+      "httpStatus": 400,
+      "body": {
+        "contextInfo": {
+          "caSetId": "123",
+          "caSetName": "test ca set",
+          "version": 1
+        },
+        "errors": [
+          {
+            "contextInfo": {
+              "description": "new description",
+              "fingerPrint": "fingerebc8de3270598ec1fa62c92a20ef86d53bca415978b40733afaa8b09082",
+              "signatureAlgorithm": "SHA1WITHRSA",
+              "subject": "EMAILADDRESS=test@akamai.com, CN=test, OU=DELIVERY, O=AKAMAI, L=BLR, ST=KA, C=IN"
+            },
+            "detail": "The certificate with subject EMAILADDRESS=test@akamai.com, CN=test, OU=DELIVERY, O=AKAMAI, L=BLR, ST=KA, C=IN and fingerprint fingerebc8de3270598ec1fa62c92a20ef86d53bca415978b40733afaa8b09082 uses disallowed signature algorithm SHA1WITHRSA. Allow InsecureSha1 option is not set. This is not allowed.",
+            "pointer": "/certificates/0"
+          }
+        ],
+        "status": 400,
+        "title": "Cannot update the ca set version as the certificate(s) has failed validation.",
+        "type": "/mtls-edge-truststore/error-types/certificate-validation-failure-update"
+      },
+      "requestBody": {
+        "allowInsecureSha1": false,
+        "certificates": [
+          {
+            "certificatePem": "-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----"
+          }
+        ],
+        "description": "Test CA Set Version"
+      }
+    },
+    "Error Response - Certificate count exceeds allowed limit": {
+      "httpStatus": 422,
+      "body": {
+        "contextInfo": {
+          "caSetId": "123",
+          "caSetName": "sveerava-test-13456111",
+          "maxCertificatesPerVersion": 1,
+          "submittedCertificatesCount": 2,
+          "version": 2
+        },
+        "detail": "The maximum number of certificates allowed per CA set version is 1. Number of submitted certificates is 2.",
+        "status": 422,
+        "title": "Submitted certificates exceed the maximum allowed certificates limit.",
+        "type": "/mtls-edge-truststore/error-types/certificate-limit-reached"
+      },
+      "requestBody": {
+        "allowInsecureSha1": false,
+        "certificates": [
+          {
+            "certificatePem": "-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----"
+          }
+        ],
+        "description": "Test CA Set Version"
+      }
+    },
+    "Internal server error": {
+      "httpStatus": 500,
+      "body": {
+        "type": "internal_error",
+        "title": "Internal Server Error",
+        "detail": "Error processing request",
+        "status": 500
+      },
+      "requestBody": {
+        "allowInsecureSha1": false,
+        "certificates": [
+          {
+            "certificatePem": "-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----"
+          }
+        ],
+        "description": "Test CA Set Version"
+      }
+    }
+  }
+}
