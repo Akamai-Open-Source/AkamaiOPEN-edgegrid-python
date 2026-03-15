@@ -1,0 +1,13 @@
+{
+	"firstName": "John",
+	"lastName": "Doe",
+	"email": "john.doe@mycompany.com",
+	"phone": "(123) 321-1234",
+	"state": "CA",
+	"country": "USA",
+	"preferredLanguage": "English",
+	"contactType": "Billing",
+	"sessionTimeOut": 30,
+	"timeZone": "GMT",
+	"additionalAuthentication": "NONE"
+}
