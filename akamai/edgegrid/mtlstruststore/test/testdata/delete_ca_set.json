@@ -1,0 +1,160 @@
+{
+  "TestDeleteCASet": {
+    "202 Accepted": {
+      "httpStatus": 202,
+      "body": null
+    },
+    "500 internal server error": {
+      "httpStatus": 500,
+      "body": {
+        "type": "internal-server-error",
+        "title": "Internal Server Error",
+        "detail": "Error processing request",
+        "instance": "TestInstances",
+        "status": 500
+      }
+    },
+    "409 error response - delete CA set - Defense Edge": {
+      "httpStatus": 409,
+      "body": {
+        "contextInfo": {
+          "associations": {
+            "properties": [
+              {
+                "hostnames": [
+                  {
+                    "hostname": "example-3.com"
+                  }
+                ],
+                "propertyId": "2"
+              }
+            ]
+          },
+          "caSetId": "1",
+          "caSetName": "caSetName-30bb6f49",
+          "network": "PRODUCTION"
+        },
+        "detail": "CA set cannot be deleted as CA set with caSetId 1 links to several Property Manager hostnames. You need to unlink the CA set from the hostnames to proceed. See accompanying response data for hostname details.",
+        "status": 409,
+        "instance": "/mtls-edge-truststore/error-types/ca-set-bound-to-hostname/4e0069deb5f40f63",
+        "title": "CA set is linked to hostnames.",
+        "type": "/mtls-edge-truststore/error-types/ca-set-bound-to-hostname"
+      }
+    },
+    "404 error response - delete CA set - not found": {
+      "httpStatus": 404,
+      "body": {
+        "contextInfo": {
+          "caSetId": "199"
+        },
+        "detail": "Cannot get CA set as the CA set with caSetId 199 is not found.",
+        "instance": "/mtls-edge-truststore/error-types/ca-set-not-found/982c5bdc0abffe8d",
+        "status": 404,
+        "title": "CA set is not found.",
+        "type": "/mtls-edge-truststore/error-types/ca-set-not-found"
+      }
+    },
+    "409 error response - delete CA set - in progress version activations": {
+      "httpStatus": 409,
+      "body": {
+        "contextInfo": {
+          "caSetId": "199",
+          "caSetName": "v2-api-create-ca-set-2-2",
+          "productionLink": "/mtls-edge-truststore/v2/ca-sets/199/versions/1/activations/12345",
+          "productionStatus": "IN_PROGRESS"
+        },
+        "detail": "CA set with caSetId 199 cannot be deleted as it has activations in progress on one or more networks.",
+        "instance": "/mtls-edge-truststore/error-types/ca-set-cannot-be-deleted-in-progress-version-activations/123dc1d57813ec84",
+        "status": 409,
+        "title": "CA set cannot be deleted due to in progress activations.",
+        "type": "/mtls-edge-truststore/error-types/ca-set-cannot-be-deleted-in-progress-version-activations"
+      }
+    },
+    "409 error response - delete CA set - in progress version activations staging": {
+      "httpStatus": 409,
+      "body": {
+        "contextInfo": {
+          "caSetId": "199",
+          "caSetName": "clone-caset-api-test",
+          "stagingLink": "/mtls-edge-truststore/v2/ca-sets/199/versions/4/activations/12345",
+          "stagingStatus": "IN_PROGRESS"
+        },
+        "detail": "CA set with caSetId 199 cannot be deleted as it has activations in progress on one or more networks.",
+        "instance": "/mtls-edge-truststore/error-types/ca-set-cannot-be-deleted-in-progress-version-activations/0b1a57113cf28f42",
+        "status": 409,
+        "title": "CA set cannot be deleted due to in progress activations.",
+        "type": "/mtls-edge-truststore/error-types/ca-set-cannot-be-deleted-in-progress-version-activations"
+      }
+    },
+    "409 error response - delete CA set - in progress version activations both networks": {
+      "httpStatus": 409,
+      "body": {
+        "contextInfo": {
+          "caSetId": "199",
+          "caSetName": "sup-m2-bugjam6",
+          "productionLink": "/mtls-edge-truststore/v2/ca-sets/199/versions/2/activations/95458",
+          "productionStatus": "IN_PROGRESS",
+          "stagingLink": "/mtls-edge-truststore/v2/ca-sets/199/versions/2/activations/95458",
+          "stagingStatus": "IN_PROGRESS"
+        },
+        "detail": "CA set with caSetId 199 cannot be deleted as it has activations in progress on one or more networks.",
+        "instance": "/mtls-edge-truststore/error-types/ca-set-cannot-be-deleted-in-progress-version-activations/3f21d188e84a5566",
+        "status": 409,
+        "title": "CA set cannot be deleted due to in progress activations.",
+        "type": "/mtls-edge-truststore/error-types/ca-set-cannot-be-deleted-in-progress-version-activations"
+      }
+    },
+    "409 error response - CA set deletion is in progress": {
+      "httpStatus": 409,
+      "body": {
+        "contextInfo": {
+          "caSetId": "199",
+          "caSetName": "akamai-test",
+          "deletionLink": "/mtls-edge-truststore/v2/ca-sets/199/status/delete",
+          "productionStatus": "IN_PROGRESS",
+          "stagingStatus": "IN_PROGRESS"
+        },
+        "detail": "Cannot delete CA set with caSetId 199 as the CA set is being deleted on one or more networks.",
+        "instance": "/mtls-edge-truststore/error-types/delete-ca-set-request-in-progress/96818406fe73e90f",
+        "status": 409,
+        "title": "DELETE request is in progress for the CA set on the network.",
+        "type": "/mtls-edge-truststore/error-types/delete-ca-set-request-in-progress"
+      }
+    },
+    "409 error response - CA set deletion in progress on one network and completed on other network": {
+      "httpStatus": 409,
+      "body": {
+        "contextInfo": {
+          "caSetId": "199",
+          "caSetName": "akamai-test",
+          "deletionLink": "/mtls-edge-truststore/v2/ca-sets/199/status/delete",
+          "productionStatus": "IN_PROGRESS",
+          "stagingStatus": "COMPLETE"
+        },
+        "detail": "Cannot delete CA set with caSetId 133254 as the CA set is being deleted on one or more networks.",
+        "instance": "/mtls-edge-truststore/error-types/delete-ca-set-request-in-progress/96818406fe73e90f",
+        "status": 409,
+        "title": "DELETE request is in progress for the CA set on the network.",
+        "type": "/mtls-edge-truststore/error-types/delete-ca-set-request-in-progress"
+      }
+    },
+    "400 error response - unknown query parameters passed": {
+      "httpStatus": 400,
+      "body": {
+        "contextInfo": {
+          "allowedQueryParameters": [
+            "accountSwitchKey"
+          ],
+          "parameters": [
+            "test"
+          ]
+        },
+        "detail": "The query parameter 'test' is not allowed for this endpoint. The following query parameter is allowed: 'accountSwitchKey'.",
+        "instance": "/mtls-edge-truststore/error-types/unknown-query-parameters/63a890d25d672e99",
+        "status": 400,
+        "title": "Unknown query parameters provided.",
+        "type": "/mtls-edge-truststore/error-types/unknown-query-parameters"
+      }
+    }
+  }
+}
