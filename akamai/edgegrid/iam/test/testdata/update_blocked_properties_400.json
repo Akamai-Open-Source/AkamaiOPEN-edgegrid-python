@@ -1,0 +1,7 @@
+{
+    "instance": "",
+    "httpStatus": 400,
+    "detail": "",
+    "title": "Validation Exception",
+    "type": "/useradmin-api/error-types/1003"
+}
