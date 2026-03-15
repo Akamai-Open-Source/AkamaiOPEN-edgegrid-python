@@ -1,0 +1,53 @@
+{
+    "certificates": [
+        {
+            "id": 1,
+            "version": 1,
+            "accountId": "test_account",
+            "subject": "/C=Test Country/O=Test Organization, Inc./OU=Test Organization Unit/CN=Test Common Name/",
+            "commonName": "Test Common Name",
+            "keyAlgorithm": "RSA",
+            "keySizeInBytes": 4096,
+            "signatureAlgorithm": "SHA256_WITH_RSA",
+            "certificate": "-----BEGIN CERTIFICATE-----\nCERTIFICATE CONTENT\n-----END CERTIFICATE-----\n",
+            "status": "CURRENT",
+            "issuedDate": "2025-03-24T15:46:06Z",
+            "expiryDate": "2028-03-24T15:46:06Z",
+            "createdBy": "Test User",
+            "createdDate": "2025-03-24T15:43:50Z"
+        },
+        {
+            "id": 2,
+            "version": 2,
+            "accountId": "test_account",
+            "subject": "/C=Test Country/O=Test Organization, Inc./OU=Test Organization Unit/CN=Test Common Name/",
+            "commonName": "Test Common Name",
+            "keyAlgorithm": "RSA",
+            "keySizeInBytes": 4096,
+            "signatureAlgorithm": "SHA256_WITH_RSA",
+            "certificate": "-----BEGIN CERTIFICATE-----\nCERTIFICATE CONTENT\n-----END CERTIFICATE-----\n",
+            "status": "EXPIRED",
+            "issuedDate": "2025-03-24T15:46:06Z",
+            "expiryDate": "2028-03-24T15:46:06Z",
+            "createdBy": "Test User",
+            "createdDate": "2025-03-24T15:43:50Z"
+        },
+        {
+            "id": 3,
+            "version": 3,
+            "accountId": "test_account",
+            "subject": "/C=Test Country/O=Test Organization, Inc./OU=Test Organization Unit/CN=Test Common Name/",
+            "commonName": "Test Common Name",
+            "keyAlgorithm": "RSA",
+            "keySizeInBytes": 4096,
+            "qualificationDate": "2025-03-25T15:46:06Z",
+            "signatureAlgorithm": "SHA256_WITH_RSA",
+            "certificate": "-----BEGIN CERTIFICATE-----\nCERTIFICATE CONTENT\n-----END CERTIFICATE-----\n",
+            "status": "CURRENT",
+            "issuedDate": "2025-03-24T15:46:06Z",
+            "expiryDate": "2028-03-24T15:46:06Z",
+            "createdBy": "Test User",
+            "createdDate": "2025-03-24T15:43:50Z"
+        }
+    ]
+}
