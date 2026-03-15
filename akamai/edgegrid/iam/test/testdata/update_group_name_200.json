@@ -1,0 +1,9 @@
+{
+	"groupId": 12345,
+	"groupName": "New Group Name",
+	"parentGroupId": 12344,
+	"createdDate": "2012-04-28T00:00:00.000Z",
+	"createdBy": "johndoe",
+	"modifiedDate": "2012-04-28T00:00:00.000Z",
+	"modifiedBy": "johndoe"
+}
