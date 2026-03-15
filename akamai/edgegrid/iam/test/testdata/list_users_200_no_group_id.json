@@ -1,0 +1,16 @@
+[
+  {
+    "uiIdentityId": "A-B-123456",
+    "firstName": "John",
+    "lastName": "Doe",
+    "uiUserName": "johndoe",
+    "email": "john.doe@mycompany.com",
+    "accountId": "1-123A",
+    "lastLoginDate": "2016-01-13T17:53:57.000Z",
+    "tfaEnabled": true,
+    "tfaConfigured": true,
+    "isLocked": false,
+    "additionalAuthentication": "TFA",
+    "additionalAuthenticationConfigured": true
+  }
+]
