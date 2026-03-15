@@ -1,0 +1,15 @@
+{
+    "certificateId": 1234,
+    "certificateName": "test-certificate1",
+    "createdBy": "jsmith",
+    "createdDate": "2023-01-01T00:00:00Z",
+    "geography": "CORE",
+    "keyAlgorithm": "RSA",
+    "notificationEmails": [
+        "jsmith@akamai.com",
+        "jkowalski@akamai.com"
+    ],
+    "secureNetwork": "STANDARD_TLS",
+    "signer": "AKAMAI",
+    "subject": "/C=US/O=Akamai Technologies, Inc./OU=123 test-contract 12345/CN=test-certificate1"
+}
