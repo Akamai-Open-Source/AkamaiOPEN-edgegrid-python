@@ -1,0 +1,151 @@
+{
+  "TestCloneCASetVersion": {
+    "201 Successful creation": {
+      "httpStatus": 201,
+      "body": {
+        "caSetId": "123",
+        "version": 1,
+        "caSetName": "Test CA Set",
+        "versionLink": "/mtls-edge-truststore/v2/ca-sets/123/versions/1",
+        "description": "Test CA Set Version",
+        "allowInsecureSha1": false,
+        "stagingStatus": "PENDING",
+        "productionStatus": "PENDING",
+        "createdDate": "2025-04-10T00:00:00.123456Z",
+        "createdBy": "tester",
+        "modifiedDate": "2025-04-10T00:00:00.789012Z",
+        "modifiedBy": "tester",
+        "certificates": [
+          {
+            "subject": "Test Subject",
+            "issuer": "Test Issuer",
+            "endDate": "2025-12-31T00:00:00Z",
+            "startDate": "2025-01-01T00:00:00Z",
+            "fingerprint": "abc123",
+            "certificatePem": "-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----",
+            "serialNumber": "123456789",
+            "signatureAlgorithm": "SHA256WithRSA",
+            "createdDate": "2025-04-10T00:00:00.121212Z",
+            "createdBy": "tester"
+          }
+        ],
+        "validation": {
+          "warnings": []
+        }
+      }
+    },
+    "201 Successful creation with expired cert warning": {
+      "httpStatus": 201,
+      "body": {
+        "caSetId": "123",
+        "version": 1,
+        "caSetName": "Test CA Set",
+        "versionLink": "/mtls-edge-truststore/v2/ca-sets/123/versions/1",
+        "description": "Test CA Set Version",
+        "allowInsecureSha1": false,
+        "stagingStatus": "PENDING",
+        "productionStatus": "PENDING",
+        "createdDate": "2025-04-10T00:00:00.123456Z",
+        "createdBy": "tester",
+        "modifiedDate": "2025-04-10T00:00:00.789012Z",
+        "modifiedBy": "tester",
+        "certificates": [
+          {
+            "subject": "Test Subject",
+            "issuer": "Test Issuer",
+            "endDate": "2025-12-31T00:00:00Z",
+            "startDate": "2025-01-01T00:00:00Z",
+            "fingerprint": "abc123",
+            "certificatePem": "-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----",
+            "serialNumber": "123456789",
+            "signatureAlgorithm": "SHA256WithRSA",
+            "createdDate": "2025-04-10T00:00:00.121212Z",
+            "createdBy": "tester"
+          }
+        ],
+        "validation": {
+          "warnings": [
+            {
+              "contextInfo": {
+                "checkDate": "2025-05-14T09:30:52Z",
+                "description": null,
+                "expiryDate": "2025-04-06T09:35:20Z",
+                "fingerPrint": "abc123",
+                "subject": "CN=localhost, OU=Unit, O=Organization, L=City, ST=State, C=US"
+              },
+              "detail": "The certificate with subject CN=localhost, OU=Unit, O=Organization, L=City, ST=State, C=US and fingerprint abc123 has expired. Expiry date is 2025-04-06T09:35:20Z. The check was performed on 2025-05-14T09:30:52Z.",
+              "title": "The certificate has expired.",
+              "type": "/mtls-edge-truststore/v2/error-types/expired-certificate"
+            }
+          ]
+        }
+      }
+    },
+    "404 ca-set-not-found": {
+      "httpStatus": 404,
+      "body": {
+        "type": "/mtls-edge-truststore/error-types/ca-set-not-found",
+        "title": "CA set is not found.",
+        "status": 404,
+        "detail": "Cannot create a CA set version as the CA set with caSetId 123 is not found.",
+        "contextInfo": {
+          "caSetId": "123"
+        }
+      }
+    },
+    "404 ca-set-version-not-found": {
+      "httpStatus": 404,
+      "body": {
+        "type": "/mtls-edge-truststore/error-types/ca-set-version-not-found",
+        "title": "CA set version cannot be cloned",
+        "status": 404,
+        "detail": "Cannot clone CA set version as the CA set version with version 12 is not found in the CA set with caSetId 123.",
+        "contextInfo": {
+          "caSetName": "test1",
+          "caSetId": "123",
+          "version": 12
+        }
+      }
+    },
+    "409 delete-ca-set-request-in-progress": {
+      "httpStatus": 409,
+      "body": {
+        "type": "/mtls-edge-truststore/error-types/delete-ca-set-request-in-progress",
+        "title": "DELETE request is in progress for the CA set on the network.",
+        "status": 409,
+        "detail": "Cannot clone CA set version as the CA set is being deleted on one or more networks.",
+        "contextInfo": {
+          "caSetId": "1",
+          "caSetName": "caSetName-26250641",
+          "deletionLink": "/mtls-edge-truststore/v2/ca-sets/1/status/delete",
+          "productionStatus": "IN_PROGRESS",
+          "stagingStatus": "IN_PROGRESS",
+          "version": 1
+        }
+      }
+    },
+    "422 ca-set-version-limit-reached": {
+      "httpStatus": 422,
+      "body": {
+        "type": "/mtls-edge-truststore/error-types/ca-set-version-limit-reached",
+        "title": "Maximum allowed CA set version's limit has been reached.",
+        "status": 422,
+        "detail": "Cannot clone CA set version as you have already reached or exceeded the maximum allowed CA set version limit of 10 for the CA set with caSetName test.",
+        "contextInfo": {
+          "caSetName": "test",
+          "caSetId": "1",
+          "maxVersionsPerCaSet": 10
+        }
+      }
+    },
+    "500 internal server error": {
+      "httpStatus": 500,
+      "body": {
+        "type": "internal_error",
+        "title": "Internal Server Error",
+        "detail": "Error processing request",
+        "status": 500
+      }
+    }
+  }
+}
