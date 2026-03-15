@@ -1,0 +1,16 @@
+{
+	"enableEmailNotifications": true,
+	"options": {
+		"upgrade": [
+			"NetStorage",
+			"Other Upgrade Notifications (Planned)"
+		],
+		"proactive": [
+			"EdgeScape",
+			"EdgeSuite (HTTP Content Delivery)"
+		],
+		"passwordExpiry": true,
+		"newUserNotification": true,
+		"apiClientCredentialExpiryNotification": true
+	}
+}
