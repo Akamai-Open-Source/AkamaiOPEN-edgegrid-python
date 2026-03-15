@@ -1,0 +1,21 @@
+{
+    "roleId": 123456,
+    "roleName": "Terraform admin",
+    "roleDescription": "Admin granted role for tests",
+    "type": "custom",
+    "createdDate": "2022-04-11T10:52:03.811Z",
+    "createdBy": "jBond",
+    "modifiedDate": "2022-04-11T10:52:03.811Z",
+    "modifiedBy": "jBond",
+    "actions": {
+        "edit": true,
+        "delete": true
+    },
+    "grantedRoles": [
+        {
+            "grantedRoleId": 12345,
+            "grantedRoleName": "WebAP User",
+            "grantedRoleDescription": "Web Application Protector User Role"
+        }
+    ]
+}
