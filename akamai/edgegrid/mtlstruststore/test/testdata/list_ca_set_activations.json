@@ -1,0 +1,71 @@
+{
+  "TestListCASetActivations": {
+    "200 OK": {
+      "httpStatus": 200,
+      "body": {
+        "activations": [
+          {
+            "activationId": 84572,
+            "activationLink": "/mtls-edge-truststore/v2/ca-sets/1000/versions/1/activations/84572",
+            "caSetId": "1000",
+            "caSetName": "test1",
+            "caSetLink": "/mtls-edge-truststore/v2/ca-sets/1000",
+            "percentComplete": 100,
+            "validation": null,
+            "version": 1,
+            "versionLink": "/mtls-edge-truststore/v2/ca-sets/1000/versions/2",
+            "network": "STAGING",
+            "activationType": "ACTIVATE",
+            "activationStatus": "FAILED",
+            "failureReason": null,
+            "createdDate": "2023-01-10T11:00:00.494383Z",
+            "createdBy": "someone",
+            "modifiedDate": "2023-01-10T12:00:00.771298Z",
+            "modifiedBy": "someone"
+          },
+          {
+            "activationId": 84571,
+            "activationLink": "/mtls-edge-truststore/v2/ca-sets/1000/versions/2/activations/84571",
+            "caSetId": "1000",
+            "caSetName": "test1",
+            "caSetLink": "/mtls-edge-truststore/v2/ca-sets/1000",
+            "percentComplete": 0,
+            "validation": null,
+            "version": 2,
+            "versionLink": "/mtls-edge-truststore/v2/ca-sets/1000/versions/3",
+            "network": "STAGING",
+            "activationType": "DEACTIVATE",
+            "activationStatus": "COMPLETE",
+            "failureReason": "test failure reason",
+            "createdDate": "2023-01-11T11:00:00.385674Z",
+            "createdBy": "someone",
+            "modifiedDate": "2023-01-11T12:00:00.358292Z",
+            "modifiedBy": "someone"
+          }
+        ]
+      }
+    },
+    "404 ca-set-not-found": {
+      "httpStatus": 404,
+      "body": {
+        "type": "/mtls-edge-truststore/error-types/ca-set-not-found",
+        "title": "CA set not found.",
+        "status": 404,
+        "detail": "Cannot get CA set activations as the CA set with caSetId 1000 is not found.",
+        "contextInfo": {
+          "caSetId": "1000"
+        }
+      }
+    },
+    "500 internal server error": {
+      "httpStatus": 500,
+      "body": {
+        "type": "internal-server-error",
+        "title": "Internal Server Error",
+        "detail": "Error processing request",
+        "instance": "TestInstances",
+        "status": 500
+      }
+    }
+  }
+}
