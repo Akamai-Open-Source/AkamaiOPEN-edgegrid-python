@@ -1,6 +1,6 @@
 # EdgeGrid for Python
 
-This library implements an Authentication handler for [HTTP requests](https://requests.readthedocs.io/en/latest/) using the [Akamai EdgeGrid Authentication](https://techdocs.akamai.com/developer/docs/authenticate-with-edgegrid) scheme for Python.
+This library implements an Authentication handler for [HTTP requests](https://requests.readthedocs.io/en/latest/) using the [Akamai EdgeGrid Authentication](https://techdocs.akamai.com/developer/docs/authenticate-with-edgegrid) scheme for Python. It also provides typed API client packages for 23 Akamai service domains, offering full feature parity with the [AkamaiOPEN-edgegrid-golang v12](https://github.com/akamai/AkamaiOPEN-edgegrid-golang) SDK.
 
 ## Install
 
@@ -94,6 +94,73 @@ result = session.get(urljoin(baseurl, path), headers=headers, params=querystring
 print(result.status_code)
 print(json.dumps(result.json(), indent=2))
 ```
+
+## API Clients
+
+The library provides typed API client packages for 23 Akamai service domains. Each package is built on top of the `Session` class, which wraps a standard `requests.Session` with `EdgeGridAuth` to handle authentication automatically.
+
+### Session
+
+The `Session` class provides a convenient way to create an authenticated session for making API calls. It handles request execution, JSON serialization/deserialization, response status checking, and structured error handling.
+
+```python
+from akamai.edgegrid import EdgeRc
+from akamai.edgegrid.session import Session
+
+edgerc = EdgeRc('~/.edgerc')
+section = 'default'
+
+session = Session(edgerc=edgerc, section=section)
+```
+
+### Using a Service Client
+
+Once you have a session, you can use it with any of the available service client packages. For example, to use the IAM (Identity & Access Management) client:
+
+```python
+from akamai.edgegrid import EdgeRc
+from akamai.edgegrid.session import Session
+from akamai.edgegrid.iam import IAMClient
+from akamai.edgegrid.iam.models import ListAPIClientsRequest
+
+edgerc = EdgeRc('~/.edgerc')
+session = Session(edgerc=edgerc, section='default')
+
+client = IAMClient(session=session)
+response = client.list_api_clients(ListAPIClientsRequest(actions=True))
+```
+
+### Available Service Packages
+
+The following service client packages are available under `akamai.edgegrid`:
+
+| Package | Akamai API Domain |
+|---|---|
+| `papi` | Property Manager |
+| `appsec` | Application Security |
+| `botman` | Bot Manager |
+| `gtm` | Global Traffic Management |
+| `cloudwrapper` | Cloud Wrapper |
+| `networklists` | Network Lists |
+| `cps` | Certificate Provisioning |
+| `hapi` | Hostname API |
+| `clientlists` | Client Lists |
+| `iam` | Identity & Access Management |
+| `accountprotection` | Account Protection |
+| `datastream` | DataStream |
+| `cloudaccess` | Cloud Access Manager |
+| `apidefinitions` | API Definitions |
+| `dns` | Edge DNS |
+| `cloudcertificates` | Cloud Certificates |
+| `cloudlets` | Cloudlets |
+| `cloudlets_v3` | Cloudlets V3 |
+| `imaging` | Image & Video Manager |
+| `domainownership` | Domain Ownership |
+| `edgeworkers` | EdgeWorkers/EdgeKV |
+| `mtlskeystore` | mTLS Key Store |
+| `mtlstruststore` | mTLS Trust Store |
+
+Each package includes typed request/response models, request validation, and comprehensive error handling.
 
 ### Query string parameters
 
