@@ -1,0 +1,101 @@
+{
+  "TestGetCASetVersionActivation": {
+    "202 Accepted": {
+      "httpStatus": 202,
+      "headers": {
+        "Retry-After": "Tue, 10 Jan 2023 11:05:00 GMT"
+      },
+      "body": {
+        "activationId": 84572,
+        "activationLink": "/mtls-edge-truststore/v2/ca-sets/1000/versions/1000/activations/84572",
+        "caSetId": "1000",
+        "caSetName": "test1",
+        "caSetLink": "/mtls-edge-truststore/v2/ca-sets/1000",
+        "percentComplete": 0,
+        "validation": null,
+        "version": 1,
+        "versionLink": "/mtls-edge-truststore/v2/ca-sets/1000/versions/1",
+        "network": "STAGING",
+        "activationType": "ACTIVATE",
+        "activationStatus": "IN_PROGRESS",
+        "createdDate": "2023-01-10T11:00:00.494383Z",
+        "createdBy": "someone",
+        "failureReason": null,
+        "modifiedDate": "2023-01-10T12:00:00.771298Z",
+        "modifiedBy": "someone"
+      }
+    },
+    "200 OK": {
+      "httpStatus": 200,
+      "body": {
+        "activationId": 84572,
+        "activationLink": "/mtls-edge-truststore/v2/ca-sets/1000/versions/1000/activations/84572",
+        "caSetId": "1000",
+        "caSetName": "test1",
+        "caSetLink": "/mtls-edge-truststore/v2/ca-sets/1000",
+        "percentComplete": 100,
+        "version": 1,
+        "versionLink": "/mtls-edge-truststore/v2/ca-sets/1000/versions/1",
+        "network": "STAGING",
+        "activationType": "ACTIVATE",
+        "activationStatus": "COMPLETE",
+        "createdDate": "2023-01-10T11:00:00.494383Z",
+        "createdBy": "someone",
+        "failureReason": null,
+        "modifiedDate": "2023-01-10T12:00:00.771298Z",
+        "modifiedBy": "someone"
+      }
+    },
+    "404 ca-set-not-found": {
+      "httpStatus": 404,
+      "body": {
+        "type": "/mtls-edge-truststore/error-types/ca-set-not-found",
+        "title": "CA set not found.",
+        "status": 404,
+        "detail": "Cannot get activation or deactivation status as the CA set with caSetId 10 is not found.",
+        "contextInfo": {
+          "caSetId": "10"
+        }
+      }
+    },
+    "404 ca-set-version-not-found": {
+      "httpStatus": 404,
+      "body": {
+        "type": "/mtls-edge-truststore/error-types/ca-set-version-not-found",
+        "title": "CA set version not found",
+        "status": 404,
+        "detail": "Cannot get activation or deactivation status as the version 12 is not found in the CA set under caSetName test1.",
+        "contextInfo": {
+          "caSetName": "test1",
+          "caSetId": "2",
+          "version": 12
+        }
+      }
+    },
+    "404 activation-or-deactivation-request-not-found": {
+      "httpStatus": 404,
+      "body": {
+        "contextInfo": {
+          "activationId": 2,
+          "caSetId": "2",
+          "caSetName": "caSetName-1",
+          "version": 1
+        },
+        "detail": "Cannot get activation or deactivation status as the activation or deactivation request with activationId 2 is not found in CA set version with version 1 under CA set with caSetId 2.",
+        "status": 404,
+        "title": "Activation or Deactivation Request is not found.",
+        "type": "/mtls-edge-truststore/error-types/activation-or-deactivation-request-not-found"
+      }
+    },
+    "500 internal server error": {
+      "httpStatus": 500,
+      "body": {
+        "type": "internal-server-error",
+        "title": "Internal Server Error",
+        "detail": "Error processing request",
+        "instance": "TestInstances",
+        "status": 500
+      }
+    }
+  }
+}
