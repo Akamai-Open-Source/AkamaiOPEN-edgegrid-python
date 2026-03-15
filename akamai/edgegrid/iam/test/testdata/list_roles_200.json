@@ -1,0 +1,16 @@
+[
+    {
+        "roleId": 123456,
+        "roleName": "View Only",
+        "roleDescription": "This role will allow you to view",
+        "type": "custom",
+        "createdDate": "2017-07-27T18:11:25.000Z",
+        "createdBy": "john.doe@mycompany.com",
+        "modifiedDate": "2017-07-27T18:11:25.000Z",
+        "modifiedBy": "john.doe@mycompany.com",
+        "actions": {
+            "edit": true,
+            "delete": true
+        }
+    }
+]
