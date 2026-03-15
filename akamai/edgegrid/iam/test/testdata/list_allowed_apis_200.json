@@ -1,0 +1,41 @@
+[
+  {
+    	"apiId": 1111,
+        "serviceProviderId": 1,
+        "apiName": "Test API Name",
+        "description": "Test API Name",
+        "endPoint": "/test-api-name/",
+        "documentationUrl": "https://example.akamai.com/",
+        "accessLevels": [
+            "READ-WRITE",
+            "READ-ONLY"
+        ],
+        "hasAccess": false
+  },
+  {
+    	"apiId": 2222,
+        "serviceProviderId": 1,
+        "apiName": "Example API Name",
+        "description": "Example API Name",
+        "endPoint": "/example-api-name/",
+        "documentationUrl": "https://example2.akamai.com/",
+        "accessLevels": [
+            "READ-WRITE",
+            "READ-ONLY"
+        ],
+        "hasAccess": false
+  },
+  {
+    	"apiId": 3333,
+        "serviceProviderId": 1,
+        "apiName": "Best API Name",
+        "description": "Best API Name",
+        "endPoint": "/best-api-name/",
+        "documentationUrl": "https://example3.akamai.com/",
+        "accessLevels": [
+            "READ-WRITE",
+            "READ-ONLY"
+        ],
+        "hasAccess": false
+  }
+]
