@@ -1,0 +1,116 @@
+{
+  "TestListCASetAssociations": {
+    "200 - No associations": {
+      "httpStatus": 200,
+      "body": {
+        "associations": {
+          "properties": [],
+          "enrollments": null
+        }
+      }
+    },
+    "200 - Navigable property with association type value set to properties": {
+      "httpStatus": 200,
+      "body": {
+        "associations": {
+          "properties": [
+            {
+              "propertyId": "123",
+              "propertyName": "test-prp-name",
+              "propertyLink": "/papi/v1/properties/123",
+              "assetId": 123456,
+              "groupId": 345,
+              "hostnames": [
+                {
+                  "hostName": "example.com",
+                  "network": "STAGING",
+                  "status": "ATTACHED"
+                }
+              ]
+            }
+          ],
+          "enrollments": null
+        }
+      }
+    },
+    "200 - Non-navigable property": {
+      "httpStatus": 200,
+      "body": {
+        "associations": {
+          "properties": [
+            {
+              "propertyId": "123",
+              "propertyLink": "/papi/v1/properties/123",
+              "hostnames": [
+                {
+                  "hostName": "example.com",
+                  "network": "STAGING",
+                  "status": "ATTACHED"
+                }
+              ]
+            }
+          ],
+          "enrollments": null
+        }
+      }
+    },
+    "200 - association type with value set to enrollment": {
+      "httpStatus": 200,
+      "body": {
+        "associations": {
+          "properties": null,
+          "enrollments": [
+            {
+              "enrollmentId": 123456,
+              "enrollmentLink": "/cps/v2/enrollments/123456",
+              "stagingSlots": [
+                78956
+              ],
+              "productionSlots": [
+                78956,
+                56478
+              ],
+              "cn": "example1.com"
+            },
+            {
+              "enrollmentId": 123457,
+              "enrollmentLink": "/cps/v2/enrollments/123457",
+              "stagingSlots": [
+                23456
+              ],
+              "productionSlots": [
+                23456
+              ],
+              "cn": "example2.com"
+            }
+          ]
+        }
+      }
+    },
+    "404 ca set not found": {
+      "httpStatus": 404,
+      "body": {
+        "contextInfo": {
+          "caSetId": "2"
+        },
+        "detail": "Cannot get CA set associations as the CA set with caSetId 2 is not found.",
+        "status": 404,
+        "title": "CA set is not found.",
+        "type": "/mtls-edge-truststore/error-types/ca-set-not-found"
+      }
+    },
+    "issue fetching": {
+      "httpStatus": 504,
+      "body": {
+        "contextInfo": {
+          "caSetId": 1,
+          "caSetName": "caSetName-1"
+        },
+        "detail": "There are issues fetching the information about associations at this time. The request timed out. Try again later.",
+        "status": 504,
+        "title": "Couldn't fetch associations details. Timeout occurred.",
+        "type": "/mtls-edge-truststore/error-types/cannot-get-ca-set-associations-timeout"
+      }
+    }
+  }
+}
