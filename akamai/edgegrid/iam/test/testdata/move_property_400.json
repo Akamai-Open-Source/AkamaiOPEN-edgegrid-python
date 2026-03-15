@@ -1,0 +1,7 @@
+{
+    "instance": "",
+    "httpStatus": 400,
+    "detail": "Property move is not allowed from the group 11",
+    "title": "Validation Exception",
+    "type": "/useradmin-api/error-types/1806"
+}
