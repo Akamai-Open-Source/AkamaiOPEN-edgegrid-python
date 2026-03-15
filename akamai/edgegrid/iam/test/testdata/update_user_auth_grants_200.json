@@ -1,0 +1,11 @@
+[
+	{
+		"groupId": 12345,
+		"roleId": 16,
+		"subGroups": [
+			{
+				"groupId": 54321
+			}
+		]
+	}
+]
