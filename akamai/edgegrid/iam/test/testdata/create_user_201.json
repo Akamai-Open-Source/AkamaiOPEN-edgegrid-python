@@ -1,0 +1,11 @@
+{
+	"uiIdentityId": "A-BC-1234567",
+	"firstName": "John",
+	"lastName": "Doe",
+	"email": "john.doe@mycompany.com",
+	"phone": "(123) 321-1234",
+	"state": "CA",
+	"country": "USA",
+	"additionalAuthenticationConfigured": false,
+	"additionalAuthentication": "NONE"
+}
