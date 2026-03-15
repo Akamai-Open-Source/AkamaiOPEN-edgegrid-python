@@ -1,0 +1,4 @@
+{
+    "certificate": "-----BEGIN CERTIFICATE-----....-----END CERTIFICATE-----",
+    "trustChain": "-----BEGIN CERTIFICATE-----....-----END CERTIFICATE-----"
+}
