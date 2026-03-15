@@ -1,0 +1,7 @@
+{
+    "type": "not-found",
+    "title": "Not Found",
+    "detail": "Client certificate not found",
+    "instance": "TestInstances",
+    "status": 404
+}
