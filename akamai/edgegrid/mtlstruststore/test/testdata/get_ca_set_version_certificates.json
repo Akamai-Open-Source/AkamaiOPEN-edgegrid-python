@@ -1,0 +1,147 @@
+{
+  "TestGetCASetVersionCertificates": {
+    "200 Successful get certificates of a version": {
+      "httpStatus": 200,
+      "body": {
+        "caSetId": "123",
+        "caSetName": "test1",
+        "version": 1,
+        "certificates": [
+          {
+            "subject": "C=US,ST=MA,L=Cambridge,O=Akamai,CN=intermediate.tcm-11-example.com",
+            "issuer": "C=US,ST=MA,L=Cambridge,O=Akamai,CN=tcm-13-example.com",
+            "endDate": "2020-04-07T17:33:39Z",
+            "startDate": "2019-04-08T17:33:39Z",
+            "fingerprint": "1E:DD:AD:32:C3:54:3F:C3:6F:7F:94:51:8D:5E:F7:ED:7C:DB:5D:A5",
+            "certificatePem": "-----BEGIN CERTIFICATE-----...-----END CERTIFICATE-----",
+            "serialNumber": "11612024106234272000",
+            "signatureAlgorithm": "SHA256WITHRSA",
+            "createdDate": "2020-04-07T17:33:39.110283Z",
+            "description": "Optional description for the certificate",
+            "createdBy": "jsmith2"
+          },
+          {
+            "subject": "C=US,ST=MA,L=Cambridge,O=Akamai,CN=intermediate1.tcm-11-example.com",
+            "issuer": "C=US,ST=MA,L=Cambridge,O=Akamai,CN=intermediate.tcm-11-example.com",
+            "endDate": "2020-04-07T17:43:58Z",
+            "startDate": "2019-04-08T17:43:58Z",
+            "fingerprint": "1F:DD:AD:32:C3:54:3F:C3:6F:7F:04:51:8D:5E:F7:ED:7C:DB:5D:A5",
+            "certificatePem": "-----BEGIN CERTIFICATE-----...-----END CERTIFICATE-----",
+            "serialNumber": "11612024106234272000",
+            "signatureAlgorithm": "SHA256WITHRSA",
+            "createdDate": "2020-04-07T17:33:39.110284Z",
+            "description": "Optional description for the certificate",
+            "createdBy": "jsmith2"
+          }
+        ]
+      }
+    },
+    "200 Successful get certificates of a version with EXPIRING,EXPIRED Certificate Status": {
+      "httpStatus": 200,
+      "body": {
+        "caSetId": "123",
+        "caSetName": "test1",
+        "version": 1,
+        "certificates": [
+          {
+            "subject": "C=US,ST=MA,L=Cambridge,O=Akamai,CN=intermediate.tcm-11-example.com",
+            "issuer": "C=US,ST=MA,L=Cambridge,O=Akamai,CN=tcm-13-example.com",
+            "endDate": "2020-04-07T17:33:39Z",
+            "startDate": "2019-04-08T17:33:39Z",
+            "fingerprint": "1E:DD:AD:32:C3:54:3F:C3:6F:7F:94:51:8D:5E:F7:ED:7C:DB:5D:A5",
+            "certificatePem": "-----BEGIN CERTIFICATE-----...-----END CERTIFICATE-----",
+            "serialNumber": "11612024106234272000",
+            "signatureAlgorithm": "SHA256WITHRSA",
+            "createdDate": "2020-04-07T17:33:39.110283Z",
+            "description": "Optional description for the certificate",
+            "createdBy": "jsmith2"
+          },
+          {
+            "subject": "C=US,ST=MA,L=Cambridge,O=Akamai,CN=intermediate1.tcm-11-example.com",
+            "issuer": "C=US,ST=MA,L=Cambridge,O=Akamai,CN=intermediate.tcm-11-example.com",
+            "endDate": "2020-04-07T17:43:58Z",
+            "startDate": "2019-04-08T17:43:58Z",
+            "fingerprint": "1F:DD:AD:32:C3:54:3F:C3:6F:7F:04:51:8D:5E:F7:ED:7C:DB:5D:A5",
+            "certificatePem": "-----BEGIN CERTIFICATE-----...-----END CERTIFICATE-----",
+            "serialNumber": "11612024106234272000",
+            "signatureAlgorithm": "SHA256WITHRSA",
+            "createdDate": "2020-04-07T17:33:39.110284Z",
+            "description": "Optional description for the certificate",
+            "createdBy": "jsmith2"
+          }
+        ]
+      }
+    },
+    "200 Successful get certificates of a version with CertificateStatus as EXPIRED and ExpiryThresholdInDays 10": {
+      "httpStatus": 200,
+      "body": {
+        "caSetId": "123",
+        "caSetName": "test1",
+        "version": 1,
+        "certificates": [
+          {
+            "subject": "C=US,ST=MA,L=Cambridge,O=Akamai,CN=intermediate.tcm-11-example.com",
+            "issuer": "C=US,ST=MA,L=Cambridge,O=Akamai,CN=tcm-13-example.com",
+            "endDate": "2020-04-07T17:33:39Z",
+            "startDate": "2019-04-08T17:33:39Z",
+            "fingerprint": "1E:DD:AD:32:C3:54:3F:C3:6F:7F:94:51:8D:5E:F7:ED:7C:DB:5D:A5",
+            "certificatePem": "-----BEGIN CERTIFICATE-----...-----END CERTIFICATE-----",
+            "serialNumber": "11612024106234272000",
+            "signatureAlgorithm": "SHA256WITHRSA",
+            "createdDate": "2020-04-07T17:33:39.110283Z",
+            "description": "Optional description for the certificate",
+            "createdBy": "jsmith2"
+          },
+          {
+            "subject": "C=US,ST=MA,L=Cambridge,O=Akamai,CN=intermediate1.tcm-11-example.com",
+            "issuer": "C=US,ST=MA,L=Cambridge,O=Akamai,CN=intermediate.tcm-11-example.com",
+            "endDate": "2020-04-07T17:43:58Z",
+            "startDate": "2019-04-08T17:43:58Z",
+            "fingerprint": "1F:DD:AD:32:C3:54:3F:C3:6F:7F:04:51:8D:5E:F7:ED:7C:DB:5D:A5",
+            "certificatePem": "-----BEGIN CERTIFICATE-----...-----END CERTIFICATE-----",
+            "serialNumber": "11612024106234272000",
+            "signatureAlgorithm": "SHA256WITHRSA",
+            "createdDate": "2020-04-07T17:33:39.110284Z",
+            "description": "Optional description for the certificate",
+            "createdBy": "jsmith2"
+          }
+        ]
+      }
+    },
+    "200 Successful get certificates of a version with CertificateStatus as EXPIRED and set ExpiryThresholdTimestamp": {
+      "httpStatus": 200,
+      "body": {
+        "caSetId": "123",
+        "caSetName": "test1",
+        "version": 1,
+        "certificates": [
+          {
+            "subject": "C=US,ST=MA,L=Cambridge,O=Akamai,CN=intermediate1.tcm-11-example.com",
+            "issuer": "C=US,ST=MA,L=Cambridge,O=Akamai,CN=intermediate.tcm-11-example.com",
+            "endDate": "2020-04-07T17:43:58Z",
+            "startDate": "2019-04-08T17:43:58Z",
+            "fingerprint": "1F:DD:AD:32:C3:54:3F:C3:6F:7F:04:51:8D:5E:F7:ED:7C:DB:5D:A5",
+            "certificatePem": "-----BEGIN CERTIFICATE-----...-----END CERTIFICATE-----",
+            "serialNumber": "11612024106234272000",
+            "signatureAlgorithm": "SHA256WITHRSA",
+            "createdDate": "2020-04-07T17:33:39.110284Z",
+            "description": "Optional description for the certificate",
+            "createdBy": "jsmith2"
+          }
+        ]
+      }
+    },
+    "Error Response - CA set is not found": {
+      "httpStatus": 404,
+      "body": {
+        "type": "/mtls-edge-truststore/error-types/ca-set-not-found",
+        "title": "CA set not found.",
+        "status": 404,
+        "detail": "Cannot get CA set version as the CA set with caSetId 123 is not found.",
+        "contextInfo": {
+          "caSetId": "123"
+        }
+      }
+    }
+  }
+}
