@@ -1,0 +1,8 @@
+{
+    "type": "bad-request",
+    "title": "Bad Request",
+    "instance": "7a51100f-77ac-48dc-bd6b-ca6fcf7e820c",
+    "status": 400,
+    "detail": "Invalid value for field: groupId",
+    "problemId": "7a51100f-77ac-48dc-bd6b-ca6fcf7e820c"
+}
