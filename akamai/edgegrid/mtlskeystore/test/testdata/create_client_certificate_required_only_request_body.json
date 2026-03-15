@@ -1,0 +1,12 @@
+{
+    "certificateName": "test-certificate1",
+    "contractId": "test-contract",
+    "geography": "CHINA_AND_CORE",
+    "groupId": 12345,
+    "notificationEmails": [
+        "jsmith@akamai.com",
+        "jkowalski@akamai.com"
+    ],
+    "secureNetwork": "ENHANCED_TLS",
+    "signer": "THIRD_PARTY"
+}
