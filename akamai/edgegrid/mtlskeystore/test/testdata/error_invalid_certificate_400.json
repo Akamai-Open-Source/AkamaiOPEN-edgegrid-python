@@ -1,0 +1,17 @@
+{
+    "detail": "Bad Request",
+    "errors": [
+        {
+            "detail": "Certificate is either invalid or cannot not be accepted.",
+            "field": "certificate",
+            "problemId": "f1658521-6e7d-4051-89e6-5dce765029af",
+            "title": "Invalid Input",
+            "type": "error-types/invalid"
+        }
+    ],
+    "instance": "7cc378a1-ba9e-41a6-8255-27ee0a5a3897",
+    "problemId": "7cc378a1-ba9e-41a6-8255-27ee0a5a3897",
+    "status": 400,
+    "title": "Bad Request",
+    "type": "bad-request"
+}
