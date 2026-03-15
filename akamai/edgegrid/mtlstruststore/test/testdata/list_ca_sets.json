@@ -1,0 +1,96 @@
+{
+    "TestListCASets": {
+        "200 OK": {
+            "httpStatus": 200,
+            "body": {
+                "caSets": [
+                    {
+                        "accountId": "A-CCOUNT",
+                        "caSetId": "199",
+                        "caSetLink": "/mtls-edge-truststore/v2/ca-sets/199",
+                        "caSetName": "test",
+                        "caSetStatus": "NOT_DELETED",
+                        "createdBy": "jdoe",
+                        "createdDate": "2025-04-01T15:33:48.464941Z",
+                        "deletedBy": null,
+                        "deletedDate": null,
+                        "description": "",
+                        "latestVersion": null,
+                        "latestVersionLink": null,
+                        "productionVersion": null,
+                        "productionVersionLink": null,
+                        "stagingVersion": null,
+                        "stagingVersionLink": null,
+                        "versionsLink": "/mtls-edge-truststore/v2/ca-sets/199/versions/"
+                    },
+                    {
+                        "accountId": "A-CCOUNT",
+                        "caSetId": "80431",
+                        "caSetLink": "/mtls-edge-truststore/v2/ca-sets/80431",
+                        "caSetName": "sktcm2-051623",
+                        "caSetStatus": "NOT_DELETED",
+                        "createdBy": "migration_run",
+                        "createdDate": "2023-10-17T23:04:52.491822Z",
+                        "deletedBy": null,
+                        "deletedDate": null,
+                        "description": "Imported from Techpreview TCM",
+                        "latestVersion": 2,
+                        "latestVersionLink": "/mtls-edge-truststore/v2/ca-sets/80431/versions/2",
+                        "productionVersion": 2,
+                        "productionVersionLink": "/mtls-edge-truststore/v2/ca-sets/80431/versions/2",
+                        "stagingVersion": 2,
+                        "stagingVersionLink": "/mtls-edge-truststore/v2/ca-sets/80431/versions/2",
+                        "versionsLink": "/mtls-edge-truststore/v2/ca-sets/80431/versions/"
+                    },
+                    {
+                        "accountId": "A-CCOUNT",
+                        "caSetId": "75201",
+                        "caSetLink": "/mtls-edge-truststore/v2/ca-sets/75201",
+                        "caSetName": "CertSet-4-docs",
+                        "caSetStatus": "DELETED",
+                        "createdBy": "migration_run",
+                        "createdDate": "2023-10-17T23:04:52.884782Z",
+                        "deletedBy": "migration_run",
+                        "deletedDate": "2025-06-04T12:19:33.095023Z",
+                        "description": "Imported from Techpreview TCM",
+                        "latestVersion": 3,
+                        "latestVersionLink": "/mtls-edge-truststore/v2/ca-sets/75201/versions/3",
+                        "productionVersion": null,
+                        "productionVersionLink": null,
+                        "stagingVersion": null,
+                        "stagingVersionLink": null,
+                        "versionsLink": "/mtls-edge-truststore/v2/ca-sets/75201/versions/"
+                    }
+                ]
+            }
+        },
+        "200 OK with filtering and empty response": {
+            "httpStatus": 200,
+            "body": {
+                "caSets": []
+            }
+        },
+        "200 OK with filtering with non lower case value and an empty response": {
+            "httpStatus": 200,
+            "body": {
+                "caSets": []
+            }
+        },
+        "200 OK on production and staging with an empty response": {
+            "httpStatus": 200,
+            "body": {
+                "caSets": []
+            }
+        },
+        "500 internal server error": {
+            "httpStatus": 500,
+            "body": {
+                "type": "internal-server-error",
+                "title": "Internal Server Error",
+                "detail": "Error processing request",
+                "instance": "TestInstances",
+                "status": 500
+            }
+        }
+    }
+}
