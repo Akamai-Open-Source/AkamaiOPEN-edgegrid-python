@@ -1,0 +1,23 @@
+{
+  "conditionOperator": "AND",
+  "conditions": [
+    {
+      "type": "filenameMatch",
+      "filenames": [
+        "hh"
+      ],
+      "order": 0,
+      "positiveMatch": true
+    },
+    {
+      "type": "clientListMatch",
+      "clientLists": [
+        "149526_REPUTATIONALLOWLISTSECC"
+      ],
+      "useHeaders": false,
+      "order": 0,
+      "positiveMatch": true
+    }
+  ]
+}
+
