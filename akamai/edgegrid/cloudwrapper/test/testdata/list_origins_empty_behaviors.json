@@ -1,0 +1,14 @@
+{
+    "default": [
+        {
+            "originType": "CUSTOMER",
+            "hostname": "test.com"
+        }
+    ],
+    "children": [
+        {
+            "name": "Default CORS Policy",
+            "behaviors": []
+        }
+    ]
+}
