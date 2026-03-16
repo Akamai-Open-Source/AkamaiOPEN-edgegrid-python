@@ -1,0 +1,12 @@
+{
+    "type": "https://problems.luna-dev.akamaiapis.net/-/pep-authn/deny",
+    "title": "Not authorized",
+    "status": 401,
+    "detail": "The signature does not match",
+    "instance": "https://instance.luna-dev.akamaiapis.net/cloud-wrapper/v1/capacity",
+    "method": "GET",
+    "serverIp": "2.2.2.2",
+    "clientIp": "3.3.3.3",
+    "requestId": "a7a7a7a7a7a",
+    "requestTime": "2023-05-22T10:05:22Z"
+}
