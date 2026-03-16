@@ -1,0 +1,10 @@
+{
+    "destinationType": "LOGGLY",
+    "displayName": "testDisplayName",
+    "endpoint": "testEndpoint",
+    "authToken": "testAuthToken",
+    "tags": "testTags",
+    "contentType": "testContentType",
+    "customHeaderName": "testCustomHeaderName",
+    "customHeaderValue": "testCustomHeaderValue"
+}
