@@ -1,0 +1,17 @@
+{
+    "type": "bad-request",
+    "title": "Bad Request",
+    "instance": "12345-c988-463e-9382-6c15e80868c0",
+    "status": 400,
+    "detail": "Oops, something wasn't right. Please correct the errors.",
+    "errors": [
+        {
+            "type": "error-types/invalid",
+            "title": "Invalid Check",
+            "detail": "Domain is not found.",
+            "problemId": "0030b473-0bd9-40eb-8afa-d6a08c9be687",
+            "field": "domains[0].domainName"
+        }
+    ],
+    "problemId": "85588d59-c988-463e-9382-6c15e80868c0"
+}
