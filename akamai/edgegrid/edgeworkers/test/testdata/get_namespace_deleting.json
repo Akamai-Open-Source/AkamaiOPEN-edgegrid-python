@@ -1,0 +1,8 @@
+{
+    "retentionInSeconds": 86400,
+    "geoLocation": "US",
+    "scheduledDeleteTime": "2025-06-12T10:38:33.779Z",
+    "namespaceStatus": "DELETING",
+    "groupId": 123456,
+    "namespace": "testNs"
+}
