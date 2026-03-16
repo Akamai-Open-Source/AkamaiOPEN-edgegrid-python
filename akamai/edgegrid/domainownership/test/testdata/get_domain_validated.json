@@ -1,0 +1,10 @@
+{
+    "accountId": "1-ACCOUN",
+    "domainName": "dom1.test",
+    "validationScope": "HOST",
+    "domainStatus": "VALIDATED",
+    "validationMethod": "SYSTEM",
+    "validationRequestedBy": "someuser",
+    "validationRequestedDate": "2025-08-04T13:27:19Z",
+    "validationCompletedDate": "2025-08-05T11:56:07Z"
+}
