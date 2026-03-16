@@ -1,0 +1,12 @@
+{
+    "authenticationType": "BASIC",
+    "displayName": "testDisplayName",
+    "endpoint": "testURL",
+    "userName": "testUserName",
+    "password": "testPassword",
+    "destinationType": "TRAFFICPEAK",
+    "compressLogs": true,
+    "customHeaderName": "custom-header",
+    "customHeaderValue": "custom-header-value",
+    "contentType": "application/json"
+}
