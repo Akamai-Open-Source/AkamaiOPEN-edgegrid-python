@@ -1,0 +1,29 @@
+{
+    "configId": 111,
+    "configName": "TestConfigName",
+    "contractId": "TestContractID",
+    "propertyIds": [
+        "123"
+    ],
+    "comments": "TestComments",
+    "status": "IN_PROGRESS",
+    "retainIdleObjects": false,
+    "locations": [
+        {
+            "trafficTypeId": 1,
+            "comments": "TestComments",
+            "capacity": {
+                "value": 1,
+                "unit": "GB"
+            },
+            "mapName": "cw-s-use"
+        }
+    ],
+    "multiCdnSettings": null,
+    "capacityAlertsThreshold": 50,
+    "notificationEmails": [],
+    "lastUpdatedDate": "2022-06-10T13:21:14.488Z",
+    "lastUpdatedBy": "johndoe",
+    "lastActivatedDate": null,
+    "lastActivatedBy": null
+}
