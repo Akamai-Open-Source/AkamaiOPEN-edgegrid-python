@@ -1,0 +1,36 @@
+{
+    "contractId": "1-2ABCDE",
+    "zone": "other.com",
+    "type": "primary",
+    "aliasCount": 1,
+    "signAndServe": false,
+    "comment": "Initial add",
+    "versionId": "7949b2db-ac43-4773-a3ec-dc93202142fd",
+    "lastModifiedDate": "2016-12-11T03:21:00Z",
+    "lastModifiedBy": "user31",
+    "lastActivationDate": "2017-01-03T12:00:00Z",
+    "activationState": "ERROR",
+    "masters": [
+        "1.2.3.4",
+        "1.2.3.5"
+    ],
+    "tsigKey": {
+        "name": "other.com.akamai.com.",
+        "algorithm": "hmac-sha512",
+        "secret": "fakeSecretajVka5cHPEJQIXfLyx5V3PSkFBROAzOn21JumDq6nIpoj6H8rfj5Uo"
+    },
+    "outboundZoneTransfer": {
+        "ACL": [
+            "192.0.2.156/24"
+        ],
+        "enabled": true,
+        "notifyTargets": [
+            "192.0.2.192"
+        ],
+        "tsigKey": {
+            "algorithm": "hmac-sha1",
+            "name": "other.com.akamai.com3",
+            "secret": "fakeR5IW1ajVka5cHPEJQIXfLyx5V3PSkFBROAzOn21JumDq6nIpoj6H8rfj5Uo+Ok55ZWQ0Wgrf302fDscHLw=="
+        }
+    }
+}
