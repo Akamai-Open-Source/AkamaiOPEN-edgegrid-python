@@ -1,0 +1,8 @@
+{
+    "destinationType": "DYNATRACE",
+    "displayName": "testDisplayName",
+    "endpoint": "testEndpoint",
+    "authToken": "testAuthToken",
+    "customHeaderName": "testCustomHeaderName",
+    "customHeaderValue": "testCustomHeaderValue"
+}
