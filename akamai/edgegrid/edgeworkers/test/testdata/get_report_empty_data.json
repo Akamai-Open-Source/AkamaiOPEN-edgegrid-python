@@ -1,0 +1,8 @@
+{
+    "reportId": 4,
+    "name": "Memory usage by EdgeWorker ID and event handler",
+    "description": "This report lists memory usage, grouped by EdgeWorker ID and event handler.",
+    "start": "2021-12-04T00:00:00Z",
+    "end": "2022-01-01T00:00:00Z",
+    "data": []
+}
