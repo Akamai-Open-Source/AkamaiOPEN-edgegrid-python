@@ -1,0 +1,8 @@
+{
+    "accountName": "testAccountName",
+    "accessKey": "testAccessKey",
+    "displayName": "testDisplayName",
+    "containerName": "testContainerName",
+    "path": "testPath",
+    "destinationType": "AZURE"
+}
