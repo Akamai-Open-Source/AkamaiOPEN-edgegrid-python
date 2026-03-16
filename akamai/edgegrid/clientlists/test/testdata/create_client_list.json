@@ -1,0 +1,21 @@
+{
+    "listId": "123_ABC",
+    "name": "TEST LIST",
+    "type": "IP",
+    "notes": "Some notes",
+    "tags": [
+        "red",
+        "green"
+    ],
+    "contractId": "M-2CF0QRI",
+    "groupName": "Group A",
+    "groupId": 12,
+    "items": [
+        {
+            "value": "1.1.1.1",
+            "description": "",
+            "tags": [],
+            "expirationDate": "2026-12-26T01:32:08.375+00:00"
+        }
+    ]
+}
