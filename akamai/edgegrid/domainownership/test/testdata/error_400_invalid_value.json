@@ -1,0 +1,17 @@
+{
+    "type": "bad-request",
+    "title": "Bad Request",
+    "instance": "f5334872-80ae-437c-89ed-fee729f3a8de",
+    "status": 400,
+    "detail": "Invalid value 'a' for query parameter validationScope.",
+    "errors": [
+        {
+            "type": "error-types/invalid",
+            "title": "Invalid Value",
+            "detail": "Invalid value 'a' for query parameter validationScope.",
+            "field": "validationScope",
+            "problemId": "f5334872-80ae-437c-89ed-fee729f3a8de"
+        }
+    ],
+    "problemId": "f5334872-80ae-437c-89ed-fee729f3a8de"
+}
