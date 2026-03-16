@@ -1,0 +1,9 @@
+{
+    "displayName": "testDisplayName",
+    "endpoint": "testURL",
+    "eventCollectorToken": "testEventCollector",
+    "destinationType": "SPLUNK",
+    "compressLogs": true,
+    "customHeaderName": "custom-header",
+    "customHeaderValue": "custom-header-value"
+}
