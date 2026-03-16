@@ -1,0 +1,18 @@
+{
+    "properties": [
+        {
+            "propertyId": 1,
+            "propertyName": "TestPropertyName1",
+            "contractId": "TestContractID1",
+            "groupId": 11,
+            "type": "MEDIA"
+        },
+        {
+            "propertyId": 2,
+            "propertyName": "TestPropertyName2",
+            "contractId": "TestContractID2",
+            "groupId": 22,
+            "type": "MEDIA"
+        }
+    ]
+}
