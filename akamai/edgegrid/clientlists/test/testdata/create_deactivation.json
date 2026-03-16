@@ -1,0 +1,14 @@
+{
+    "action": "DEACTIVATE",
+    "activationStatus": "PENDING_DEACTIVATION",
+    "listId": "1234_NORTHAMERICAGEOALLOWLIST",
+    "network": "PRODUCTION",
+    "notificationRecipients": ["aa@dd.com"],
+    "version": 1,
+    "activationId": 12,
+    "createDate": "2023-04-05T18:46:56.365Z",
+    "createdBy": "jdoe",
+    "network": "PRODUCTION",
+    "comments": "Activation of GEO allowlist list",
+    "siebelTicketId": "12_AB"
+}
