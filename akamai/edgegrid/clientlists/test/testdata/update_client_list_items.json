@@ -1,0 +1,42 @@
+{
+    "appended": [
+        {
+            "createDate": "2023-06-15T20:46:30.780+00:00",
+            "createdBy": "ccare2",
+            "createdVersion": 76,
+            "description": "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley",
+            "expirationDate": "2026-12-26T01:32:08.375+00:00",
+            "productionStatus": "INACTIVE",
+            "stagingStatus": "INACTIVE",
+            "tags": [
+                "new tag"
+            ],
+            "type": "IP",
+            "updateDate": "2023-06-15T20:46:30.780+00:00",
+            "updatedBy": "ccare2",
+            "value": "1.1.1.75"
+        }
+    ],
+    "deleted": [
+        {
+            "value": "1.1.1.39"
+        }
+    ],
+    "updated": [
+        {
+            "createDate": "2023-04-28T19:34:00.906+00:00",
+            "createdBy": "ccare2",
+            "createdVersion": 54,
+            "description": "remove exp date and tags",
+            "productionStatus": "INACTIVE",
+            "stagingStatus": "INACTIVE",
+            "tags": [
+                "t1"
+            ],
+            "type": "IP",
+            "updateDate": "2023-06-15T20:46:30.765+00:00",
+            "updatedBy": "ccare2",
+            "value": "1.1.1.45"
+        }
+    ]
+}
