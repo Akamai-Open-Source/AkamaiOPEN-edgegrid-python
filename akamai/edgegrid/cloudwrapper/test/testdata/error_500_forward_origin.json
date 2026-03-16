@@ -1,0 +1,11 @@
+{
+    "type": "https://problems.luna-dev.akamaiapis.net/-/resource-impl/forward-origin-error",
+    "title": "Server Error",
+    "status": 500,
+    "instance": "https://instance.luna-dev.akamaiapis.net/cloud-wrapper/v1/capacity",
+    "method": "GET",
+    "serverIp": "2.2.2.2",
+    "clientIp": "3.3.3.3",
+    "requestId": "a7a7a7a7a7a",
+    "requestTime": "2021-12-06T10:27:11Z"
+}
