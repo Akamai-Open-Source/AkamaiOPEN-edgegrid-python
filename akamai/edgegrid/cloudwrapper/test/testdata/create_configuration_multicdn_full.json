@@ -1,0 +1,92 @@
+{
+    "configId": 111,
+    "capacityAlertsThreshold": 70,
+    "configName": "TestConfigName",
+    "contractId": "TestContractID",
+    "propertyIds": [
+        "123"
+    ],
+    "comments": "TestComments",
+    "status": "IN_PROGRESS",
+    "retainIdleObjects": true,
+    "locations": [
+        {
+            "trafficTypeId": 1,
+            "comments": "TestComments",
+            "capacity": {
+                "value": 1,
+                "unit": "GB"
+            },
+            "mapName": "cw-s-use"
+        },
+        {
+            "trafficTypeId": 2,
+            "comments": "TestComments2",
+            "capacity": {
+                "value": 2,
+                "unit": "TB"
+            },
+            "mapName": "cw-s-use"
+        }
+    ],
+    "multiCdnSettings": {
+        "origins": [
+            {
+                "originId": "TestOriginID",
+                "hostname": "TestHostname",
+                "propertyId": 123
+            },
+            {
+                "originId": "TestOriginID2",
+                "hostname": "TestHostname2",
+                "propertyId": 1234
+            }
+        ],
+        "cdns": [
+            {
+                "cdnCode": "TestCDNCode",
+                "enabled": true,
+                "cdnAuthKeys": [
+                    {
+                        "authKeyName": "TestAuthKeyName",
+                        "headerName": "TestHeaderName",
+                        "secret": "testtesttesttesttesttest",
+                        "expiryDate": "TestExpiryDate"
+                    }
+                ],
+                "ipAclCidrs": [],
+                "httpsOnly": true
+            },
+            {
+                "cdnCode": "TestCDNCode",
+                "enabled": true,
+                "httpsOnly": true,
+                "ipAclCidrs": [
+                    "1.1.1.1/1"
+                ]
+            }
+        ],
+        "dataStreams": {
+            "enabled": true,
+            "dataStreamIds": [
+                1
+            ],
+            "samplingRate": 10
+        },
+        "bocc": {
+            "enabled": true,
+            "conditionalSamplingFrequency": "ZERO",
+            "forwardType": "ORIGIN_AND_MIDGRESS",
+            "requestType": "EDGE_AND_MIDGRESS",
+            "samplingFrequency": "ZERO"
+        },
+        "enableSoftAlerts": true
+    },
+    "notificationEmails": [
+        "test@test.com"
+    ],
+    "lastUpdatedDate": "2022-06-10T13:21:14.488Z",
+    "lastUpdatedBy": "johndoe",
+    "lastActivatedDate": null,
+    "lastActivatedBy": null
+}
