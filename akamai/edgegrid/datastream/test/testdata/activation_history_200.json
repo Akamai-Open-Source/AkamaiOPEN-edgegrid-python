@@ -1,0 +1,16 @@
+[
+    {
+        "streamId": 3,
+        "streamVersion": 2,
+        "modifiedBy": "user1",
+        "modifiedDate": "16-01-2020 11:07:12 GMT",
+        "status": "DEACTIVATED"
+    },
+    {
+        "streamId": 3,
+        "streamVersion": 2,
+        "modifiedBy": "user2",
+        "modifiedDate": "16-01-2020 09:31:02 GMT",
+        "status": "ACTIVATED"
+    }
+]
