@@ -1,0 +1,100 @@
+{
+    "configId": 1,
+    "configName": "TestConfigName",
+    "contractId": "TestContractID",
+    "propertyIds": [
+        "321",
+        "654"
+    ],
+    "comments": "TestComments",
+    "status": "ACTIVE",
+    "retainIdleObjects": false,
+    "locations": [
+        {
+            "trafficTypeId": 1,
+            "comments": "TestComments",
+            "capacity": {
+                "value": 1,
+                "unit": "GB"
+            },
+            "mapName": "cw-s-use"
+        },
+        {
+            "trafficTypeId": 2,
+            "comments": "TestComments",
+            "capacity": {
+                "value": 2,
+                "unit": "TB"
+            },
+            "mapName": "cw-s-use"
+        }
+    ],
+    "multiCdnSettings": {
+        "origins": [
+            {
+                "originId": "TestOriginID",
+                "hostname": "TestHostname",
+                "propertyId": 321
+            },
+            {
+                "originId": "TestOriginID2",
+                "hostname": "TestHostname",
+                "propertyId": 654
+            }
+        ],
+        "cdns": [
+            {
+                "cdnCode": "TestCDNCode",
+                "enabled": true,
+                "cdnAuthKeys": [
+                    {
+                        "authKeyName": "TestAuthKeyName"
+                    }
+                ],
+                "ipAclCidrs": [],
+                "httpsOnly": false
+            },
+            {
+                "cdnCode": "TestCDNCode",
+                "enabled": false,
+                "cdnAuthKeys": [
+                    {
+                        "authKeyName": "TestAuthKeyName"
+                    },
+                    {
+                        "authKeyName": "TestAuthKeyName2"
+                    }
+                ],
+                "ipAclCidrs": [
+                    "test1",
+                    "test2"
+                ],
+                "httpsOnly": true
+            }
+        ],
+        "dataStreams": {
+            "enabled": true,
+            "dataStreamIds": [
+                11,
+                22
+            ],
+            "samplingRate": 999
+        },
+        "bocc": {
+            "enabled": false,
+            "conditionalSamplingFrequency": "ONE_TENTH",
+            "forwardType": "ORIGIN_AND_MIDGRESS",
+            "requestType": "EDGE_ONLY",
+            "samplingFrequency": "ZERO"
+        },
+        "enableSoftAlerts": true
+    },
+    "capacityAlertsThreshold": 75,
+    "notificationEmails": [
+        "test@akamai.com"
+    ],
+    "lastUpdatedDate": "2023-05-10T09:55:37.000Z",
+    "lastUpdatedBy": "user",
+    "lastActivatedDate": "2023-05-10T10:14:49.379Z",
+    "lastActivatedBy": "user"
+}
