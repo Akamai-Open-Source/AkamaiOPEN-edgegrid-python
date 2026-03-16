@@ -1,0 +1,16 @@
+{
+    "domains": [
+        {
+            "domainName": "dom1.test",
+            "validationScope": "HOST",
+            "domainStatus": "REQUEST_ACCEPTED",
+            "validationLevel": "FQDN"
+        },
+        {
+            "domainName": "dom2.test",
+            "validationScope": "HOST",
+            "domainStatus": "VALIDATED",
+            "validationLevel": "FQDN"
+        }
+    ]
+}
