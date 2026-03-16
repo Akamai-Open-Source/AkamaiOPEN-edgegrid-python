@@ -1,0 +1,27 @@
+{
+    "deactivations": [
+        {
+            "edgeWorkerId": 41,
+            "version": "2",
+            "deactivationId": 3,
+            "accountId": "1-AB2CD34",
+            "status": "PENDING",
+            "network": "PRODUCTION",
+            "note": "EdgeWorker ID 41 is no longer used in production.",
+            "createdBy": "jdoe",
+            "createdTime": "2020-07-09T09:03:28Z",
+            "lastModifiedTime": "2020-07-09T09:04:42Z"
+        },
+        {
+            "edgeWorkerId": 41,
+            "version": "2",
+            "deactivationId": 2,
+            "accountId": "1-AB2CD34",
+            "status": "COMPLETE",
+            "network": "PRODUCTION",
+            "createdBy": "asmith",
+            "createdTime": "2020-07-10T14:23:42Z",
+            "lastModifiedTime": "2020-07-10T14:53:25Z"
+        }
+    ]
+}
