@@ -1,0 +1,9 @@
+{
+    "path": "testPath",
+    "displayName": "testDisplayName",
+    "bucket": "testBucket",
+    "region": "testRegion",
+    "accessKey": "testAccessKey",
+    "secretAccessKey": "testSecretKey",
+    "destinationType": "S3"
+}
