@@ -1,0 +1,9 @@
+{
+    "destinationType": "GCS",
+    "displayName": "testDisplayName",
+    "bucket": "testBucket",
+    "path": "testPath",
+    "projectId": "testProjectID",
+    "serviceAccountName": "testServiceAccountName",
+    "privateKey": "testPrivateKey"
+}
