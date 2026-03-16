@@ -1,0 +1,20 @@
+{
+	"clientId": "abcdefgh12345678",
+	"clientName": "test_user_1",
+	"clientDescription": "test_user_1 description",
+	"clientType": "CLIENT",
+	"authorizedUsers": [
+		"user1"
+	],
+	"canAutoCreateCredential": false,
+	"notificationEmails": [
+		"user1@example.com"
+	],
+	"activeCredentialCount": 0,
+	"allowAccountSwitch": false,
+	"createdDate": "2024-07-16T23:01:50.000Z",
+	"createdBy": "admin",
+	"isLocked": false,
+	"baseURL": "https://akaa-d4c3b2a1d4c3b2a1-d4c3b2a1d4c3b2a1.luna-dev.akamaiapis.net",
+	"accessToken": "akaa-1a2b3c4d1a2b3c4d-1a2b3c4d1a2b3c4d"
+}
