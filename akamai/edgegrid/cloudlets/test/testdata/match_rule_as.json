@@ -1,0 +1,36 @@
+[
+    {
+        "name": "rule 10",
+        "type": "asMatchRule",
+        "matchURL": "http://source.com/test1",
+        "forwardSettings": {
+            "originId": "origin_remote_1",
+            "pathAndQS": "/cpaths/test1.html"
+        },
+        "matches": [
+            {
+                "matchType": "range",
+                "objectMatchValue": {
+                    "type": "range",
+                    "value": [1, 100]
+                },
+                "matchOperator": "equals",
+                "negate": false,
+                "caseSensitive": false
+            },
+            {
+                "matchType": "header",
+                "objectMatchValue": {
+                    "options": {
+                        "value": ["en"]
+                    },
+                    "type": "object",
+                    "name": "Accept-Charset"
+                },
+                "matchOperator": "equals",
+                "negate": false,
+                "caseSensitive": false
+            }
+        ]
+    }
+]
