@@ -1,0 +1,10 @@
+{
+    "destinationType": "SUMO_LOGIC",
+    "displayName": "testDisplayName",
+    "endpoint": "testEndpoint",
+    "collectorCode": "testCollectorCode",
+    "compressLogs": true,
+    "customHeaderName": "custom-header",
+    "customHeaderValue": "custom-header-value",
+    "contentType": "application/json"
+}
