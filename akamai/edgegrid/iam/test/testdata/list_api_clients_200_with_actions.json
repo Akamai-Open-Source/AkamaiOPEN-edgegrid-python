@@ -1,0 +1,58 @@
+[
+    {
+        "clientId": "abcdefgh12345678",
+        "clientName": "test_user_1",
+        "clientDescription": "test_user_1 description",
+        "clientType": "CLIENT",
+        "authorizedUsers": [
+            "user1"
+        ],
+        "canAutoCreateCredential": false,
+        "notificationEmails": [
+            "user1@example.com"
+        ],
+        "activeCredentialCount": 0,
+        "allowAccountSwitch": false,
+        "createdDate": "2024-07-16T23:01:50.000Z",
+        "createdBy": "admin",
+        "isLocked": false,
+        "accessToken": "akaa-1a2b3c4d1a2b3c4d-1a2b3c4d1a2b3c4d",
+        "serviceConsumerToken": "akaa-d4c3b2a1d4c3b2a1-d4c3b2a1d4c3b2a1",
+        "actions": {
+            "lock": false,
+            "unlock": false,
+            "edit": false,
+            "transfer": false,
+            "delete": false,
+            "deactivateAll": false
+        }
+    },
+    {
+        "clientId": "hgfedcba87654321",
+        "clientName": "test_user_2",
+        "clientDescription": "test_user_2 description",
+        "clientType": "SERVICE_ACCOUNT",
+        "authorizedUsers": [
+            "user2"
+        ],
+        "canAutoCreateCredential": true,
+        "notificationEmails": [
+            "user2@example.com"
+        ],
+        "activeCredentialCount": 1,
+        "allowAccountSwitch": false,
+        "createdDate": "2023-07-03T15:04:01.000Z",
+        "createdBy": "admin",
+        "isLocked": false,
+        "accessToken": "akaa-8h7g6f5e8h7g6f5e-8h7g6f5e8h7g6f5e",
+        "serviceConsumerToken": "akaa-e5f6g7h8e5f6g7h8-e5f6g7h8e5f6g7h8",
+        "actions": {
+            "lock": true,
+            "unlock": true,
+            "edit": true,
+            "transfer": true,
+            "delete": true,
+            "deactivateAll": true
+        }
+    }
+]
