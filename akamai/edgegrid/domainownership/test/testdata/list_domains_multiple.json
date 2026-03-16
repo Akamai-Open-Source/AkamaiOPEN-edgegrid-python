@@ -1,0 +1,292 @@
+{
+    "metadata": {
+        "hasPrevious": false,
+        "hasNext": true,
+        "page": 1,
+        "pageSize": 10,
+        "totalItems": 11
+    },
+    "domains": [
+        {
+            "accountId": "1-ACCOUN",
+            "domainName": "dom1.test",
+            "validationScope": "HOST",
+            "domainStatus": "REQUEST_ACCEPTED",
+            "validationRequestedBy": "someuser",
+            "validationRequestedDate": "2025-08-04T13:27:19Z",
+            "validationChallenge": {
+                "cnameRecord": {
+                    "name": "cname-name-1",
+                    "target": "cname-target-1"
+                },
+                "txtRecord": {
+                    "name": "txt-name-1",
+                    "value": "txt-value-1"
+                },
+                "httpFile": {
+                    "path": "http-file-path-1",
+                    "content": "http-file-content-1",
+                    "contentType": "text/plain"
+                },
+                "httpRedirect": {
+                    "from": "http-redirect-from-1",
+                    "to": "http-redirect-to-1"
+                },
+                "expirationDate": "2025-08-05T13:27:19Z"
+            }
+        },
+        {
+            "accountId": "1-ACCOUN",
+            "domainName": "dom2.test",
+            "validationScope": "HOST",
+            "domainStatus": "REQUEST_ACCEPTED",
+            "validationRequestedBy": "someuser",
+            "validationRequestedDate": "2025-08-04T13:26:58Z",
+            "validationChallenge": {
+                "cnameRecord": {
+                    "name": "cname-name-2",
+                    "target": "cname-target-2"
+                },
+                "txtRecord": {
+                    "name": "txt-name-2",
+                    "value": "txt-value-2"
+                },
+                "expirationDate": "2025-08-05T13:27:19Z"
+            }
+        },
+        {
+            "accountId": "1-ACCOUN",
+            "domainName": "dom3.test",
+            "validationScope": "HOST",
+            "domainStatus": "REQUEST_ACCEPTED",
+            "validationRequestedBy": "someuser",
+            "validationRequestedDate": "2025-08-04T13:26:50Z",
+            "validationChallenge": {
+                "cnameRecord": {
+                    "name": "cname-name-3",
+                    "target": "cname-target-3"
+                },
+                "txtRecord": {
+                    "name": "txt-name-3",
+                    "value": "txt-value-3"
+                },
+                "httpFile": {
+                    "path": "http-file-path-3",
+                    "content": "http-file-content-3",
+                    "contentType": "text/plain"
+                },
+                "httpRedirect": {
+                    "from": "http-redirect-from-3",
+                    "to": "http-redirect-to-3"
+                },
+                "expirationDate": "2025-08-05T13:27:19Z"
+            }
+        },
+        {
+            "accountId": "1-ACCOUN",
+            "domainName": "dom4.test",
+            "validationScope": "HOST",
+            "domainStatus": "REQUEST_ACCEPTED",
+            "validationRequestedBy": "someuser",
+            "validationRequestedDate": "2025-08-04T13:26:50Z",
+            "validationChallenge": {
+                "cnameRecord": {
+                    "name": "cname-name-4",
+                    "target": "cname-target-4"
+                },
+                "txtRecord": {
+                    "name": "txt-name-4",
+                    "value": "txt-value-4"
+                },
+                "httpFile": {
+                    "path": "http-file-path-4",
+                    "content": "http-file-content-4",
+                    "contentType": "text/plain"
+                },
+                "httpRedirect": {
+                    "from": "http-redirect-from-4",
+                    "to": "http-redirect-to-4"
+                },
+                "expirationDate": "2025-08-05T13:27:19Z"
+            }
+        },
+        {
+            "accountId": "1-ACCOUN",
+            "domainName": "dom5.test",
+            "validationScope": "HOST",
+            "domainStatus": "REQUEST_ACCEPTED",
+            "validationRequestedBy": "someuser",
+            "validationRequestedDate": "2025-08-04T13:26:50Z",
+            "validationChallenge": {
+                "cnameRecord": {
+                    "name": "cname-name-5",
+                    "target": "cname-target-5"
+                },
+                "txtRecord": {
+                    "name": "txt-name-5",
+                    "value": "txt-value-5"
+                },
+                "httpFile": {
+                    "path": "http-file-path-5",
+                    "content": "http-file-content-5",
+                    "contentType": "text/plain"
+                },
+                "httpRedirect": {
+                    "from": "http-redirect-from-5",
+                    "to": "http-redirect-to-5"
+                },
+                "expirationDate": "2025-08-05T13:27:19Z"
+            }
+        },
+        {
+            "accountId": "1-ACCOUN",
+            "domainName": "dom6.test",
+            "validationScope": "WILDCARD",
+            "domainStatus": "REQUEST_ACCEPTED",
+            "validationRequestedBy": "someuser",
+            "validationRequestedDate": "2025-08-04T13:26:50Z",
+            "validationChallenge": {
+                "cnameRecord": {
+                    "name": "cname-name-6",
+                    "target": "cname-target-6"
+                },
+                "txtRecord": {
+                    "name": "txt-name-6",
+                    "value": "txt-value-6"
+                },
+                "httpFile": {
+                    "path": "http-file-path-6",
+                    "content": "http-file-content-6",
+                    "contentType": "text/plain"
+                },
+                "httpRedirect": {
+                    "from": "http-redirect-from-6",
+                    "to": "http-redirect-to-6"
+                },
+                "expirationDate": "2025-08-05T13:27:19Z"
+            }
+        },
+        {
+            "accountId": "1-ACCOUN",
+            "domainName": "dom7.test",
+            "validationScope": "DOMAIN",
+            "domainStatus": "REQUEST_ACCEPTED",
+            "validationRequestedBy": "someuser",
+            "validationRequestedDate": "2025-08-04T13:26:50Z",
+            "validationChallenge": {
+                "cnameRecord": {
+                    "name": "cname-name-7",
+                    "target": "cname-target-7"
+                },
+                "txtRecord": {
+                    "name": "txt-name-7",
+                    "value": "txt-value-7"
+                },
+                "httpFile": {
+                    "path": "http-file-path-7",
+                    "content": "http-file-content-7",
+                    "contentType": "text/plain"
+                },
+                "httpRedirect": {
+                    "from": "http-redirect-from-7",
+                    "to": "http-redirect-to-7"
+                },
+                "expirationDate": "2025-08-05T13:27:19Z"
+            }
+        },
+        {
+            "accountId": "1-ACCOUN",
+            "domainName": "dom8.test",
+            "validationScope": "HOST",
+            "domainStatus": "REQUEST_ACCEPTED",
+            "validationRequestedBy": "someuser",
+            "validationRequestedDate": "2025-08-04T13:26:29Z",
+            "validationChallenge": {
+                "cnameRecord": {
+                    "name": "cname-name-8",
+                    "target": "cname-target-8"
+                },
+                "txtRecord": {
+                    "name": "txt-name-8",
+                    "value": "txt-value-8"
+                },
+                "httpFile": {
+                    "path": "http-file-path-8",
+                    "content": "http-file-content-8",
+                    "contentType": "text/plain"
+                },
+                "httpRedirect": {
+                    "from": "http-redirect-from-8",
+                    "to": "http-redirect-to-8"
+                },
+                "expirationDate": "2025-08-05T13:27:19Z"
+            }
+        },
+        {
+            "accountId": "1-ACCOUN",
+            "domainName": "dom9.test",
+            "validationScope": "HOST",
+            "domainStatus": "REQUEST_ACCEPTED",
+            "validationRequestedBy": "someuser",
+            "validationRequestedDate": "2025-08-04T13:26:29Z",
+            "validationChallenge": {
+                "cnameRecord": {
+                    "name": "cname-name-9",
+                    "target": "cname-target-9"
+                },
+                "txtRecord": {
+                    "name": "txt-name-9",
+                    "value": "txt-value-9"
+                },
+                "httpFile": {
+                    "path": "http-file-path-9",
+                    "content": "http-file-content-9",
+                    "contentType": "text/plain"
+                },
+                "httpRedirect": {
+                    "from": "http-redirect-from-9",
+                    "to": "http-redirect-to-9"
+                },
+                "expirationDate": "2025-08-05T13:27:19Z"
+            }
+        },
+        {
+            "accountId": "1-ACCOUN",
+            "domainName": "dom10.test",
+            "validationScope": "DOMAIN",
+            "domainStatus": "REQUEST_ACCEPTED",
+            "validationRequestedBy": "someuser",
+            "validationRequestedDate": "2025-08-04T13:26:29Z",
+            "validationChallenge": {
+                "cnameRecord": {
+                    "name": "cname-name-10",
+                    "target": "cname-target-10"
+                },
+                "txtRecord": {
+                    "name": "txt-name-10",
+                    "value": "txt-value-10"
+                },
+                "httpFile": {
+                    "path": "http-file-path-10",
+                    "content": "http-file-content-10",
+                    "contentType": "text/plain"
+                },
+                "httpRedirect": {
+                    "from": "http-redirect-from-10",
+                    "to": "http-redirect-to-10"
+                },
+                "expirationDate": "2025-08-05T13:27:19Z"
+            }
+        }
+    ],
+    "links": [
+        {
+            "rel": "self",
+            "href": "/domain-validation-service/api/v1/domains?page=1&pageSize=10"
+        },
+        {
+            "rel": "next",
+            "href": "/domain-validation-service/api/v1/domains?page=2&pageSize=10"
+        }
+    ]
+}
