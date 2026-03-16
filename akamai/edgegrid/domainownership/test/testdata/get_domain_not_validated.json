@@ -1,0 +1,28 @@
+{
+    "accountId": "1-ACCOUN",
+    "domainName": "dom1.test",
+    "validationScope": "HOST",
+    "domainStatus": "REQUEST_ACCEPTED",
+    "validationRequestedBy": "someuser",
+    "validationRequestedDate": "2025-08-04T13:27:19Z",
+    "validationChallenge": {
+        "cnameRecord": {
+            "name": "cname-name-1",
+            "target": "cname-target-1"
+        },
+        "txtRecord": {
+            "name": "txt-name-1",
+            "value": "txt-value-1"
+        },
+        "httpFile": {
+            "path": "http-file-path-1",
+            "content": "http-file-content-1",
+            "contentType": "text/plain"
+        },
+        "httpRedirect": {
+            "from": "http-redirect-from-1",
+            "to": "http-redirect-to-1"
+        },
+        "expirationDate": "2025-08-05T13:27:19Z"
+    }
+}
