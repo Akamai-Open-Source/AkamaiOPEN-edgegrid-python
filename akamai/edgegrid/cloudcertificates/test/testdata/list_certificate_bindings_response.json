@@ -1,0 +1,27 @@
+{
+    "bindings": [
+        {
+            "certificateId": 123456,
+            "hostname": "www.example.com",
+            "network": "PRODUCTION",
+            "resourceType": "CDN_HOSTNAME"
+        },
+        {
+            "certificateId": "654321",
+            "hostname": "secure.example.com",
+            "network": "STAGING",
+            "resourceType": "CDN_HOSTNAME"
+        },
+        {
+            "certificateId": "789012",
+            "hostname": "api.example.com",
+            "network": "PRODUCTION",
+            "resourceType": "CDN_HOSTNAME"
+        }
+    ],
+    "links": {
+        "next": "https://api.example.com/v1/certificates/123/certificate-bindings?page=2&pageSize=10",
+        "previous": null,
+        "self": "https://api.example.com/v1/certificates/123/certificate-bindings?page=1&pageSize=10"
+    }
+}
