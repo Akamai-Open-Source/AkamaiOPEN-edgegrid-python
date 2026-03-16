@@ -1,0 +1,16 @@
+{
+    "activations": [
+        {
+            "edgeWorkerId": 42,
+            "version": "1",
+            "activationId": 1,
+            "accountId": "B-M-1KQK3WU",
+            "status": "IN_PROGRESS",
+            "network": "STAGING",
+            "createdBy": "jsmith",
+            "createdTime": "2018-07-09T08:13:54Z",
+            "lastModifiedTime": "2018-07-09T08:35:02Z",
+            "note": "activation note1"
+        }
+    ]
+}
