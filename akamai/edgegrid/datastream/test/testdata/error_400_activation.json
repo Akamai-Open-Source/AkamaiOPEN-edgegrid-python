@@ -1,0 +1,14 @@
+{
+    "type": "bad-request",
+    "title": "Bad Request",
+    "detail": "",
+    "instance": "df22bc0f-ca8d-4bdb-afea-ffdeef819e22",
+    "statusCode": 400,
+    "errors": [
+        {
+            "type": "bad-request",
+            "title": "Bad Request",
+            "detail": "Stream does not exist. Please provide valid stream."
+        }
+    ]
+}
