@@ -1,0 +1,124 @@
+{
+    "reportId": 4,
+    "name": "Memory usage by EdgeWorker ID and event handler",
+    "description": "This report lists memory usage, grouped by EdgeWorker ID and event handler.",
+    "start": "2022-01-10T03:00:00Z",
+    "end": "2022-01-17T12:07:48Z",
+    "data": [
+        {
+            "edgeWorkerId": 37017,
+            "data": {
+                "responseProvider": [
+                    {
+                        "startDateTime": "2022-01-10T03:45:00Z",
+                        "edgeWorkerVersion": "10.18",
+                        "invocations": 1,
+                        "memory": {
+                            "avg": 0.0,
+                            "min": 0.0,
+                            "max": 0.0
+                        }
+                    },
+                    {
+                        "startDateTime": "2022-01-10T06:00:00Z",
+                        "edgeWorkerVersion": "10.18",
+                        "invocations": 1,
+                        "memory": {
+                            "avg": 0.0,
+                            "min": 0.0,
+                            "max": 0.0
+                        }
+                    }
+                ],
+                "onOriginRequest": [
+                    {
+                        "startDateTime": "2022-01-10T03:45:00Z",
+                        "edgeWorkerVersion": "10.18",
+                        "invocations": 1,
+                        "memory": {
+                            "avg": 0.0,
+                            "min": 0.0,
+                            "max": 0.0
+                        }
+                    },
+                    {
+                        "startDateTime": "2022-01-10T06:00:00Z",
+                        "edgeWorkerVersion": "10.18",
+                        "invocations": 1,
+                        "memory": {
+                            "avg": 0.0,
+                            "min": 0.0,
+                            "max": 0.0
+                        }
+                    }
+                ],
+                "onClientResponse": [
+                    {
+                        "startDateTime": "2022-01-10T03:00:00Z",
+                        "edgeWorkerVersion": "10.18",
+                        "invocations": 8,
+                        "memory": {
+                            "avg": 0.0,
+                            "min": 0.0,
+                            "max": 0.0
+                        }
+                    },
+                    {
+                        "startDateTime": "2022-01-10T03:05:00Z",
+                        "edgeWorkerVersion": "10.18",
+                        "invocations": 15,
+                        "memory": {
+                            "avg": 0.0,
+                            "min": 0.0,
+                            "max": 0.0
+                        }
+                    }
+                ],
+                "onOriginResponse": [
+                    {
+                        "startDateTime": "2022-01-10T03:45:00Z",
+                        "edgeWorkerVersion": "10.18",
+                        "invocations": 1,
+                        "memory": {
+                            "avg": 0.0,
+                            "min": 0.0,
+                            "max": 0.0
+                        }
+                    },
+                    {
+                        "startDateTime": "2022-01-10T06:00:00Z",
+                        "edgeWorkerVersion": "10.18",
+                        "invocations": 1,
+                        "memory": {
+                            "avg": 0.0,
+                            "min": 0.0,
+                            "max": 0.0
+                        }
+                    }
+                ],
+                "onClientRequest": [
+                    {
+                        "startDateTime": "2022-01-10T03:00:00Z",
+                        "edgeWorkerVersion": "10.18",
+                        "invocations": 8,
+                        "memory": {
+                            "avg": 1480.0,
+                            "min": 1256.0,
+                            "max": 1704.0
+                        }
+                    },
+                    {
+                        "startDateTime": "2022-01-10T03:05:00Z",
+                        "edgeWorkerVersion": "10.18",
+                        "invocations": 15,
+                        "memory": {
+                            "avg": 1608.266667,
+                            "min": 1256.0,
+                            "max": 2544.0
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
