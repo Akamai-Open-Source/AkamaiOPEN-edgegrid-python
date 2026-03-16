@@ -1,0 +1,46 @@
+[
+   {
+      "contractId": "PM-123",
+      "createdBy": "pmuser",
+      "createdDate": "2024-01-15T10:30:00Z",
+      "groupId": 456,
+      "latestVersion": 3,
+      "modifiedBy": "pmuser",
+      "modifiedDate": "2024-01-16T14:20:00Z",
+      "productId": "Premium_Delivery",
+      "properties": [
+         {
+            "propertyId": 789,
+            "propertyName": "premium.example.com"
+         }
+      ],
+      "streamId": 555,
+      "streamName": "premium-stream",
+      "streamStatus": "ACTIVATED",
+      "streamVersion": 3,
+      "integrationType": "PM_DEPENDENT",
+      "samplingPercentage": 75
+   },
+   {
+      "contractId": "DS-456",
+      "createdBy": "dsuser",
+      "createdDate": "2024-02-01T08:00:00Z",
+      "groupId": 789,
+      "latestVersion": 1,
+      "modifiedBy": "dsuser",
+      "modifiedDate": "2024-02-01T08:00:00Z",
+      "productId": "Data_Stream",
+      "properties": [
+         {
+            "propertyId": 999,
+            "propertyName": "datastream.example.com"
+         }
+      ],
+      "streamId": 777,
+      "streamName": "ds-managed-stream",
+      "streamStatus": "INACTIVE",
+      "streamVersion": 1,
+      "integrationType": "DS_MANAGED",
+      "samplingPercentage": 100
+   }
+]
