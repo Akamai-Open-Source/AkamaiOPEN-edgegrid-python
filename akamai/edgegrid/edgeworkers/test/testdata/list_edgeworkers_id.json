@@ -1,0 +1,26 @@
+{
+    "edgeWorkerIds": [
+        {
+            "edgeWorkerId": 12345,
+            "name": "edgeworker",
+            "accountId": "B-3-WNK123",
+            "groupId": 54321,
+            "resourceTierId": 123,
+            "createdBy": "jbond",
+            "createdTime": "2020-05-05T21:55:36Z",
+            "lastModifiedBy": "jbond",
+            "lastModifiedTime": "2020-05-05T21:55:36Z"
+        },
+        {
+            "edgeWorkerId": 12346,
+            "name": "edgeworker-first",
+            "accountId": "B-3-WNK123",
+            "groupId": 54321,
+            "resourceTierId": 234,
+            "createdBy": "jbond",
+            "createdTime": "2021-05-05T21:55:36Z",
+            "lastModifiedBy": "jbond",
+            "lastModifiedTime": "2021-05-05T21:55:36Z"
+        }
+    ]
+}
