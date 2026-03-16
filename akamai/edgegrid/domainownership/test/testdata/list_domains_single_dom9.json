@@ -1,0 +1,45 @@
+{
+    "metadata": {
+        "hasPrevious": false,
+        "hasNext": false,
+        "page": 1,
+        "pageSize": 10,
+        "totalItems": 1
+    },
+    "domains": [
+        {
+            "accountId": "1-ACCOUN",
+            "domainName": "dom9.test",
+            "validationScope": "HOST",
+            "domainStatus": "REQUEST_ACCEPTED",
+            "validationRequestedBy": "someuser",
+            "validationRequestedDate": "2025-08-04T13:26:29Z",
+            "validationChallenge": {
+                "cnameRecord": {
+                    "name": "cname-name-9",
+                    "target": "cname-target-9"
+                },
+                "txtRecord": {
+                    "name": "txt-name-9",
+                    "value": "txt-value-9"
+                },
+                "httpFile": {
+                    "path": "http-file-path-9",
+                    "content": "http-file-content-9",
+                    "contentType": "text/plain"
+                },
+                "httpRedirect": {
+                    "from": "http-redirect-from-9",
+                    "to": "http-redirect-to-9"
+                },
+                "expirationDate": "2025-08-05T13:27:19Z"
+            }
+        }
+    ],
+    "links": [
+        {
+            "rel": "self",
+            "href": "/domain-validation-service/api/v1/domains?page=1&pageSize=10"
+        }
+    ]
+}
