@@ -1,0 +1,52 @@
+{
+    "contractId": "2-AB1234",
+    "createdBy": "sample_username",
+    "createdDate": "2022-11-04T00:49:45Z",
+    "collectMidgress": true,
+    "datasetFields": [
+        {
+            "datasetFieldId": 2020,
+            "datasetFieldName": "field_name_1",
+            "datasetFieldJsonKey": "field_json_key_1"
+        }
+    ],
+    "deliveryConfiguration": {
+        "fieldDelimiter": "SPACE",
+        "format": "STRUCTURED",
+        "frequency": {
+            "intervalInSeconds": 30
+        },
+        "uploadFilePrefix": "logs",
+        "uploadFileSuffix": "ak"
+    },
+    "destination": {
+        "bucket": "datastream.com",
+        "compressLogs": true,
+        "destinationType": "S3",
+        "displayName": "sample-display-name",
+        "path": "sample-path/{%Y/%m/%d}",
+        "region": "ap-south-1"
+    },
+    "groupId": 1234,
+    "latestVersion": 1,
+    "modifiedBy": "sample_username2",
+    "modifiedDate": "2022-11-04T02:14:29Z",
+    "notificationEmails": [
+        "useremail1@akamai.com", "useremail2@akamai.com"
+    ],
+    "productId": "Adaptive_Media_Delivery",
+    "properties": [
+        {
+            "propertyId": 1234,
+            "propertyName": "abcd"
+        },
+        {
+            "propertyId": 1234,
+            "propertyName": "abcd"
+        }
+    ],
+    "streamId": 7050,
+    "streamName": "TestStream",
+    "streamStatus": "ACTIVATED",
+    "streamVersion": 1
+}
