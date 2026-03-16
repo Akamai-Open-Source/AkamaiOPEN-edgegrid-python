@@ -1,0 +1,20 @@
+{
+  "action": "ACTIVATE",
+  "activationConfigs": [
+    {
+      "configId": 43253,
+      "configName": "Target Config",
+      "configVersion": 1
+    },
+    {
+      "configId": 12345,
+      "configName": "Source Config",
+      "configVersion": 2
+    }
+  ],
+  "activationId": 123456,
+  "createDate": "2025-10-16T12:00:00.000Z",
+  "createdBy": "test@example.com",
+  "network": "STAGING",
+  "status": "RECEIVED"
+}
