@@ -1,0 +1,8 @@
+{
+    "type": "/edgeworkers/error-types/edgeworkers-not-found",
+    "title": "The given resource could not be found.",
+    "detail": "Unable to find the requested EdgeWorker ID",
+    "instance": "/edgeworkers/error-instances/abc",
+    "status": 404,
+    "errorCode": "EW2002"
+}
