@@ -1,0 +1,22 @@
+{
+    "namespaces": [
+        {
+            "namespace": "testNs_1",
+            "retentionInSeconds": 0,
+            "geoLocation": "EU",
+            "groupId": 0
+        },
+        {
+            "namespace": "testNs_2",
+            "retentionInSeconds": 86400,
+            "geoLocation": "JP",
+            "groupId": 123
+        },
+        {
+            "namespace": "testNs_3",
+            "retentionInSeconds": 315360000,
+            "geoLocation": "US",
+            "groupId": 234
+        }
+    ]
+}
