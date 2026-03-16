@@ -1,0 +1,29 @@
+{
+  "allowAccountSwitch": false,
+  "apiAccess": {
+    "allAccessibleApis": true,
+    "apis": null
+  },
+  "authorizedUsers": [
+    "user1"
+  ],
+  "canAutoCreateCredential": false,
+  "clientDescription": "test_user_1 description",
+  "clientName": "test_user_1",
+  "clientType": "CLIENT",
+  "groupAccess": {
+    "cloneAuthorizedUserGroups": true,
+    "groups": null
+  },
+  "notificationEmails": [
+    "user1@example.com"
+  ],
+  "purgeOptions": {
+    "canPurgeByCacheTag": false,
+    "canPurgeByCpcode": false,
+    "cpcodeAccess": {
+      "allCurrentAndNewCpcodes": true,
+      "cpcodes": null
+    }
+  }
+}
