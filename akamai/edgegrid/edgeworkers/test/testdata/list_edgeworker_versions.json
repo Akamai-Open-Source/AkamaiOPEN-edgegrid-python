@@ -1,0 +1,22 @@
+{
+    "versions": [
+        {
+            "edgeWorkerId": 88334,
+            "version": "1.23",
+            "accountId": "B-3-WNKA6P",
+            "checksum": "868f28f16c26f46d418d83e24973520534d9ea4e4dbfd8a69ab00c1c37f28ca4",
+            "sequenceNumber": 3,
+            "createdBy": "jsmith",
+            "createdTime": "2021-12-20T08:28:37Z"
+        },
+        {
+            "edgeWorkerId": 88334,
+            "version": "1.24.5",
+            "accountId": "B-3-WNKA6P",
+            "checksum": "ad9c18a7f2ed5d7bbcd31c55b94a0a00ae1771c6a15fd9265aeae08f5ef41e1f",
+            "sequenceNumber": 4,
+            "createdBy": "jsmith",
+            "createdTime": "2021-12-20T09:39:48Z"
+        }
+    ]
+}
