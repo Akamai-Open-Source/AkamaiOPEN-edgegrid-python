@@ -1,0 +1,53 @@
+{
+  "allowAccountSwitch": true,
+  "apiAccess": {
+    "allAccessibleApis": false,
+    "apis": [
+      {
+        "accessLevel": "READ-ONLY",
+        "apiId": 1
+      },
+      {
+        "accessLevel": "READ-WRITE",
+        "apiId": 2
+      }
+    ]
+  },
+  "authorizedUsers": [
+    "user1"
+  ],
+  "canAutoCreateCredential": true,
+  "clientDescription": "test_user_1 description",
+  "clientName": "test_user_1",
+  "clientType": "CLIENT",
+  "createCredential": true,
+  "groupAccess": {
+    "cloneAuthorizedUserGroups": false,
+    "groups": [
+      {
+        "groupId": 123,
+        "roleId": 1,
+        "subgroups": null
+      }
+    ]
+  },
+  "ipAcl": {
+    "cidr": [
+      "1.2.3.4/32"
+    ],
+    "enable": true
+  },
+  "notificationEmails": [
+    "user1@example.com"
+  ],
+  "purgeOptions": {
+    "canPurgeByCacheTag": true,
+    "canPurgeByCpcode": true,
+    "cpcodeAccess": {
+      "allCurrentAndNewCpcodes": false,
+      "cpcodes": [
+        321
+      ]
+    }
+  }
+}
