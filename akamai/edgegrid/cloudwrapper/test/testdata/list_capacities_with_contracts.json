@@ -1,0 +1,22 @@
+{
+    "capacities": [
+        {
+            "locationId": 1,
+            "locationName": "US East",
+            "contractId": "A-BCDEFG",
+            "type": "WEB_ENHANCED_TLS",
+            "approvedCapacity": {
+                "value": 10,
+                "unit": "TB"
+            },
+            "assignedCapacity": {
+                "value": 1,
+                "unit": "TB"
+            },
+            "unassignedCapacity": {
+                "value": 9,
+                "unit": "TB"
+            }
+        }
+    ]
+}
