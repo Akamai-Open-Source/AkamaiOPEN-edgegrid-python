@@ -1,0 +1,74 @@
+{
+    "data": {
+        "signedCertificatePem": "-----BEGIN CERTIFICATE-----\nexample-signed-PEM\n-----END CERTIFICATE-----\n",
+        "signedCertificates": [
+            {
+                "certificatePem": "-----BEGIN CERTIFICATE-----\nexample-PEM\n-----END CERTIFICATE-----",
+                "createdBy": null,
+                "createdDate": null,
+                "displayName": null,
+                "endDate": "2027-11-22T12:45:19Z",
+                "fingerprint": null,
+                "issuer": "CN=mkcert user (name surname),OU=organization (name surname),O=mkcert development CA",
+                "sans": [
+                    "example.com",
+                    "www.example.com"
+                ],
+                "serialNumber": "1234567890",
+                "signatureAlgorithm": "SHA256WITHRSA",
+                "startDate": "2025-08-22T11:45:19Z",
+                "subject": {
+                    "commonName": "example.com",
+                    "country": "US",
+                    "locality": "Cambridge",
+                    "state": "Massachusetts"
+                },
+                "validation": {
+                    "errors": [],
+                    "notices": [],
+                    "warnings": [
+                        {
+                            "detail": "Message: Certificate validity period is above the maximum 398 days.. Name: LEAF_CERTIFICATE",
+                            "instance": "/error-types/certificate-validation-warning?traceId=123456789",
+                            "message": "Certificate validity period is above the maximum 398 days.",
+                            "name": "LEAF_CERTIFICATE",
+                            "title": "Certificate validation warning.",
+                            "type": "/error-types/certificate-validation-warning"
+                        }
+                    ]
+                }
+            }
+        ],
+        "trustChain": [],
+        "trustChainPem": null,
+        "validation": {
+            "errors": [],
+            "notices": [],
+            "warnings": [
+                {
+                    "detail": "Message: Name: MaxMinExpirationDateValidator Message: RSA certificate expiration is longer than allowed. Must expire within 398 days. Name: UNKNOWN",
+                    "instance": "/error-types/certificate-validation-warning?traceId=123456789",
+                    "message": "Name: MaxMinExpirationDateValidator Message: RSA certificate expiration is longer than allowed. Must expire within 398 days",
+                    "name": "UNKNOWN",
+                    "status": 400,
+                    "title": "Certificate validation warning.",
+                    "type": "/error-types/certificate-validation-warning"
+                },
+                {
+                    "detail": "Message: Name: TrustChainRequiredValidator Message: RSA certificate does not come with a trust chain and this is a non-standard practice. Name: UNKNOWN",
+                    "instance": "/error-types/certificate-validation-warning?traceId=123456789",
+                    "message": "Name: TrustChainRequiredValidator Message: RSA certificate does not come with a trust chain and this is a non-standard practice",
+                    "name": "UNKNOWN",
+                    "status": 400,
+                    "title": "Certificate validation warning.",
+                    "type": "/error-types/certificate-validation-warning"
+                }
+            ]
+        }
+    },
+    "detail": "Warnings detected in one or more of the uploaded certificates.",
+    "instance": "/error-types/upload-certificate-validation-warnings?traceId=123456789",
+    "status": 409,
+    "title": "Validation warnings for uploaded signed certificate(s) and trust chain(s) for one or more key types.",
+    "type": "/error-types/upload-certificate-validation-warnings"
+}
