@@ -1,0 +1,7 @@
+{
+    "type": "/cloudwrapper/error-types/cloudwrapper-server-error",
+    "title": "An unexpected error has occurred.",
+    "detail": "Error processing request",
+    "instance": "/cloudwrapper/error-instances/abc",
+    "status": 500
+}
