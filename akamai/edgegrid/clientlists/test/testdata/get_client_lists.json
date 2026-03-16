@@ -1,0 +1,63 @@
+{
+    "content": [
+        {
+            "createDate": "2023-06-06T15:58:39.225+00:00",
+            "createdBy": "ccare2",
+            "deprecated": false,
+            "filePrefix": "CL",
+            "itemsCount": 1,
+            "listId": "91596_AUDITLOGSTESTLIST",
+            "listType": "CL",
+            "name": "AUDIT LOGS - TEST LIST",
+            "productionActivationStatus": "INACTIVE",
+            "readOnly": false,
+            "shared": false,
+            "stagingActivationStatus": "INACTIVE",
+            "tags": ["green"],
+            "type": "IP",
+            "updateDate": "2023-06-06T15:58:39.225+00:00",
+            "updatedBy": "ccare2",
+            "version": 1
+        },
+        {
+            "createDate": "2022-11-10T14:42:04.857+00:00",
+            "createdBy": "ccare2",
+            "deprecated": false,
+            "filePrefix": "CL",
+            "itemsCount": 2,
+            "listId": "85988_ANTHONYGEOLISTOPEN",
+            "listType": "CL",
+            "name": "AnthonyGeoListOPEN",
+            "notes": "This is another Geo client list for Nov 11",
+            "productionActivationStatus": "INACTIVE",
+            "readOnly": false,
+            "shared": false,
+            "stagingActivationStatus": "INACTIVE",
+            "tags": [],
+            "type": "GEO",
+            "updateDate": "2023-05-11T15:30:10.224+00:00",
+            "updatedBy": "ccare2",
+            "version": 66
+        },
+        {
+            "createDate": "2022-10-17T13:39:25.319+00:00",
+            "createdBy": "ccare2",
+            "deprecated": false,
+            "filePrefix": "CL",
+            "itemsCount": 0,
+            "listId": "85552_ANTHONYFILEHASHLIST",
+            "listType": "CL",
+            "name": "File Hash List",
+            "notes": "This is another File hash client list for Oct 17",
+            "productionActivationStatus": "PENDING_ACTIVATION",
+            "readOnly": false,
+            "shared": false,
+            "stagingActivationStatus": "INACTIVE",
+            "tags": ["blue"],
+            "type": "TLS_FINGERPRINT",
+            "updateDate": "2023-06-05T06:56:19.004+00:00",
+            "updatedBy": "ccare2",
+            "version": 343
+        }
+    ]
+}
