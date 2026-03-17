@@ -370,8 +370,12 @@ class CreateConfigurationRequest:
 class CreateConfigurationResponse:
     """Response from creating a configuration.
 
-    Mirrors Go CreateConfigurationResponse (empty body, ID from Location header).
+    Mirrors Go CreateConfigurationResponse struct from configuration.go.
     """
+    config_id: int = 0  # json:"configId"
+    version: int = 0  # json:"version"
+    description: str = ""  # json:"description"
+    name: str = ""  # json:"name"
 
 
 @dataclass
@@ -391,6 +395,8 @@ class UpdateConfigurationResponse:
 
     Mirrors Go UpdateConfigurationResponse struct from configuration.go.
     """
+    name: str = ""  # json:"name"
+    description: str = ""  # json:"description"
 
 
 @dataclass
@@ -718,8 +724,14 @@ class CreateSecurityPolicyRequest:
 class CreateSecurityPolicyResponse:
     """Response from creating a security policy.
 
-    Mirrors Go CreateSecurityPolicyResponse struct.
+    Mirrors Go CreateSecurityPolicyResponse struct from security_policy.go.
     """
+    config_id: int = 0  # json:"configId"
+    policy_id: str = ""  # json:"policyId"
+    policy_name: str = ""  # json:"policyName"
+    default_settings: bool = False  # json:"defaultSettings,omitempty"
+    policy_security_controls: SecurityControls | None = None  # *SecurityControls
+    version: int = 0  # json:"version"
 
 
 @dataclass
@@ -1022,7 +1034,7 @@ class CustomRuleResponse:
     sampling_rate: int = 0  # json:"samplingRate"
     logging_options: Any = None  # json:"loggingOptions" (json.RawMessage)
     operation: str = ""  # json:"operation"
-    staging_only: bool = False  # json:"stagingOnly"
+    staging_only: bool | None = None  # json:"stagingOnly" (*bool in Go)
 
 
 @dataclass
@@ -1104,7 +1116,7 @@ class CreateCustomRuleResponse:
     sampling_rate: int = 0  # json:"samplingRate"
     logging_options: Any = None  # json:"loggingOptions"
     operation: str = ""  # json:"operation"
-    staging_only: bool = False  # json:"stagingOnly"
+    staging_only: bool | None = None  # json:"stagingOnly" (*bool in Go)
 
 
 @dataclass
@@ -1123,8 +1135,22 @@ class UpdateCustomRuleRequest:
 class UpdateCustomRuleResponse:
     """Response from updating a custom rule.
 
-    Mirrors Go UpdateCustomRuleResponse struct.
+    Mirrors Go UpdateCustomRuleResponse (type alias of CustomRuleResponse)
+    from custom_rule.go.
     """
+    id: int = 0  # json:"id"
+    name: str = ""  # json:"name"
+    description: str = ""  # json:"description"
+    version: int = 0  # json:"-"
+    rule_activated: bool = False  # json:"-"
+    structured: bool = False  # json:"-"
+    tag: list[str] = field(default_factory=list)  # json:"tag"
+    conditions: list[dict] = field(default_factory=list)  # json:"conditions"
+    effective_time_period: dict | None = None  # json:"effectiveTimePeriod"
+    sampling_rate: int = 0  # json:"samplingRate"
+    logging_options: Any = None  # json:"loggingOptions" (json.RawMessage)
+    operation: str = ""  # json:"operation"
+    staging_only: bool | None = None  # json:"stagingOnly" (*bool in Go)
 
 
 @dataclass
@@ -1141,8 +1167,22 @@ class RemoveCustomRuleRequest:
 class RemoveCustomRuleResponse:
     """Response from removing a custom rule.
 
-    Mirrors Go RemoveCustomRuleResponse struct.
+    Mirrors Go RemoveCustomRuleResponse (type alias of CustomRuleResponse)
+    from custom_rule.go.
     """
+    id: int = 0  # json:"id"
+    name: str = ""  # json:"name"
+    description: str = ""  # json:"description"
+    version: int = 0  # json:"-"
+    rule_activated: bool = False  # json:"-"
+    structured: bool = False  # json:"-"
+    tag: list[str] = field(default_factory=list)  # json:"tag"
+    conditions: list[dict] = field(default_factory=list)  # json:"conditions"
+    effective_time_period: dict | None = None  # json:"effectiveTimePeriod"
+    sampling_rate: int = 0  # json:"samplingRate"
+    logging_options: Any = None  # json:"loggingOptions" (json.RawMessage)
+    operation: str = ""  # json:"operation"
+    staging_only: bool | None = None  # json:"stagingOnly" (*bool in Go)
 
 
 # =============================================================================
@@ -1163,11 +1203,28 @@ class GetCustomRuleActionsRequest:
 
 
 @dataclass
+class CustomRuleActionItem:
+    """Single item in the custom rule actions list.
+
+    Mirrors Go anonymous struct inside GetCustomRuleActionsResponse from
+    custom_rule_action.go.
+    """
+    action: str = ""  # json:"action,omitempty"
+    can_use_advanced_actions: bool = False  # json:"canUseAdvancedActions,omitempty"
+    link: str = ""  # json:"link,omitempty"
+    name: str = ""  # json:"name,omitempty"
+    rule_id: int = 0  # json:"ruleId,omitempty"
+
+
+@dataclass
 class GetCustomRuleActionsResponse:
     """Response from listing custom rule actions.
 
-    Mirrors Go GetCustomRuleActionsResponse struct.
+    Mirrors Go GetCustomRuleActionsResponse ([]struct{...}) from
+    custom_rule_action.go.  In Go this is a bare slice; in Python it is
+    wrapped in a dataclass with a single ``items`` list field.
     """
+    items: list[CustomRuleActionItem] = field(default_factory=list)
 
 
 @dataclass
@@ -1424,6 +1481,19 @@ class RatePolicyQueryParameters:
 
 
 @dataclass
+class RatePolicyQueryParameterItem:
+    """Single query parameter item used in rate policy update/remove responses.
+
+    Mirrors Go anonymous struct inside UpdateRatePolicyResponse and
+    RemoveRatePolicyResponse QueryParameters field from rate_policy.go.
+    """
+    name: str = ""  # json:"name"
+    values: list[str] = field(default_factory=list)  # json:"values"
+    positive_match: bool = False  # json:"positiveMatch"
+    value_in_range: bool = False  # json:"valueInRange"
+
+
+@dataclass
 class GetRatePoliciesRequest:
     """Request for listing rate policies.
 
@@ -1459,6 +1529,40 @@ class GetRatePolicyResponse:
 
     Mirrors Go GetRatePolicyResponse struct from rate_policy.go.
     """
+    id: int = 0  # json:"-"
+    config_id: int = 0  # json:"-"
+    config_version: int = 0  # json:"-"
+    match_type: str = ""  # json:"matchType,omitempty"
+    type: str = ""  # json:"type,omitempty"
+    name: str = ""  # json:"name,omitempty"
+    description: str = ""  # json:"description,omitempty"
+    average_threshold: int = 0  # json:"averageThreshold,omitempty"
+    burst_threshold: int = 0  # json:"burstThreshold,omitempty"
+    burst_window: int = 0  # json:"burstWindow,omitempty"
+    client_identifiers: list[str] = field(
+        default_factory=list,
+    )  # json:"clientIdentifiers,omitempty"
+    use_x_forward_for_headers: bool = False  # json:"useXForwardForHeaders"
+    request_type: str = ""  # json:"requestType,omitempty"
+    same_action_on_ipv6: bool = False  # json:"sameActionOnIpv6"
+    path: RatePolicyPath | None = None  # *RatePolicyPath
+    path_match_type: str = ""  # json:"pathMatchType,omitempty"
+    path_uri_positive_match: bool = False  # json:"pathUriPositiveMatch"
+    file_extensions: RatePolicyFileExtensions | None = None  # omitempty
+    hosts: RatePoliciesHosts | None = None  # *RatePoliciesHosts
+    hostnames: list[str] = field(
+        default_factory=list,
+    )  # json:"hostnames,omitempty"
+    additional_match_options: list[RatePolicyMatchOption] = field(
+        default_factory=list,
+    )  # json:"additionalMatchOptions,omitempty"
+    condition: RatePolicyCondition | None = None  # *RatePolicyCondition
+    query_parameters: RatePolicyQueryParameters | None = None  # omitempty
+    create_date: str = ""  # json:"-"
+    update_date: str = ""  # json:"-"
+    used: bool = False  # json:"-"
+    counter_type: str = ""  # json:"counterType"
+    penalty_box_duration: str = ""  # json:"penaltyBoxDuration"
 
 
 @dataclass
@@ -1508,6 +1612,38 @@ class UpdateRatePolicyResponse:
 
     Mirrors Go UpdateRatePolicyResponse struct from rate_policy.go.
     """
+    id: int = 0  # json:"id"
+    config_id: int = 0  # json:"configId"
+    config_version: int = 0  # json:"configVersion"
+    match_type: str = ""  # json:"matchType"
+    type: str = ""  # json:"type"
+    name: str = ""  # json:"name"
+    description: str = ""  # json:"description"
+    average_threshold: int = 0  # json:"averageThreshold"
+    burst_threshold: int = 0  # json:"burstThreshold"
+    burst_window: int = 0  # json:"burstWindow"
+    client_identifiers: list[str] = field(default_factory=list)  # json:"clientIdentifiers"
+    use_x_forward_for_headers: bool = False  # json:"useXForwardForHeaders"
+    request_type: str = ""  # json:"requestType"
+    same_action_on_ipv6: bool = False  # json:"sameActionOnIpv6"
+    path: RatePolicyPath | None = None  # json:"path" (inline struct)
+    path_match_type: str = ""  # json:"pathMatchType"
+    path_uri_positive_match: bool = False  # json:"pathUriPositiveMatch"
+    file_extensions: RatePolicyFileExtensions | None = None  # inline struct
+    hosts: RatePoliciesHosts | None = None  # json:"hosts,omitempty"
+    hostnames: list[str] = field(default_factory=list)  # json:"hostnames"
+    additional_match_options: list[RatePolicyMatchOption] = field(
+        default_factory=list,
+    )  # json:"additionalMatchOptions,omitempty"
+    condition: RatePolicyCondition | None = None  # json:"condition,omitempty"
+    query_parameters: list[RatePolicyQueryParameterItem] = field(
+        default_factory=list,
+    )  # json:"queryParameters"
+    create_date: str = ""  # json:"-"
+    update_date: str = ""  # json:"-"
+    used: Any = None  # json:"used" (json.RawMessage in Go)
+    counter_type: str = ""  # json:"counterType"
+    penalty_box_duration: str = ""  # json:"penaltyBoxDuration"
 
 
 @dataclass
@@ -1527,6 +1663,38 @@ class RemoveRatePolicyResponse:
 
     Mirrors Go RemoveRatePolicyResponse struct from rate_policy.go.
     """
+    id: int = 0  # json:"id"
+    config_id: int = 0  # json:"configId"
+    config_version: int = 0  # json:"configVersion"
+    match_type: str = ""  # json:"matchType"
+    type: str = ""  # json:"type"
+    name: str = ""  # json:"name"
+    description: str = ""  # json:"description"
+    average_threshold: int = 0  # json:"averageThreshold"
+    burst_threshold: int = 0  # json:"burstThreshold"
+    burst_window: int = 0  # json:"burstWindow"
+    client_identifiers: list[str] = field(default_factory=list)  # json:"clientIdentifiers"
+    use_x_forward_for_headers: bool = False  # json:"useXForwardForHeaders"
+    request_type: str = ""  # json:"requestType"
+    same_action_on_ipv6: bool = False  # json:"sameActionOnIpv6"
+    path: RatePolicyPath | None = None  # json:"path" (inline struct)
+    path_match_type: str = ""  # json:"pathMatchType"
+    path_uri_positive_match: bool = False  # json:"pathUriPositiveMatch"
+    file_extensions: RatePolicyFileExtensions | None = None  # inline struct
+    hosts: RatePoliciesHosts | None = None  # json:"hosts,omitempty"
+    hostnames: list[str] = field(default_factory=list)  # json:"hostnames"
+    additional_match_options: list[RatePolicyMatchOption] = field(
+        default_factory=list,
+    )  # json:"additionalMatchOptions,omitempty"
+    condition: RatePolicyCondition | None = None  # json:"condition,omitempty"
+    query_parameters: list[RatePolicyQueryParameterItem] = field(
+        default_factory=list,
+    )  # json:"queryParameters"
+    create_date: str = ""  # json:"-"
+    update_date: str = ""  # json:"-"
+    used: Any = None  # json:"used" (json.RawMessage in Go)
+    counter_type: str = ""  # json:"counterType"
+    penalty_box_duration: str = ""  # json:"penaltyBoxDuration"
 
 
 # =============================================================================
@@ -1995,8 +2163,36 @@ class UpdateReputationProfileRequest:
 class UpdateReputationProfileResponse:
     """Response from updating a reputation profile.
 
-    Mirrors Go UpdateReputationProfileResponse struct.
+    Mirrors Go UpdateReputationProfileResponse struct from reputation_profile.go.
     """
+    id: int = 0  # json:"id"
+    policy_id: int = 0  # json:"policyId"
+    config_id: int = 0  # json:"configId"
+    config_version: int = 0  # json:"configVersion"
+    match_type: str = ""  # json:"matchType"
+    type: str = ""  # json:"type"
+    name: str = ""  # json:"name"
+    description: str = ""  # json:"description"
+    average_threshold: int = 0  # json:"averageThreshold"
+    burst_threshold: int = 0  # json:"burstThreshold"
+    client_identifier: str = ""  # json:"clientIdentifier" (string, not []string)
+    use_x_forward_for_headers: bool = False  # json:"useXForwardForHeaders"
+    request_type: str = ""  # json:"requestType"
+    same_action_on_ipv6: bool = False  # json:"sameActionOnIpv6"
+    path: RatePolicyPath | None = None  # json:"path" (inline struct)
+    path_match_type: str = ""  # json:"pathMatchType"
+    path_uri_positive_match: bool = False  # json:"pathUriPositiveMatch"
+    file_extensions: RatePolicyFileExtensions | None = None  # inline struct
+    hostnames: list[str] = field(default_factory=list)  # json:"hostNames"
+    additional_match_options: list[RatePolicyMatchOption] = field(
+        default_factory=list,
+    )  # json:"additionalMatchOptions"
+    query_parameters: list[RatePolicyQueryParameterItem] = field(
+        default_factory=list,
+    )  # json:"queryParameters"
+    create_date: str = ""  # json:"createDate"
+    update_date: str = ""  # json:"updateDate"
+    used: bool = False  # json:"used"
 
 
 @dataclass
@@ -2014,8 +2210,36 @@ class RemoveReputationProfileRequest:
 class RemoveReputationProfileResponse:
     """Response from removing a reputation profile.
 
-    Mirrors Go RemoveReputationProfileResponse struct.
+    Mirrors Go RemoveReputationProfileResponse struct from reputation_profile.go.
     """
+    id: int = 0  # json:"id"
+    policy_id: int = 0  # json:"policyId"
+    config_id: int = 0  # json:"configId"
+    config_version: int = 0  # json:"configVersion"
+    match_type: str = ""  # json:"matchType"
+    type: str = ""  # json:"type"
+    name: str = ""  # json:"name"
+    description: str = ""  # json:"description"
+    average_threshold: int = 0  # json:"averageThreshold"
+    burst_threshold: int = 0  # json:"burstThreshold"
+    client_identifier: str = ""  # json:"clientIdentifier" (string, not []string)
+    use_x_forward_for_headers: bool = False  # json:"useXForwardForHeaders"
+    request_type: str = ""  # json:"requestType"
+    same_action_on_ipv6: bool = False  # json:"sameActionOnIpv6"
+    path: RatePolicyPath | None = None  # json:"path" (inline struct)
+    path_match_type: str = ""  # json:"pathMatchType"
+    path_uri_positive_match: bool = False  # json:"pathUriPositiveMatch"
+    file_extensions: RatePolicyFileExtensions | None = None  # json:"fileExtensions" (inline struct)
+    hostnames: list[str] = field(default_factory=list)  # json:"hostNames"
+    additional_match_options: list[RatePolicyMatchOption] = field(
+        default_factory=list,
+    )  # json:"additionalMatchOptions"
+    query_parameters: list[RatePolicyQueryParameterItem] = field(
+        default_factory=list,
+    )  # json:"queryParameters"
+    create_date: str = ""  # json:"createDate"
+    update_date: str = ""  # json:"updateDate"
+    used: bool = False  # json:"used"
 
 
 # =============================================================================
@@ -2500,9 +2724,12 @@ class UpdateConditionExceptionRequest:
 class UpdateConditionExceptionResponse:
     """Response from updating condition exception.
 
-    Mirrors Go UpdateConditionExceptionResponse struct from rule.go.
-    Empty response.
+    Mirrors Go UpdateConditionExceptionResponse (type alias of
+    RuleConditionException) from rule.go.
     """
+    conditions: list[dict] | None = None  # json:"conditions" (*RuleConditions)
+    exception: dict | None = None  # json:"exception" (*RuleException)
+    advanced_exceptions_list: dict | None = None  # json:"advancedExceptions" (*AdvancedExceptions)
 
 
 # =============================================================================

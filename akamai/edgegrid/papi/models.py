@@ -3165,3 +3165,7 @@ class PatchPropertyHostnameBucketResponse:
 
     Mirrors Go ``papi.PatchPropertyHostnameBucketResponse``.
     """
+
+    activation_link: str = ""
+    activation_id: str = ""
+    hostnames: list[PatchHostnameItem] = field(default_factory=list)
