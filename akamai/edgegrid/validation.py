@@ -87,9 +87,17 @@ def _parse_errors(
                 )
         else:
             # Leaf error (plain string).
-            parts.append(
-                f"{_indent(indent_size)}{key}: {value}\n"
-            )
+            if _is_numeric(key):
+                # Numeric key → collection-index format:
+                #   <indexed_field_name>[<key>]: <value>
+                parts.append(
+                    f"{_indent(indent_size)}"
+                    f"{indexed_field_name}[{key}]: {value}\n"
+                )
+            else:
+                parts.append(
+                    f"{_indent(indent_size)}{key}: {value}\n"
+                )
 
     return "".join(parts)
 
