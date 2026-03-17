@@ -1,10 +1,10 @@
 """Error types for the Akamai Bot Manager API client.
 
-Provides Bot Manager-specific error handling classes that mirror the Go
+Provides Bot Manager-specific error handling that mirrors the Go
 pkg/botman error types from AkamaiOPEN-edgegrid-golang/v12.
 
-Classes:
-    ErrStructValidation: Raised when request struct validation fails.
+Attributes:
+    ErrStructValidation: Sentinel value for struct validation failures.
     Error: Represents an error response from the Bot Manager API.
 """
 
@@ -16,25 +16,9 @@ from akamai.edgegrid.utils import unescape_content
 logger = logging.getLogger(__name__)
 
 
-class ErrStructValidation(Exception):
-    """Raised when request struct validation fails.
-
-    Mirrors Go botman.ErrStructValidation sentinel error defined in
-    pkg/botman/botman.go as: var ErrStructValidation = errors.New("struct validation")
-
-    Attributes:
-        message: The validation error message.
-    """
-
-    def __init__(self, message: str = "struct validation"):
-        """Initialize with an optional message.
-
-        Args:
-            message: The validation failure description.
-                     Defaults to "struct validation" matching Go sentinel.
-        """
-        super().__init__(message)
-        self.message = message
+# ErrStructValidation is the sentinel value for struct validation failures.
+# Mirrors Go: var ErrStructValidation = errors.New("struct validation")
+ErrStructValidation = "struct validation"
 
 
 class Error(Exception):

@@ -4,7 +4,6 @@
 import json
 from datetime import datetime
 
-from akamai.edgegrid.errors import ErrStructValidation
 from akamai.edgegrid.validation import parse_validation_errors
 from akamai.edgegrid.edgeworkers import models
 
@@ -54,17 +53,19 @@ def is_json(data: str) -> bool:
         return False
 
 
-def _collect_errors(errors: dict[str, str | None]) -> None:
-    """Collect validation errors and raise ErrStructValidation if any.
+def _collect_errors(errors: dict[str, str | None]) -> str | None:
+    """Return a formatted error string if any validation errors exist.
 
     Mirrors Go validation.Errors{...}.Filter() + Error() pattern.
     Keys are sorted alphabetically, separated by '; ', with trailing '.'.
+
+    Returns ``None`` when all values are ``None`` (no errors).
     """
     filtered = {k: v for k, v in errors.items() if v is not None}
     if not filtered:
-        return
+        return None
     parts = [f"{k}: {v}" for k, v in sorted(filtered.items())]
-    raise ErrStructValidation("; ".join(parts) + ".")
+    return "; ".join(parts) + "."
 
 
 def _validate_date_format(value: str) -> str | None:
@@ -208,7 +209,7 @@ def validate_list_activations_request(
     errors: dict[str, str | None] = {}
     if not request.edge_worker_id:
         errors["EdgeWorkerID"] = "cannot be blank"
-    _collect_errors(errors)
+    return _collect_errors(errors)
 
 
 def validate_get_activation_request(
@@ -220,7 +221,7 @@ def validate_get_activation_request(
         errors["ActivationID"] = "cannot be blank"
     if not request.edge_worker_id:
         errors["EdgeWorkerID"] = "cannot be blank"
-    _collect_errors(errors)
+    return _collect_errors(errors)
 
 
 def validate_activate_version_request(
@@ -235,7 +236,7 @@ def validate_activate_version_request(
         errors["ActivateVersion"] = "cannot be blank"
     if not request.edge_worker_id:
         errors["EdgeWorkerID"] = "cannot be blank"
-    _collect_errors(errors)
+    return _collect_errors(errors)
 
 
 def validate_activate_version(
@@ -259,7 +260,7 @@ def validate_activate_version(
         )
     if not request.version:
         errors["Version"] = "cannot be blank"
-    _collect_errors(errors)
+    return _collect_errors(errors)
 
 
 def validate_cancel_activation_request(
@@ -274,7 +275,7 @@ def validate_cancel_activation_request(
         errors["ActivationID"] = "cannot be blank"
     if not request.edge_worker_id:
         errors["EdgeWorkerID"] = "cannot be blank"
-    _collect_errors(errors)
+    return _collect_errors(errors)
 
 
 # ===================================================================
@@ -289,7 +290,7 @@ def validate_list_deactivations_request(
     errors: dict[str, str | None] = {}
     if not request.edge_worker_id:
         errors["EdgeWorkerID"] = "cannot be blank"
-    _collect_errors(errors)
+    return _collect_errors(errors)
 
 
 def validate_deactivate_version_request(
@@ -304,7 +305,7 @@ def validate_deactivate_version_request(
         errors["DeactivateVersion"] = "cannot be blank"
     if not request.edge_worker_id:
         errors["EdgeWorkerID"] = "cannot be blank"
-    _collect_errors(errors)
+    return _collect_errors(errors)
 
 
 def validate_deactivate_version(
@@ -328,7 +329,7 @@ def validate_deactivate_version(
         )
     if not request.version:
         errors["Version"] = "cannot be blank"
-    _collect_errors(errors)
+    return _collect_errors(errors)
 
 
 def validate_get_deactivation_request(
@@ -343,7 +344,7 @@ def validate_get_deactivation_request(
         errors["DeactivationID"] = "cannot be blank"
     if not request.edge_worker_id:
         errors["EdgeWorkerID"] = "cannot be blank"
-    _collect_errors(errors)
+    return _collect_errors(errors)
 
 
 # ===================================================================
@@ -446,7 +447,7 @@ def validate_create_edgekv_access_token_request(  # pylint: disable=too-many-bra
                 "(" + "; ".join(parts) + ".)"
             )
 
-    _collect_errors(errors)
+    return _collect_errors(errors)
 
 
 def validate_get_edgekv_access_token_request(
@@ -461,7 +462,7 @@ def validate_get_edgekv_access_token_request(
         errors["TokenName"] = "cannot be blank"
     elif len(request.token_name) > 32:
         errors["TokenName"] = "the length must be between 1 and 32"
-    _collect_errors(errors)
+    return _collect_errors(errors)
 
 
 def validate_delete_edgekv_access_token_request(
@@ -476,7 +477,7 @@ def validate_delete_edgekv_access_token_request(
         errors["TokenName"] = "cannot be blank"
     elif len(request.token_name) > 32:
         errors["TokenName"] = "the length must be between 1 and 32"
-    _collect_errors(errors)
+    return _collect_errors(errors)
 
 
 # ===================================================================
@@ -487,7 +488,7 @@ def validate_delete_edgekv_access_token_request(
 
 def validate_list_groups_within_namespace_request(
     request: models.ListGroupsWithinNamespaceRequest,
-) -> None:
+) -> str | None:
     """Validate ListGroupsWithinNamespaceRequest.
 
     Network and NamespaceID required.
@@ -503,7 +504,8 @@ def validate_list_groups_within_namespace_request(
     if filtered:
         parsed = parse_validation_errors(filtered)
         if parsed:
-            raise ErrStructValidation(parsed)
+            return parsed
+    return None
 
 
 # ===================================================================
@@ -535,7 +537,7 @@ def validate_items_request_params(
             f"'{models.ITEM_STAGING_NETWORK}' or "
             f"'{models.ITEM_PRODUCTION_NETWORK}'"
         )
-    _collect_errors(errors)
+    return _collect_errors(errors)
 
 
 def validate_list_items_request(
@@ -545,7 +547,7 @@ def validate_list_items_request(
     errors: dict[str, str | None] = {}
     if request.items_request_params is None:
         errors["ItemsRequestParams"] = "cannot be blank"
-    _collect_errors(errors)
+    return _collect_errors(errors)
 
 
 def validate_get_item_request(
@@ -560,7 +562,7 @@ def validate_get_item_request(
         errors["ItemID"] = "cannot be blank"
     if request.items_request_params is None:
         errors["ItemsRequestParams"] = "cannot be blank"
-    _collect_errors(errors)
+    return _collect_errors(errors)
 
 
 def validate_upsert_item_request(
@@ -577,7 +579,7 @@ def validate_upsert_item_request(
         errors["ItemID"] = "cannot be blank"
     if request.items_request_params is None:
         errors["ItemsRequestParams"] = "cannot be blank"
-    _collect_errors(errors)
+    return _collect_errors(errors)
 
 
 def validate_delete_item_request(
@@ -592,7 +594,7 @@ def validate_delete_item_request(
         errors["ItemID"] = "cannot be blank"
     if request.items_request_params is None:
         errors["ItemsRequestParams"] = "cannot be blank"
-    _collect_errors(errors)
+    return _collect_errors(errors)
 
 
 # ===================================================================
@@ -606,7 +608,7 @@ def validate_list_edgekv_namespaces_request(
     """Validate ListEdgeKVNamespacesRequest. Network required."""
     errors: dict[str, str | None] = {}
     errors["Network"] = _validate_namespace_network(request.network)
-    _collect_errors(errors)
+    return _collect_errors(errors)
 
 
 def validate_get_edgekv_namespace_request(
@@ -619,7 +621,7 @@ def validate_get_edgekv_namespace_request(
     errors: dict[str, str | None] = {}
     errors["Name"] = _validate_namespace_name(request.name)
     errors["Network"] = _validate_namespace_network(request.network)
-    _collect_errors(errors)
+    return _collect_errors(errors)
 
 
 def validate_create_edgekv_namespace_request(
@@ -653,7 +655,7 @@ def validate_create_edgekv_namespace_request(
         if group_id_err:
             errors["GroupID"] = group_id_err
 
-    _collect_errors(errors)
+    return _collect_errors(errors)
 
 
 def validate_update_edgekv_namespace_request(
@@ -685,7 +687,7 @@ def validate_update_edgekv_namespace_request(
         if group_id_err:
             errors["GroupID"] = group_id_err
 
-    _collect_errors(errors)
+    return _collect_errors(errors)
 
 
 def validate_delete_edgekv_namespace_request(
@@ -698,7 +700,7 @@ def validate_delete_edgekv_namespace_request(
     errors: dict[str, str | None] = {}
     errors["Name"] = _validate_namespace_name(request.name)
     errors["Network"] = _validate_namespace_network(request.network)
-    _collect_errors(errors)
+    return _collect_errors(errors)
 
 
 def validate_get_scheduled_delete_time_request(
@@ -711,7 +713,7 @@ def validate_get_scheduled_delete_time_request(
     errors: dict[str, str | None] = {}
     errors["Name"] = _validate_namespace_name(request.name)
     errors["Network"] = _validate_namespace_network(request.network)
-    _collect_errors(errors)
+    return _collect_errors(errors)
 
 
 def validate_reschedule_namespace_delete_request(
@@ -726,7 +728,7 @@ def validate_reschedule_namespace_delete_request(
         errors["Body"] = "cannot be blank"
     errors["Name"] = _validate_namespace_name(request.name)
     errors["Network"] = _validate_namespace_network(request.network)
-    _collect_errors(errors)
+    return _collect_errors(errors)
 
 
 def validate_cancel_scheduled_namespace_delete_request(
@@ -739,7 +741,7 @@ def validate_cancel_scheduled_namespace_delete_request(
     errors: dict[str, str | None] = {}
     errors["Name"] = _validate_namespace_name(request.name)
     errors["Network"] = _validate_namespace_network(request.network)
-    _collect_errors(errors)
+    return _collect_errors(errors)
 
 
 # ===================================================================
@@ -754,7 +756,7 @@ def validate_get_edge_worker_id_request(
     errors: dict[str, str | None] = {}
     if not request.edge_worker_id:
         errors["EdgeWorkerID"] = "cannot be blank"
-    _collect_errors(errors)
+    return _collect_errors(errors)
 
 
 def validate_create_edge_worker_id_request(
@@ -771,7 +773,7 @@ def validate_create_edge_worker_id_request(
         errors["Name"] = "cannot be blank"
     if not request.resource_tier_id:
         errors["ResourceTierID"] = "cannot be blank"
-    _collect_errors(errors)
+    return _collect_errors(errors)
 
 
 def validate_update_edge_worker_id_request(
@@ -795,7 +797,7 @@ def validate_update_edge_worker_id_request(
             errors["Name"] = "cannot be blank"
         if not request.body.resource_tier_id:
             errors["ResourceTierID"] = "cannot be blank"
-    _collect_errors(errors)
+    return _collect_errors(errors)
 
 
 def validate_clone_edge_worker_id_request(
@@ -819,7 +821,7 @@ def validate_clone_edge_worker_id_request(
             errors["Name"] = "cannot be blank"
         if not request.body.resource_tier_id:
             errors["ResourceTierID"] = "cannot be blank"
-    _collect_errors(errors)
+    return _collect_errors(errors)
 
 
 def validate_delete_edge_worker_id_request(
@@ -829,7 +831,7 @@ def validate_delete_edge_worker_id_request(
     errors: dict[str, str | None] = {}
     if not request.edge_worker_id:
         errors["EdgeWorkerID"] = "cannot be blank"
-    _collect_errors(errors)
+    return _collect_errors(errors)
 
 
 # ===================================================================
@@ -849,7 +851,7 @@ def validate_get_edge_worker_version_request(
         errors["EdgeWorkerID"] = "cannot be blank"
     if not request.version:
         errors["Version"] = "cannot be blank"
-    _collect_errors(errors)
+    return _collect_errors(errors)
 
 
 def validate_list_edge_worker_versions_request(
@@ -859,7 +861,7 @@ def validate_list_edge_worker_versions_request(
     errors: dict[str, str | None] = {}
     if not request.edge_worker_id:
         errors["EdgeWorkerID"] = "cannot be blank"
-    _collect_errors(errors)
+    return _collect_errors(errors)
 
 
 def validate_create_edge_worker_version_request(
@@ -874,7 +876,7 @@ def validate_create_edge_worker_version_request(
         errors["ContentBundle.Reader"] = "is required"
     if not request.edge_worker_id:
         errors["EdgeWorkerID"] = "cannot be blank"
-    _collect_errors(errors)
+    return _collect_errors(errors)
 
 
 def validate_get_edge_worker_version_content_request(
@@ -889,7 +891,7 @@ def validate_get_edge_worker_version_content_request(
         errors["EdgeWorkerID"] = "cannot be blank"
     if not request.version:
         errors["Version"] = "cannot be blank"
-    _collect_errors(errors)
+    return _collect_errors(errors)
 
 
 def validate_delete_edge_worker_version_request(
@@ -904,7 +906,7 @@ def validate_delete_edge_worker_version_request(
         errors["EdgeWorkerID"] = "cannot be blank"
     if not request.version:
         errors["Version"] = "cannot be blank"
-    _collect_errors(errors)
+    return _collect_errors(errors)
 
 
 # ===================================================================
@@ -919,7 +921,7 @@ def validate_get_permission_group_request(
     errors: dict[str, str | None] = {}
     if not request.group_id:
         errors["GroupID"] = "cannot be blank"
-    _collect_errors(errors)
+    return _collect_errors(errors)
 
 
 # ===================================================================
@@ -934,7 +936,7 @@ def validate_list_properties_request(
     errors: dict[str, str | None] = {}
     if not request.edge_worker_id:
         errors["EdgeWorkerID"] = "cannot be blank"
-    _collect_errors(errors)
+    return _collect_errors(errors)
 
 
 # ===================================================================
@@ -980,7 +982,7 @@ def validate_get_summary_report_request(
     if status_err:
         errors["Status"] = status_err
 
-    _collect_errors(errors)
+    return _collect_errors(errors)
 
 
 def validate_get_report_request(
@@ -1026,7 +1028,7 @@ def validate_get_report_request(
     if status_err:
         errors["Status"] = status_err
 
-    _collect_errors(errors)
+    return _collect_errors(errors)
 
 
 # ===================================================================
@@ -1041,7 +1043,7 @@ def validate_list_resource_tiers_request(
     errors: dict[str, str | None] = {}
     if not request.contract_id:
         errors["ContractID"] = "cannot be blank"
-    _collect_errors(errors)
+    return _collect_errors(errors)
 
 
 def validate_get_resource_tier_request(
@@ -1051,7 +1053,7 @@ def validate_get_resource_tier_request(
     errors: dict[str, str | None] = {}
     if not request.edge_worker_id:
         errors["EdgeWorkerID"] = "cannot be blank"
-    _collect_errors(errors)
+    return _collect_errors(errors)
 
 
 # ===================================================================
@@ -1113,7 +1115,7 @@ def validate_create_secure_token_request(
             " If you specify a url don't specify an acl"
         )
 
-    _collect_errors(errors)
+    return _collect_errors(errors)
 
 
 # ===================================================================
@@ -1128,4 +1130,4 @@ def validate_validate_bundle_request(
     errors: dict[str, str | None] = {}
     if request.bundle is None:
         errors["Bundle.Reader"] = "is required"
-    _collect_errors(errors)
+    return _collect_errors(errors)

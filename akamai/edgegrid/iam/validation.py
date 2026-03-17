@@ -4,7 +4,6 @@ import ipaddress
 import re
 
 from akamai.edgegrid.validation import parse_validation_errors
-from akamai.edgegrid.iam.errors import ErrStructValidation
 
 # Email regex for validating email format, mirrors Go ozzo-validation is.EmailFormat.
 _EMAIL_REGEX = re.compile(
@@ -53,7 +52,7 @@ def _validate_email_format(value):
 # =====================================================================
 
 
-def validate_client_type(value):
+def validate_client_type(value) -> str | None:
     """Validate ClientType enum value.
 
     Valid values: CLIENT, SERVICE_ACCOUNT, USER_CLIENT.
@@ -67,7 +66,7 @@ def validate_client_type(value):
     return None
 
 
-def validate_credential_status(value):
+def validate_credential_status(value) -> str | None:
     """Validate CredentialStatus enum value.
 
     Valid values: ACTIVE, INACTIVE, DELETED.
@@ -81,7 +80,7 @@ def validate_credential_status(value):
     return None
 
 
-def validate_property_user_type(value):
+def validate_property_user_type(value) -> str | None:
     """Validate PropertyUserType enum value.
 
     Valid values: all, assigned, blocked.
@@ -95,7 +94,7 @@ def validate_property_user_type(value):
     return None
 
 
-def validate_authentication(value):
+def validate_authentication(value) -> str | None:
     """Validate Authentication enum value.
 
     Valid values: MFA, TFA, NONE.
@@ -114,17 +113,18 @@ def validate_authentication(value):
 # =====================================================================
 
 
-def validate_unlock_api_client_request(request):
+def validate_unlock_api_client_request(request) -> str | None:
     """Validate UnlockAPIClientRequest fields."""
     errors = {}
     if not request.client_id:
         errors["ClientID"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_create_api_client_request(request):
+def validate_create_api_client_request(request) -> str | None:
     """Validate CreateAPIClientRequest fields."""
     errors = {}
     api_access_err = validate_api_access_request(request.api_access)
@@ -149,10 +149,11 @@ def validate_create_api_client_request(request):
             errors["PurgeOptions"] = purge_err
     result = parse_validation_errors(errors)
     if result:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_api_access_request(access):
+def validate_api_access_request(access) -> str | None:
     """Validate APIAccessRequest fields (nested, Filter pattern).
 
     When AllAccessibleAPIs is false, APIs list is required.
@@ -164,7 +165,7 @@ def validate_api_access_request(access):
     return errors if errors else None
 
 
-def validate_api_request_item(item):
+def validate_api_request_item(item) -> str | None:
     """Validate APIRequestItem fields (nested, Filter pattern).
 
     AccessLevel must be a valid enum; APIID is required.
@@ -188,7 +189,7 @@ def validate_api_request_item(item):
     return errors if errors else None
 
 
-def validate_group_access_request(access):
+def validate_group_access_request(access) -> str | None:
     """Validate GroupAccessRequest fields (nested, Filter pattern).
 
     When CloneAuthorizedUserGroups is false, Groups list is required.
@@ -200,7 +201,7 @@ def validate_group_access_request(access):
     return errors if errors else None
 
 
-def validate_client_group_request_item(group):
+def validate_client_group_request_item(group) -> str | None:
     """Validate ClientGroupRequestItem fields (nested, Filter pattern)."""
     errors = {}
     if not group.group_id:
@@ -210,7 +211,7 @@ def validate_client_group_request_item(group):
     return errors if errors else None
 
 
-def validate_update_api_client_request(request):
+def validate_update_api_client_request(request) -> str | None:
     """Validate UpdateAPIClientRequest fields."""
     errors = {}
     if request.body is None:
@@ -221,10 +222,11 @@ def validate_update_api_client_request(request):
             errors["Body"] = body_err
     result = parse_validation_errors(errors)
     if result:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_update_api_client_request_body(body):
+def validate_update_api_client_request_body(body) -> str | None:
     """Validate UpdateAPIClientRequestBody fields (nested, Filter pattern)."""
     errors = {}
     if not body.client_name:
@@ -252,7 +254,7 @@ def validate_update_api_client_request_body(body):
     return errors if errors else None
 
 
-def validate_purge_options(options):
+def validate_purge_options(options) -> str | None:
     """Validate PurgeOptions fields (nested, Filter pattern)."""
     errors = {}
     if options.cp_code_access is not None:
@@ -262,7 +264,7 @@ def validate_purge_options(options):
     return errors if errors else None
 
 
-def validate_cp_code_access(access):
+def validate_cp_code_access(access) -> str | None:
     """Validate CPCodeAccess fields (nested, Filter pattern).
 
     When AllCurrentAndNewCPCodes is false, CPCodes must not be None.
@@ -279,17 +281,18 @@ def validate_cp_code_access(access):
 # =====================================================================
 
 
-def validate_get_credential_request(request):
+def validate_get_credential_request(request) -> str | None:
     """Validate GetCredentialRequest fields."""
     errors = {}
     if not request.credential_id:
         errors["CredentialID"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_update_credential_request(request):
+def validate_update_credential_request(request) -> str | None:
     """Validate UpdateCredentialRequest fields."""
     errors = {}
     if not request.credential_id:
@@ -302,10 +305,11 @@ def validate_update_credential_request(request):
             errors["Body"] = body_err
     result = parse_validation_errors(errors)
     if result:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_update_credential_request_body(body):
+def validate_update_credential_request_body(body) -> str | None:
     """Validate UpdateCredentialRequestBody fields (nested, Filter pattern)."""
     errors = {}
     if not body.expires_on:
@@ -319,24 +323,26 @@ def validate_update_credential_request_body(body):
     return errors if errors else None
 
 
-def validate_delete_credential_request(request):
+def validate_delete_credential_request(request) -> str | None:
     """Validate DeleteCredentialRequest fields."""
     errors = {}
     if not request.credential_id:
         errors["CredentialID"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_deactivate_credential_request(request):
+def validate_deactivate_credential_request(request) -> str | None:
     """Validate DeactivateCredentialRequest fields."""
     errors = {}
     if not request.credential_id:
         errors["CredentialID"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
 # =====================================================================
@@ -344,7 +350,7 @@ def validate_deactivate_credential_request(request):
 # =====================================================================
 
 
-def validate_list_blocked_properties_request(request):
+def validate_list_blocked_properties_request(request) -> str | None:
     """Validate ListBlockedPropertiesRequest fields."""
     errors = {}
     if not request.identity_id:
@@ -353,10 +359,11 @@ def validate_list_blocked_properties_request(request):
         errors["GroupID"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_update_blocked_properties_request(request):
+def validate_update_blocked_properties_request(request) -> str | None:
     """Validate UpdateBlockedPropertiesRequest fields."""
     errors = {}
     if not request.identity_id:
@@ -365,7 +372,8 @@ def validate_update_blocked_properties_request(request):
         errors["GroupID"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
 # =====================================================================
@@ -373,7 +381,7 @@ def validate_update_blocked_properties_request(request):
 # =====================================================================
 
 
-def validate_create_cidr_block_request(request):
+def validate_create_cidr_block_request(request) -> str | None:
     """Validate CreateCIDRBlockRequest fields.
 
     CIDRBlock must be non-empty and valid CIDR notation.
@@ -387,10 +395,11 @@ def validate_create_cidr_block_request(request):
             errors["CIDRBlock"] = cidr_err
     result = parse_validation_errors(errors)
     if result:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_get_cidr_block_request(request):
+def validate_get_cidr_block_request(request) -> str | None:
     """Validate GetCIDRBlockRequest fields."""
     errors = {}
     if not request.cidr_block_id:
@@ -399,10 +408,11 @@ def validate_get_cidr_block_request(request):
         errors["CIDRBlockID"] = "must be no less than 1"
     result = parse_validation_errors(errors)
     if result:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_update_cidr_block_request(request):
+def validate_update_cidr_block_request(request) -> str | None:
     """Validate UpdateCIDRBlockRequest fields."""
     errors = {}
     if not request.cidr_block_id:
@@ -417,10 +427,11 @@ def validate_update_cidr_block_request(request):
             errors["Body"] = body_err
     result = parse_validation_errors(errors)
     if result:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_update_cidr_block_request_body(body):
+def validate_update_cidr_block_request_body(body) -> str | None:
     """Validate UpdateCIDRBlockRequestBody fields (nested, Filter pattern).
 
     CIDRBlock must be non-empty and valid CIDR notation.
@@ -435,7 +446,7 @@ def validate_update_cidr_block_request_body(body):
     return errors if errors else None
 
 
-def validate_delete_cidr_block_request(request):
+def validate_delete_cidr_block_request(request) -> str | None:
     """Validate DeleteCIDRBlockRequest fields."""
     errors = {}
     if not request.cidr_block_id:
@@ -444,10 +455,11 @@ def validate_delete_cidr_block_request(request):
         errors["CIDRBlockID"] = "must be no less than 1"
     result = parse_validation_errors(errors)
     if result:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_validate_cidr_block_request(request):
+def validate_validate_cidr_block_request(request) -> str | None:
     """Validate ValidateCIDRBlockRequest fields.
 
     CIDRBlock must be non-empty and valid CIDR notation.
@@ -461,7 +473,8 @@ def validate_validate_cidr_block_request(request):
             errors["CIDRBlock"] = cidr_err
     result = parse_validation_errors(errors)
     if result:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
 # =====================================================================
@@ -469,17 +482,18 @@ def validate_validate_cidr_block_request(request):
 # =====================================================================
 
 
-def validate_get_group_request(request):
+def validate_get_group_request(request) -> str | None:
     """Validate GetGroupRequest fields."""
     errors = {}
     if not request.group_id:
         errors["GroupID"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_group_request(request):
+def validate_group_request(request) -> str | None:
     """Validate GroupRequest fields (nested, Filter pattern)."""
     errors = {}
     if not request.group_id:
@@ -489,7 +503,7 @@ def validate_group_request(request):
     return errors if errors else None
 
 
-def validate_move_group_request(request):
+def validate_move_group_request(request) -> str | None:
     """Validate MoveGroupRequest fields."""
     errors = {}
     if not request.destination_group_id:
@@ -498,10 +512,11 @@ def validate_move_group_request(request):
         errors["SourceGroupID"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_list_affected_users_request(request):
+def validate_list_affected_users_request(request) -> str | None:
     """Validate ListAffectedUsersRequest fields.
 
     UserType is optional but must be lostAccess or gainAccess if set.
@@ -517,17 +532,19 @@ def validate_list_affected_users_request(request):
             errors["UserType"] = "must be a valid value"
     result = parse_validation_errors(errors)
     if result:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_remove_group_request(request):
+def validate_remove_group_request(request) -> str | None:
     """Validate RemoveGroupRequest fields."""
     errors = {}
     if not request.group_id:
         errors["GroupID"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
 # =====================================================================
@@ -535,7 +552,7 @@ def validate_remove_group_request(request):
 # =====================================================================
 
 
-def validate_list_allowed_cp_codes_request(request):
+def validate_list_allowed_cp_codes_request(request) -> str | None:
     """Validate ListAllowedCPCodesRequest fields."""
     errors = {}
     if not request.user_name:
@@ -548,10 +565,11 @@ def validate_list_allowed_cp_codes_request(request):
             errors["Body"] = body_err
     result = parse_validation_errors(errors)
     if result:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_list_allowed_cp_codes_request_body(body):
+def validate_list_allowed_cp_codes_request_body(body) -> str | None:
     """Validate ListAllowedCPCodesRequestBody fields (nested, Filter pattern).
 
     Groups are required only when ClientType is SERVICE_ACCOUNT.
@@ -573,7 +591,7 @@ def validate_list_allowed_cp_codes_request_body(body):
     return errors if errors else None
 
 
-def validate_list_allowed_apis_request(request):
+def validate_list_allowed_apis_request(request) -> str | None:
     """Validate ListAllowedAPIsRequest fields.
 
     ClientType is optional but must be a valid enum if provided.
@@ -591,17 +609,19 @@ def validate_list_allowed_apis_request(request):
             )
     result = parse_validation_errors(errors)
     if result:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_list_accessible_groups_request(request):
+def validate_list_accessible_groups_request(request) -> str | None:
     """Validate ListAccessibleGroupsRequest fields."""
     errors = {}
     if not request.user_name:
         errors["UserName"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
 # =====================================================================
@@ -609,7 +629,7 @@ def validate_list_accessible_groups_request(request):
 # =====================================================================
 
 
-def validate_list_users_for_property_request(request):
+def validate_list_users_for_property_request(request) -> str | None:
     """Validate ListUsersForPropertyRequest fields.
 
     UserType validation is always applied (direct call, not skippable).
@@ -620,10 +640,11 @@ def validate_list_users_for_property_request(request):
     errors["UserType"] = validate_property_user_type(request.user_type)
     result = parse_validation_errors(errors)
     if result:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_get_property_request(request):
+def validate_get_property_request(request) -> str | None:
     """Validate GetPropertyRequest fields."""
     errors = {}
     if not request.property_id:
@@ -632,10 +653,11 @@ def validate_get_property_request(request):
         errors["GroupID"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_map_property_id_to_name_request(request):
+def validate_map_property_id_to_name_request(request) -> str | None:
     """Validate MapPropertyIDToNameRequest fields."""
     errors = {}
     if not request.property_id:
@@ -644,10 +666,11 @@ def validate_map_property_id_to_name_request(request):
         errors["GroupID"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_move_property_request(request):
+def validate_move_property_request(request) -> str | None:
     """Validate MovePropertyRequest fields."""
     errors = {}
     if not request.property_id:
@@ -660,10 +683,11 @@ def validate_move_property_request(request):
             errors["Body"] = body_err
     result = parse_validation_errors(errors)
     if result:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_move_property_request_body(body):
+def validate_move_property_request_body(body) -> str | None:
     """Validate MovePropertyRequestBody fields (nested, Filter pattern)."""
     errors = {}
     if not body.destination_group_id:
@@ -673,7 +697,7 @@ def validate_move_property_request_body(body):
     return errors if errors else None
 
 
-def validate_block_users_request(request):
+def validate_block_users_request(request) -> str | None:
     """Validate BlockUsersRequest fields."""
     errors = {}
     if not request.property_id:
@@ -682,10 +706,11 @@ def validate_block_users_request(request):
         errors["Body"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_block_user_item(item):
+def validate_block_user_item(item) -> str | None:
     """Validate BlockUserItem fields.
 
     Uses ParseValidationErrors pattern (top-level, raises).
@@ -695,7 +720,8 @@ def validate_block_user_item(item):
         errors["UIIdentityID"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
 # =====================================================================
@@ -703,7 +729,7 @@ def validate_block_user_item(item):
 # =====================================================================
 
 
-def validate_create_role_request(request):
+def validate_create_role_request(request) -> str | None:
     """Validate CreateRoleRequest fields."""
     errors = {}
     if not request.name:
@@ -714,37 +740,41 @@ def validate_create_role_request(request):
         errors["GrantedRoles"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_get_role_request(request):
+def validate_get_role_request(request) -> str | None:
     """Validate GetRoleRequest fields."""
     errors = {}
     if not request.id:
         errors["ID"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_update_role_request(request):
+def validate_update_role_request(request) -> str | None:
     """Validate UpdateRoleRequest fields."""
     errors = {}
     if not request.id:
         errors["ID"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_delete_role_request(request):
+def validate_delete_role_request(request) -> str | None:
     """Validate DeleteRoleRequest fields."""
     errors = {}
     if not request.id:
         errors["ID"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
 # =====================================================================
@@ -752,14 +782,15 @@ def validate_delete_role_request(request):
 # =====================================================================
 
 
-def validate_list_states_request(request):
+def validate_list_states_request(request) -> str | None:
     """Validate ListStatesRequest fields."""
     errors = {}
     if not request.country:
         errors["Country"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
 # =====================================================================
@@ -767,7 +798,7 @@ def validate_list_states_request(request):
 # =====================================================================
 
 
-def validate_auth_grant(grant):
+def validate_auth_grant(grant) -> str | None:
     """Validate AuthGrant fields.
 
     Uses ParseValidationErrors pattern (top-level, raises).
@@ -779,10 +810,11 @@ def validate_auth_grant(grant):
         errors["RoleID"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_create_user_request(request):
+def validate_create_user_request(request) -> str | None:
     """Validate CreateUserRequest fields.
 
     Email must be valid format. AdditionalAuthentication is an enum.
@@ -812,20 +844,22 @@ def validate_create_user_request(request):
             errors["AdditionalAuthentication"] = auth_err
     result = parse_validation_errors(errors)
     if result:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_get_user_request(request):
+def validate_get_user_request(request) -> str | None:
     """Validate GetUserRequest fields."""
     errors = {}
     if not request.identity_id:
         errors["IdentityID"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_update_user_info_request(request):
+def validate_update_user_info_request(request) -> str | None:
     """Validate UpdateUserInfoRequest fields.
 
     Validates IdentityID and nested User fields.
@@ -847,10 +881,11 @@ def validate_update_user_info_request(request):
         errors["SessionTimeOut"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_update_user_notifications_request(request):
+def validate_update_user_notifications_request(request) -> str | None:
     """Validate UpdateUserNotificationsRequest fields."""
     errors = {}
     if not request.identity_id:
@@ -859,10 +894,11 @@ def validate_update_user_notifications_request(request):
         errors["Notifications"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_update_user_auth_grants_request(request):
+def validate_update_user_auth_grants_request(request) -> str | None:
     """Validate UpdateUserAuthGrantsRequest fields."""
     errors = {}
     if not request.identity_id:
@@ -871,10 +907,11 @@ def validate_update_user_auth_grants_request(request):
         errors["AuthGrants"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_remove_user_request(request):
+def validate_remove_user_request(request) -> str | None:
     """Validate RemoveUserRequest fields.
 
     Note: error key is 'uiIdentity', not 'IdentityID', matching Go.
@@ -884,10 +921,11 @@ def validate_remove_user_request(request):
         errors["uiIdentity"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_update_mfa_request(request):
+def validate_update_mfa_request(request) -> str | None:
     """Validate UpdateMFARequest fields.
 
     Value is a required Authentication enum. IdentityID is NOT validated
@@ -902,7 +940,8 @@ def validate_update_mfa_request(request):
             errors["Value"] = auth_err
     result = parse_validation_errors(errors)
     if result:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
 # =====================================================================
@@ -910,24 +949,26 @@ def validate_update_mfa_request(request):
 # =====================================================================
 
 
-def validate_lock_user_request(request):
+def validate_lock_user_request(request) -> str | None:
     """Validate LockUserRequest fields."""
     errors = {}
     if not request.identity_id:
         errors["IdentityID"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_unlock_user_request(request):
+def validate_unlock_user_request(request) -> str | None:
     """Validate UnlockUserRequest fields."""
     errors = {}
     if not request.identity_id:
         errors["IdentityID"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
 # =====================================================================
@@ -935,17 +976,18 @@ def validate_unlock_user_request(request):
 # =====================================================================
 
 
-def validate_reset_user_password_request(request):
+def validate_reset_user_password_request(request) -> str | None:
     """Validate ResetUserPasswordRequest fields."""
     errors = {}
     if not request.identity_id:
         errors["IdentityID"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_set_user_password_request(request):
+def validate_set_user_password_request(request) -> str | None:
     """Validate SetUserPasswordRequest fields."""
     errors = {}
     if not request.identity_id:
@@ -954,4 +996,5 @@ def validate_set_user_password_request(request):
         errors["NewPassword"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result:
-        raise ErrStructValidation(result)
+        return result
+    return None

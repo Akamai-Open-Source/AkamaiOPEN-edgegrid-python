@@ -12,10 +12,7 @@ counterpart and returns a formatted error string on failure or
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from akamai.edgegrid.networklists import models
+from akamai.edgegrid.networklists import models
 
 
 def validate_get_network_list_request(

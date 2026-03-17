@@ -9,23 +9,9 @@ Mirrors Go pkg/accountprotection/errors.go.
 from dataclasses import dataclass, field
 
 
-class ErrStructValidation(Exception):
-    """Raised when request struct validation fails.
-
-    Mirrors Go's ErrStructValidation sentinel error from account_protection.go
-    (line 13): var ErrStructValidation = errors.New("struct validation")
-
-    Attributes:
-        message: Human-readable validation failure description.
-    """
-
-    def __init__(self, message: str = "struct validation"):
-        super().__init__(message)
-        self.message = message
-
-    def __str__(self) -> str:
-        """Return the validation error message."""
-        return self.message
+# ErrStructValidation is the sentinel value for struct validation failures.
+# Mirrors Go: var ErrStructValidation = errors.New("struct validation")
+ErrStructValidation = "struct validation"
 
 
 @dataclass

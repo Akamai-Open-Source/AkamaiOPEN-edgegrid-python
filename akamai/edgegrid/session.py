@@ -92,9 +92,10 @@ class Session:
         method: str,
         path: str,
         body: Any = None,
-        out_type: type | None = None,
+        expect_json: bool = False,
         headers: dict[str, str] | None = None,
         params: dict[str, str] | None = None,
+        error_parser: Any = None,
     ) -> tuple[requests.Response, Any]:
         """Execute an authenticated HTTP request.
 
@@ -107,25 +108,35 @@ class Session:
         3. Marshal body to JSON if provided
         4. Execute HTTP request (EdgeGridAuth signs automatically)
         5. Check for error status codes (>= 400)
-        6. Unmarshal JSON response body if out_type is provided
+        6. Unmarshal JSON response body if expect_json is True
 
         :param method: HTTP method (GET, POST, PUT, PATCH, DELETE).
         :param path: API path (e.g., "/iam/v3/api-clients").
         :param body: Request body to serialize as JSON (optional).
             Accepts dicts, lists, strings, bytes, or any JSON-serializable
             object. Strings and bytes are sent as-is.
-        :param out_type: Expected response type for deserialization (optional).
-            When provided and the response status is 2xx (excluding 204 and
-            205), the response body is deserialized from JSON.
+        :param expect_json: When True and the response status is 2xx
+            (excluding 204 and 205), the response body is deserialized
+            from JSON and returned as the second element of the result
+            tuple.
         :param headers: Additional request headers (optional). Overrides the
             default Content-Type, Accept, and User-Agent headers if specified.
         :param params: Query parameters (optional).
+        :param error_parser: Optional callable for service-specific error
+            parsing. When provided and the HTTP status is >= 400, this
+            callable is invoked with the ``requests.Response`` object and
+            must return an exception to raise. This allows service clients
+            to parse richer error payloads (e.g., HAPI's ``request_instance``
+            or PAPI's ``warnings``/``activation_link``) instead of the
+            generic base ``Error``. Signature:
+            ``(response: requests.Response) -> Exception``.
         :returns: Tuple of (response, deserialized_body_or_None).
         :raises errors.ErrInvalidArgument: If method or path is empty.
         :raises errors.ErrMarshaling: If request body JSON serialization fails.
         :raises errors.ErrUnmarshaling: If response body JSON deserialization
             fails.
-        :raises errors.Error: If the API returns an error status code (>= 400).
+        :raises errors.Error: If the API returns an error status code (>= 400)
+            and no custom error_parser is provided.
         """
         # Validate arguments (mirrors Go's argument count check in Exec)
         if not method:
@@ -160,15 +171,25 @@ class Session:
                     f"marshaling input: {err}"
                 ) from err
 
-        # Trace logging for request (mirrors Go httputil.DumpRequestOut)
+        # Trace logging for request (mirrors Go httputil.DumpRequestOut).
+        # Note: Only method, path, body, and response status/body are
+        # logged — headers are intentionally excluded to prevent
+        # credential leakage (EdgeGrid Authorization header, cookies,
+        # and other sensitive headers are never written to logs).
         if self._trace:
             logger.debug("Request: %s %s", method, path)
             if json_body:
                 logger.debug("Request body: %s", json_body)
 
-        # Execute HTTP request (mirrors Go Exec: Sign + client.Do)
+        # Execute HTTP request (mirrors Go Exec: Sign + client.Do).
         # EdgeGridAuth.__call__() is invoked automatically by the requests
         # library through the session.auth mechanism on every request.
+        # Note on redirects: Go's session re-signs redirected requests
+        # with EdgeGrid auth. Python's requests library follows redirects
+        # automatically, and EdgeGridAuth is re-applied by the session
+        # auth mechanism. If redirect re-signing proves insufficient for
+        # specific API endpoints, callers can set allow_redirects=False in
+        # headers or use a custom redirect hook via the underlying session.
         response = self._session.request(
             method=method,
             url=path,
@@ -185,18 +206,24 @@ class Session:
             )
 
         # Handle error responses — parse RFC 7807 error payload and raise.
-        # This centralizes the error check that every Go service client
-        # performs individually (e.g., if resp.StatusCode != http.StatusOK).
+        # When a custom error_parser callback is provided, it is used
+        # instead of the generic parse_error_response() so that
+        # service-specific error fields (e.g., HAPI request_instance,
+        # PAPI warnings/activation_link) are preserved in the raised
+        # exception.
         if response.status_code >= 400:
-            api_error = errors.parse_error_response(response)
+            if error_parser is not None:
+                api_error = error_parser(response)
+            else:
+                api_error = errors.parse_error_response(response)
             raise api_error
 
-        # Unmarshal response if out_type provided and status is success
+        # Unmarshal response if expect_json is True and status is success
         # (2xx, excluding 204 No Content and 205 Reset Content).
         # Mirrors Go Exec: json.Unmarshal(data, out) when out != nil.
         result = None
         if (
-            out_type is not None
+            expect_json
             and 200 <= response.status_code < 300
             and response.status_code not in (204, 205)
         ):

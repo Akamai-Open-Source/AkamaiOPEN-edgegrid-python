@@ -1,5 +1,7 @@
 """Request validation functions for DataStream API operations.
 
+Each validator returns a formatted error string on failure, or None when valid.
+
 Mirrors Go ``pkg/datastream`` validation methods from ``stream.go``,
 ``stream_activation.go``, ``properties.go``, and ``connectors.go``.
 Each exported function corresponds to a Go ``Validate()`` method and
@@ -9,7 +11,6 @@ enforces the exact same constraints using equivalent Python validation.
 import re
 
 from . import models
-from .errors import ErrStructValidation
 
 # Custom header name regex compiled at module level.
 # Mirrors Go connectors.go line 262:
@@ -201,16 +202,16 @@ def _validate_stream_configuration(  # pylint: disable=too-many-branches
 # ---- Stream request validators ------------------------------------------
 
 
-def validate_create_stream(request) -> None:
+def validate_create_stream(request) -> str | None:
     """Validate CreateStreamRequest.
 
     Mirrors Go ``CreateStreamRequest.Validate()``
     (stream.go lines 225-240).
 
-    Raises
-    ------
-    ErrStructValidation
-        When one or more fields violate their constraints.
+    Returns
+    -------
+    str | None
+        Formatted error string on failure, ``None`` when valid.
     """
     errors: dict[str, str] = {}
     _validate_stream_configuration(
@@ -220,28 +221,30 @@ def validate_create_stream(request) -> None:
         require_group=True,
     )
     if errors:
-        raise ErrStructValidation(_format_errors(errors))
+        return _format_errors(errors)
+    return None
 
 
-def validate_get_stream(request) -> None:
+def validate_get_stream(request) -> str | None:
     """Validate GetStreamRequest.
 
     Mirrors Go ``GetStreamRequest.Validate()``
     (stream.go lines 243-247).
 
-    Raises
-    ------
-    ErrStructValidation
-        When ``stream_id`` is zero.
+    Returns
+    -------
+    str | None
+        Formatted error string ``stream_id`` is zero, ``None`` when valid.
     """
     errors: dict[str, str] = {}
     if not request.stream_id:
         errors["streamId"] = "cannot be blank"
     if errors:
-        raise ErrStructValidation(_format_errors(errors))
+        return _format_errors(errors)
+    return None
 
 
-def validate_update_stream(request) -> None:
+def validate_update_stream(request) -> str | None:
     """Validate UpdateStreamRequest.
 
     Mirrors Go ``UpdateStreamRequest.Validate()``
@@ -252,10 +255,10 @@ def validate_update_stream(request) -> None:
     * Format: ``In(STRUCTURED, JSON)`` only (no ``Required``).
     * GroupID: ``In(0)`` — cannot modify group on update.
 
-    Raises
-    ------
-    ErrStructValidation
-        When one or more fields violate their constraints.
+    Returns
+    -------
+    str | None
+        Formatted error string on failure, ``None`` when valid.
     """
     errors: dict[str, str] = {}
     _validate_stream_configuration(
@@ -265,109 +268,115 @@ def validate_update_stream(request) -> None:
         require_group=False,
     )
     if errors:
-        raise ErrStructValidation(_format_errors(errors))
+        return _format_errors(errors)
+    return None
 
 
-def validate_delete_stream(request) -> None:
+def validate_delete_stream(request) -> str | None:
     """Validate DeleteStreamRequest.
 
     Mirrors Go ``DeleteStreamRequest.Validate()``
     (stream.go lines 268-272).
 
-    Raises
-    ------
-    ErrStructValidation
-        When ``stream_id`` is zero.
+    Returns
+    -------
+    str | None
+        Formatted error string ``stream_id`` is zero, ``None`` when valid.
     """
     errors: dict[str, str] = {}
     if not request.stream_id:
         errors["streamId"] = "cannot be blank"
     if errors:
-        raise ErrStructValidation(_format_errors(errors))
+        return _format_errors(errors)
+    return None
 
 
 # ---- Activation request validators --------------------------------------
 
 
-def validate_activate_stream(request) -> None:
+def validate_activate_stream(request) -> str | None:
     """Validate ActivateStreamRequest.
 
     Mirrors Go ``ActivateStreamRequest.Validate()``
     (stream_activation.go lines 37-41).
 
-    Raises
-    ------
-    ErrStructValidation
-        When ``stream_id`` is zero.
+    Returns
+    -------
+    str | None
+        Formatted error string ``stream_id`` is zero, ``None`` when valid.
     """
     errors: dict[str, str] = {}
     if not request.stream_id:
         errors["streamId"] = "cannot be blank"
     if errors:
-        raise ErrStructValidation(_format_errors(errors))
+        return _format_errors(errors)
+    return None
 
 
-def validate_deactivate_stream(request) -> None:
+def validate_deactivate_stream(request) -> str | None:
     """Validate DeactivateStreamRequest.
 
     Mirrors Go ``DeactivateStreamRequest.Validate()``
     (stream_activation.go lines 44-48).
 
-    Raises
-    ------
-    ErrStructValidation
-        When ``stream_id`` is zero.
+    Returns
+    -------
+    str | None
+        Formatted error string ``stream_id`` is zero, ``None`` when valid.
     """
     errors: dict[str, str] = {}
     if not request.stream_id:
         errors["streamId"] = "cannot be blank"
     if errors:
-        raise ErrStructValidation(_format_errors(errors))
+        return _format_errors(errors)
+    return None
 
 
-def validate_get_activation_history(request) -> None:
+def validate_get_activation_history(request) -> str | None:
     """Validate GetActivationHistoryRequest.
 
     Mirrors Go ``GetActivationHistoryRequest.Validate()``
     (stream_activation.go lines 51-55).
 
-    Raises
-    ------
-    ErrStructValidation
-        When ``stream_id`` is zero.
+    Returns
+    -------
+    str | None
+        Formatted error string ``stream_id`` is zero, ``None`` when valid.
     """
     errors: dict[str, str] = {}
     if not request.stream_id:
         errors["streamId"] = "cannot be blank"
     if errors:
-        raise ErrStructValidation(_format_errors(errors))
+        return _format_errors(errors)
+    return None
 
 
 # ---- Properties request validator ----------------------------------------
 
 
-def validate_get_properties(request) -> None:
+def validate_get_properties(request) -> str | None:
     """Validate GetPropertiesRequest.
 
     Mirrors Go ``GetPropertiesRequest.Validate()``
     (properties.go lines 43-47).
 
-    Raises
-    ------
-    ErrStructValidation
-        When ``group_id`` is zero.
+    Returns
+    -------
+    str | None
+        Formatted error string ``group_id`` is zero, ``None`` when valid.
     """
     errors: dict[str, str] = {}
     if not request.group_id:
         errors["GroupId"] = "cannot be blank"
     if errors:
-        raise ErrStructValidation(_format_errors(errors))
+        return _format_errors(errors)
+    return None
 
 
 # ---- Connector validators ------------------------------------------------
 
 
-def validate_s3_connector(connector) -> None:
+def validate_s3_connector(connector) -> str | None:
     """Validate S3Connector.
 
     Mirrors Go ``S3Connector.Validate()``
@@ -376,10 +385,10 @@ def validate_s3_connector(connector) -> None:
     Required fields: DestinationType (S3), AccessKey, Bucket,
     DisplayName, Path, Region, SecretAccessKey.
 
-    Raises
-    ------
-    ErrStructValidation
-        When one or more required fields are missing or invalid.
+    Returns
+    -------
+    str | None
+        Formatted error string one or more required fields are missing or invalid, ``None`` when valid.
     """
     errors: dict[str, str] = {}
     if not connector.destination_type:
@@ -399,10 +408,11 @@ def validate_s3_connector(connector) -> None:
     if not connector.secret_access_key:
         errors["SecretAccessKey"] = "cannot be blank"
     if errors:
-        raise ErrStructValidation(_format_errors(errors))
+        return _format_errors(errors)
+    return None
 
 
-def validate_azure_connector(connector) -> None:
+def validate_azure_connector(connector) -> str | None:
     """Validate AzureConnector.
 
     Mirrors Go ``AzureConnector.Validate()``
@@ -411,10 +421,10 @@ def validate_azure_connector(connector) -> None:
     Required fields: DestinationType (AZURE), AccessKey, AccountName,
     DisplayName, ContainerName, Path.
 
-    Raises
-    ------
-    ErrStructValidation
-        When one or more required fields are missing or invalid.
+    Returns
+    -------
+    str | None
+        Formatted error string one or more required fields are missing or invalid, ``None`` when valid.
     """
     errors: dict[str, str] = {}
     if not connector.destination_type:
@@ -432,10 +442,11 @@ def validate_azure_connector(connector) -> None:
     if not connector.path:
         errors["Path"] = "cannot be blank"
     if errors:
-        raise ErrStructValidation(_format_errors(errors))
+        return _format_errors(errors)
+    return None
 
 
-def validate_datadog_connector(connector) -> None:
+def validate_datadog_connector(connector) -> str | None:
     """Validate DatadogConnector.
 
     Mirrors Go ``DatadogConnector.Validate()``
@@ -444,10 +455,10 @@ def validate_datadog_connector(connector) -> None:
     Required fields: DestinationType (DATADOG), AuthToken, DisplayName,
     Endpoint.
 
-    Raises
-    ------
-    ErrStructValidation
-        When one or more required fields are missing or invalid.
+    Returns
+    -------
+    str | None
+        Formatted error string one or more required fields are missing or invalid, ``None`` when valid.
     """
     errors: dict[str, str] = {}
     if not connector.destination_type:
@@ -461,10 +472,11 @@ def validate_datadog_connector(connector) -> None:
     if not connector.endpoint:
         errors["Endpoint"] = "cannot be blank"
     if errors:
-        raise ErrStructValidation(_format_errors(errors))
+        return _format_errors(errors)
+    return None
 
 
-def validate_splunk_connector(connector) -> None:
+def validate_splunk_connector(connector) -> str | None:
     """Validate SplunkConnector.
 
     Mirrors Go ``SplunkConnector.Validate()``
@@ -474,10 +486,10 @@ def validate_splunk_connector(connector) -> None:
     EventCollectorToken, Endpoint.
     Conditional: custom header name/value pairing plus regex.
 
-    Raises
-    ------
-    ErrStructValidation
-        When one or more fields violate their constraints.
+    Returns
+    -------
+    str | None
+        Formatted error string on failure, ``None`` when valid.
     """
     errors: dict[str, str] = {}
     if not connector.destination_type:
@@ -492,9 +504,10 @@ def validate_splunk_connector(connector) -> None:
         errors["Endpoint"] = "cannot be blank"
     _validate_custom_headers(connector, errors)
     if errors:
-        raise ErrStructValidation(_format_errors(errors))
+        return _format_errors(errors)
+    return None
 
-def validate_gcs_connector(connector) -> None:
+def validate_gcs_connector(connector) -> str | None:
     """Validate GCSConnector.
 
     Mirrors Go ``GCSConnector.Validate()``
@@ -503,10 +516,10 @@ def validate_gcs_connector(connector) -> None:
     Required fields: DestinationType (GCS), Bucket, DisplayName,
     PrivateKey, ProjectId, ServiceAccountName.
 
-    Raises
-    ------
-    ErrStructValidation
-        When one or more required fields are missing or invalid.
+    Returns
+    -------
+    str | None
+        Formatted error string one or more required fields are missing or invalid, ``None`` when valid.
     """
     errors: dict[str, str] = {}
     if not connector.destination_type:
@@ -524,10 +537,11 @@ def validate_gcs_connector(connector) -> None:
     if not connector.service_account_name:
         errors["ServiceAccountName"] = "cannot be blank"
     if errors:
-        raise ErrStructValidation(_format_errors(errors))
+        return _format_errors(errors)
+    return None
 
 
-def validate_custom_https_connector(connector) -> None:  # pylint: disable=too-many-branches
+def validate_custom_https_connector(connector) -> str | None:  # pylint: disable=too-many-branches
     """Validate CustomHTTPSConnector.
 
     Mirrors Go ``CustomHTTPSConnector.Validate()``
@@ -539,10 +553,10 @@ def validate_custom_https_connector(connector) -> None:  # pylint: disable=too-m
     AuthenticationType == BASIC.
     Conditional: custom header name/value pairing plus regex.
 
-    Raises
-    ------
-    ErrStructValidation
-        When one or more fields violate their constraints.
+    Returns
+    -------
+    str | None
+        Formatted error string on failure, ``None`` when valid.
     """
     errors: dict[str, str] = {}
     if not connector.destination_type:
@@ -567,10 +581,11 @@ def validate_custom_https_connector(connector) -> None:  # pylint: disable=too-m
             errors["Password"] = "cannot be blank"
     _validate_custom_headers(connector, errors)
     if errors:
-        raise ErrStructValidation(_format_errors(errors))
+        return _format_errors(errors)
+    return None
 
 
-def validate_sumo_logic_connector(connector) -> None:
+def validate_sumo_logic_connector(connector) -> str | None:
     """Validate SumoLogicConnector.
 
     Mirrors Go ``SumoLogicConnector.Validate()``
@@ -580,10 +595,10 @@ def validate_sumo_logic_connector(connector) -> None:
     DisplayName, Endpoint.
     Conditional: custom header name/value pairing plus regex.
 
-    Raises
-    ------
-    ErrStructValidation
-        When one or more fields violate their constraints.
+    Returns
+    -------
+    str | None
+        Formatted error string on failure, ``None`` when valid.
     """
     errors: dict[str, str] = {}
     if not connector.destination_type:
@@ -598,10 +613,11 @@ def validate_sumo_logic_connector(connector) -> None:
         errors["Endpoint"] = "cannot be blank"
     _validate_custom_headers(connector, errors)
     if errors:
-        raise ErrStructValidation(_format_errors(errors))
+        return _format_errors(errors)
+    return None
 
 
-def validate_oracle_cloud_storage_connector(connector) -> None:
+def validate_oracle_cloud_storage_connector(connector) -> str | None:
     """Validate OracleCloudStorageConnector.
 
     Mirrors Go ``OracleCloudStorageConnector.Validate()``
@@ -610,10 +626,10 @@ def validate_oracle_cloud_storage_connector(connector) -> None:
     Required fields: DestinationType (Oracle_Cloud_Storage), AccessKey,
     Bucket, DisplayName, Namespace, Path, Region, SecretAccessKey.
 
-    Raises
-    ------
-    ErrStructValidation
-        When one or more required fields are missing or invalid.
+    Returns
+    -------
+    str | None
+        Formatted error string one or more required fields are missing or invalid, ``None`` when valid.
     """
     errors: dict[str, str] = {}
     if not connector.destination_type:
@@ -635,10 +651,11 @@ def validate_oracle_cloud_storage_connector(connector) -> None:
     if not connector.secret_access_key:
         errors["SecretAccessKey"] = "cannot be blank"
     if errors:
-        raise ErrStructValidation(_format_errors(errors))
+        return _format_errors(errors)
+    return None
 
 
-def validate_loggly_connector(connector) -> None:
+def validate_loggly_connector(connector) -> str | None:
     """Validate LogglyConnector.
 
     Mirrors Go ``LogglyConnector.Validate()``
@@ -648,10 +665,10 @@ def validate_loggly_connector(connector) -> None:
     AuthToken.
     Conditional: custom header name/value pairing plus regex.
 
-    Raises
-    ------
-    ErrStructValidation
-        When one or more fields violate their constraints.
+    Returns
+    -------
+    str | None
+        Formatted error string on failure, ``None`` when valid.
     """
     errors: dict[str, str] = {}
     if not connector.destination_type:
@@ -666,10 +683,11 @@ def validate_loggly_connector(connector) -> None:
         errors["AuthToken"] = "cannot be blank"
     _validate_custom_headers(connector, errors)
     if errors:
-        raise ErrStructValidation(_format_errors(errors))
+        return _format_errors(errors)
+    return None
 
 
-def validate_new_relic_connector(connector) -> None:
+def validate_new_relic_connector(connector) -> str | None:
     """Validate NewRelicConnector.
 
     Mirrors Go ``NewRelicConnector.Validate()``
@@ -679,10 +697,10 @@ def validate_new_relic_connector(connector) -> None:
     AuthToken.
     Conditional: custom header name/value pairing plus regex.
 
-    Raises
-    ------
-    ErrStructValidation
-        When one or more fields violate their constraints.
+    Returns
+    -------
+    str | None
+        Formatted error string on failure, ``None`` when valid.
     """
     errors: dict[str, str] = {}
     if not connector.destination_type:
@@ -697,10 +715,11 @@ def validate_new_relic_connector(connector) -> None:
         errors["AuthToken"] = "cannot be blank"
     _validate_custom_headers(connector, errors)
     if errors:
-        raise ErrStructValidation(_format_errors(errors))
+        return _format_errors(errors)
+    return None
 
 
-def validate_elasticsearch_connector(connector) -> None:
+def validate_elasticsearch_connector(connector) -> str | None:
     """Validate ElasticsearchConnector.
 
     Mirrors Go ``ElasticsearchConnector.Validate()``
@@ -710,10 +729,10 @@ def validate_elasticsearch_connector(connector) -> None:
     Endpoint, UserName, Password, IndexName.
     Conditional: custom header name/value pairing plus regex.
 
-    Raises
-    ------
-    ErrStructValidation
-        When one or more fields violate their constraints.
+    Returns
+    -------
+    str | None
+        Formatted error string on failure, ``None`` when valid.
     """
     errors: dict[str, str] = {}
     if not connector.destination_type:
@@ -732,10 +751,11 @@ def validate_elasticsearch_connector(connector) -> None:
         errors["IndexName"] = "cannot be blank"
     _validate_custom_headers(connector, errors)
     if errors:
-        raise ErrStructValidation(_format_errors(errors))
+        return _format_errors(errors)
+    return None
 
 
-def validate_s3_compatible_connector(connector) -> None:
+def validate_s3_compatible_connector(connector) -> str | None:
     """Validate S3CompatibleConnector.
 
     Mirrors Go ``S3CompatibleConnector.Validate()``
@@ -744,10 +764,10 @@ def validate_s3_compatible_connector(connector) -> None:
     Required fields: DestinationType (S3_COMPATIBLE), AccessKey, Bucket,
     DisplayName, Endpoint, Region, SecretAccessKey.
 
-    Raises
-    ------
-    ErrStructValidation
-        When one or more required fields are missing or invalid.
+    Returns
+    -------
+    str | None
+        Formatted error string one or more required fields are missing or invalid, ``None`` when valid.
     """
     errors: dict[str, str] = {}
     if not connector.destination_type:
@@ -767,10 +787,11 @@ def validate_s3_compatible_connector(connector) -> None:
     if not connector.secret_access_key:
         errors["SecretAccessKey"] = "cannot be blank"
     if errors:
-        raise ErrStructValidation(_format_errors(errors))
+        return _format_errors(errors)
+    return None
 
 
-def validate_traffic_peak_connector(connector) -> None:  # pylint: disable=too-many-branches
+def validate_traffic_peak_connector(connector) -> str | None:  # pylint: disable=too-many-branches
     """Validate TrafficPeakConnector.
 
     Mirrors Go ``TrafficPeakConnector.Validate()``
@@ -781,10 +802,10 @@ def validate_traffic_peak_connector(connector) -> None:  # pylint: disable=too-m
     UserName, Password, ContentType (JSON or JSON_UTF8).
     Conditional: custom header name/value pairing plus regex.
 
-    Raises
-    ------
-    ErrStructValidation
-        When one or more fields violate their constraints.
+    Returns
+    -------
+    str | None
+        Formatted error string on failure, ``None`` when valid.
     """
     errors: dict[str, str] = {}
     if not connector.destination_type:
@@ -812,10 +833,11 @@ def validate_traffic_peak_connector(connector) -> None:  # pylint: disable=too-m
         errors["ContentType"] = "must be a valid value"
     _validate_custom_headers(connector, errors)
     if errors:
-        raise ErrStructValidation(_format_errors(errors))
+        return _format_errors(errors)
+    return None
 
 
-def validate_dynatrace_connector(connector) -> None:
+def validate_dynatrace_connector(connector) -> str | None:
     """Validate DynatraceConnector.
 
     Mirrors Go ``DynatraceConnector.Validate()``
@@ -825,10 +847,10 @@ def validate_dynatrace_connector(connector) -> None:
     AuthToken.
     Conditional: custom header name/value pairing plus regex.
 
-    Raises
-    ------
-    ErrStructValidation
-        When one or more fields violate their constraints.
+    Returns
+    -------
+    str | None
+        Formatted error string on failure, ``None`` when valid.
     """
     errors: dict[str, str] = {}
     if not connector.destination_type:
@@ -843,4 +865,5 @@ def validate_dynatrace_connector(connector) -> None:
         errors["AuthToken"] = "cannot be blank"
     _validate_custom_headers(connector, errors)
     if errors:
-        raise ErrStructValidation(_format_errors(errors))
+        return _format_errors(errors)
+    return None

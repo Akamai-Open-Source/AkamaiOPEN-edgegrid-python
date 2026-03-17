@@ -4,14 +4,13 @@ Implements validation functions for all GTM (Global Traffic Management)
 request and model types. Each function mirrors the corresponding Go
 Validate() method from the AkamaiOPEN-edgegrid-golang/pkg/gtm package.
 
-Request validators raise ErrStructValidation when validation fails.
+Request validators return a formatted error string on failure, or None when valid.
 Model validators (except validate_domain) follow the same pattern.
 validate_domain returns a string error message or None, matching Go's
 Domain.Validate() which uses direct length checks instead of ozzo-validation.
 """
 # pylint: disable=too-many-lines
 
-from akamai.edgegrid.errors import ErrStructValidation
 from akamai.edgegrid.validation import parse_validation_errors
 
 
@@ -40,7 +39,7 @@ def validate_domain(domain) -> str | None:
     return None
 
 
-def validate_get_domain_status_request(request) -> None:
+def validate_get_domain_status_request(request) -> str | None:
     """Validate GetDomainStatusRequest.
 
     Mirrors Go GetDomainStatusRequest.Validate().
@@ -49,18 +48,19 @@ def validate_get_domain_status_request(request) -> None:
     Args:
         request: A GetDomainStatusRequest object.
 
-    Raises:
-        ErrStructValidation: If required fields are missing.
+    Returns:
+        Formatted error string on failure, None when valid.
     """
     errors = {}
     if not request.domain_name:
         errors["DomainName"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result is not None:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_get_domain_request(request) -> None:
+def validate_get_domain_request(request) -> str | None:
     """Validate GetDomainRequest.
 
     Mirrors Go GetDomainRequest.Validate().
@@ -69,18 +69,19 @@ def validate_get_domain_request(request) -> None:
     Args:
         request: A GetDomainRequest object.
 
-    Raises:
-        ErrStructValidation: If required fields are missing.
+    Returns:
+        Formatted error string on failure, None when valid.
     """
     errors = {}
     if not request.domain_name:
         errors["DomainName"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result is not None:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_create_domain_request(request) -> None:
+def validate_create_domain_request(request) -> str | None:
     """Validate CreateDomainRequest.
 
     Mirrors Go CreateDomainRequest.Validate().
@@ -89,18 +90,19 @@ def validate_create_domain_request(request) -> None:
     Args:
         request: A CreateDomainRequest object.
 
-    Raises:
-        ErrStructValidation: If required fields are missing.
+    Returns:
+        Formatted error string on failure, None when valid.
     """
     errors = {}
     if request.domain is None:
         errors["Domain"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result is not None:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_update_domain_request(request) -> None:
+def validate_update_domain_request(request) -> str | None:
     """Validate UpdateDomainRequest.
 
     Mirrors Go UpdateDomainRequest.Validate().
@@ -109,18 +111,19 @@ def validate_update_domain_request(request) -> None:
     Args:
         request: An UpdateDomainRequest object.
 
-    Raises:
-        ErrStructValidation: If required fields are missing.
+    Returns:
+        Formatted error string on failure, None when valid.
     """
     errors = {}
     if request.domain is None:
         errors["Domain"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result is not None:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_delete_domain_request(request) -> None:
+def validate_delete_domain_request(request) -> str | None:
     """Validate DeleteDomainRequest (deprecated).
 
     Mirrors Go DeleteDomainRequest.Validate().
@@ -129,18 +132,19 @@ def validate_delete_domain_request(request) -> None:
     Args:
         request: A DeleteDomainRequest object.
 
-    Raises:
-        ErrStructValidation: If required fields are missing.
+    Returns:
+        Formatted error string on failure, None when valid.
     """
     errors = {}
     if not request.domain_name:
         errors["DomainName"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result is not None:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_delete_domains_request(request) -> None:
+def validate_delete_domains_request(request) -> str | None:
     """Validate DeleteDomainsRequest.
 
     Mirrors Go DeleteDomainsRequest.Validate().
@@ -152,8 +156,8 @@ def validate_delete_domains_request(request) -> None:
     Args:
         request: A DeleteDomainsRequest object with body.domain_names.
 
-    Raises:
-        ErrStructValidation: If required fields are missing or invalid.
+    Returns:
+        Formatted error string on failure, None when valid.
     """
     errors = {}
     if not request.body.domain_names:
@@ -167,10 +171,11 @@ def validate_delete_domains_request(request) -> None:
             errors["DomainNames"] = element_errors
     result = parse_validation_errors(errors)
     if result is not None:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_delete_domains_status_request(request) -> None:
+def validate_delete_domains_status_request(request) -> str | None:
     """Validate DeleteDomainsStatusRequest.
 
     Mirrors Go DeleteDomainsStatusRequest.Validate().
@@ -179,15 +184,16 @@ def validate_delete_domains_status_request(request) -> None:
     Args:
         request: A DeleteDomainsStatusRequest object.
 
-    Raises:
-        ErrStructValidation: If required fields are missing.
+    Returns:
+        Formatted error string on failure, None when valid.
     """
     errors = {}
     if not request.request_id:
         errors["RequestID"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result is not None:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
 # ---------------------------------------------------------------------------
@@ -195,7 +201,7 @@ def validate_delete_domains_status_request(request) -> None:
 # ---------------------------------------------------------------------------
 
 
-def validate_property(prop) -> None:
+def validate_property(prop) -> str | None:
     """Validate a Property object.
 
     Mirrors Go Property.Validate(). Required fields: Name, Type,
@@ -208,9 +214,8 @@ def validate_property(prop) -> None:
     Args:
         prop: A Property object.
 
-    Raises:
-        ErrStructValidation: If required fields are missing or
-            ranked-failover traffic target constraints are violated.
+    Returns:
+        Formatted error string on failure, None when valid.
     """
     errors = {}
     if not prop.name:
@@ -231,7 +236,8 @@ def validate_property(prop) -> None:
 
     result = parse_validation_errors(errors)
     if result is not None:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
 def validate_ranked_failover_traffic_targets(traffic_targets) -> str | None:
@@ -278,7 +284,7 @@ def validate_ranked_failover_traffic_targets(traffic_targets) -> str | None:
     return None
 
 
-def validate_get_property_request(request) -> None:
+def validate_get_property_request(request) -> str | None:
     """Validate GetPropertyRequest.
 
     Mirrors Go GetPropertyRequest.Validate().
@@ -287,8 +293,8 @@ def validate_get_property_request(request) -> None:
     Args:
         request: A GetPropertyRequest object.
 
-    Raises:
-        ErrStructValidation: If required fields are missing.
+    Returns:
+        Formatted error string on failure, None when valid.
     """
     errors = {}
     if not request.domain_name:
@@ -297,10 +303,11 @@ def validate_get_property_request(request) -> None:
         errors["PropertyName"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result is not None:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_list_properties_request(request) -> None:
+def validate_list_properties_request(request) -> str | None:
     """Validate ListPropertiesRequest.
 
     Mirrors Go ListPropertiesRequest.Validate().
@@ -309,18 +316,19 @@ def validate_list_properties_request(request) -> None:
     Args:
         request: A ListPropertiesRequest object.
 
-    Raises:
-        ErrStructValidation: If required fields are missing.
+    Returns:
+        Formatted error string on failure, None when valid.
     """
     errors = {}
     if not request.domain_name:
         errors["DomainName"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result is not None:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_create_property_request(request) -> None:
+def validate_create_property_request(request) -> str | None:
     """Validate CreatePropertyRequest.
 
     Mirrors Go CreatePropertyRequest.Validate().
@@ -329,8 +337,8 @@ def validate_create_property_request(request) -> None:
     Args:
         request: A CreatePropertyRequest object.
 
-    Raises:
-        ErrStructValidation: If required fields are missing.
+    Returns:
+        Formatted error string on failure, None when valid.
     """
     errors = {}
     if not request.domain_name:
@@ -339,10 +347,11 @@ def validate_create_property_request(request) -> None:
         errors["Property"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result is not None:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_update_property_request(request) -> None:
+def validate_update_property_request(request) -> str | None:
     """Validate UpdatePropertyRequest.
 
     Mirrors Go UpdatePropertyRequest.Validate().
@@ -351,8 +360,8 @@ def validate_update_property_request(request) -> None:
     Args:
         request: An UpdatePropertyRequest object.
 
-    Raises:
-        ErrStructValidation: If required fields are missing.
+    Returns:
+        Formatted error string on failure, None when valid.
     """
     errors = {}
     if not request.domain_name:
@@ -361,10 +370,11 @@ def validate_update_property_request(request) -> None:
         errors["Property"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result is not None:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_delete_property_request(request) -> None:
+def validate_delete_property_request(request) -> str | None:
     """Validate DeletePropertyRequest.
 
     Mirrors Go DeletePropertyRequest.Validate().
@@ -373,8 +383,8 @@ def validate_delete_property_request(request) -> None:
     Args:
         request: A DeletePropertyRequest object.
 
-    Raises:
-        ErrStructValidation: If required fields are missing.
+    Returns:
+        Formatted error string on failure, None when valid.
     """
     errors = {}
     if not request.domain_name:
@@ -383,7 +393,8 @@ def validate_delete_property_request(request) -> None:
         errors["PropertyName"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result is not None:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
 # ---------------------------------------------------------------------------
@@ -391,7 +402,7 @@ def validate_delete_property_request(request) -> None:
 # ---------------------------------------------------------------------------
 
 
-def validate_datacenter(datacenter) -> None:
+def validate_datacenter(datacenter) -> str | None:
     """Validate a Datacenter object.
 
     Mirrors Go Datacenter.Validate(). In Go, DatacenterID is validated
@@ -401,18 +412,19 @@ def validate_datacenter(datacenter) -> None:
     Args:
         datacenter: A Datacenter object.
 
-    Raises:
-        ErrStructValidation: Never raised (validation always passes).
+    Returns:
+        Always None (validation always passes).
     """
     # Go: validation.Validate(d.DatacenterID) without Required — always passes
     _ = datacenter
     errors = {}
     result = parse_validation_errors(errors)
     if result is not None:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_list_datacenters_request(request) -> None:
+def validate_list_datacenters_request(request) -> str | None:
     """Validate ListDatacentersRequest.
 
     Mirrors Go ListDatacentersRequest.Validate().
@@ -421,18 +433,19 @@ def validate_list_datacenters_request(request) -> None:
     Args:
         request: A ListDatacentersRequest object.
 
-    Raises:
-        ErrStructValidation: If required fields are missing.
+    Returns:
+        Formatted error string on failure, None when valid.
     """
     errors = {}
     if not request.domain_name:
         errors["DomainName"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result is not None:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_get_datacenter_request(request) -> None:
+def validate_get_datacenter_request(request) -> str | None:
     """Validate GetDatacenterRequest.
 
     Mirrors Go GetDatacenterRequest.Validate().
@@ -441,8 +454,8 @@ def validate_get_datacenter_request(request) -> None:
     Args:
         request: A GetDatacenterRequest object.
 
-    Raises:
-        ErrStructValidation: If required fields are missing.
+    Returns:
+        Formatted error string on failure, None when valid.
     """
     errors = {}
     if not request.datacenter_id:
@@ -451,10 +464,11 @@ def validate_get_datacenter_request(request) -> None:
         errors["DomainName"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result is not None:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_create_datacenter_request(request) -> None:
+def validate_create_datacenter_request(request) -> str | None:
     """Validate CreateDatacenterRequest.
 
     Mirrors Go CreateDatacenterRequest.Validate().
@@ -463,8 +477,8 @@ def validate_create_datacenter_request(request) -> None:
     Args:
         request: A CreateDatacenterRequest object.
 
-    Raises:
-        ErrStructValidation: If required fields are missing.
+    Returns:
+        Formatted error string on failure, None when valid.
     """
     errors = {}
     if not request.domain_name:
@@ -473,10 +487,11 @@ def validate_create_datacenter_request(request) -> None:
         errors["Datacenter"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result is not None:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_update_datacenter_request(request) -> None:
+def validate_update_datacenter_request(request) -> str | None:
     """Validate UpdateDatacenterRequest.
 
     Mirrors Go UpdateDatacenterRequest.Validate().
@@ -485,8 +500,8 @@ def validate_update_datacenter_request(request) -> None:
     Args:
         request: An UpdateDatacenterRequest object.
 
-    Raises:
-        ErrStructValidation: If required fields are missing.
+    Returns:
+        Formatted error string on failure, None when valid.
     """
     errors = {}
     if not request.domain_name:
@@ -495,10 +510,11 @@ def validate_update_datacenter_request(request) -> None:
         errors["Datacenter"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result is not None:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_delete_datacenter_request(request) -> None:
+def validate_delete_datacenter_request(request) -> str | None:
     """Validate DeleteDatacenterRequest.
 
     Mirrors Go DeleteDatacenterRequest.Validate().
@@ -507,8 +523,8 @@ def validate_delete_datacenter_request(request) -> None:
     Args:
         request: A DeleteDatacenterRequest object.
 
-    Raises:
-        ErrStructValidation: If required fields are missing.
+    Returns:
+        Formatted error string on failure, None when valid.
     """
     errors = {}
     if not request.domain_name:
@@ -517,7 +533,8 @@ def validate_delete_datacenter_request(request) -> None:
         errors["DatacenterID"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result is not None:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
 # ---------------------------------------------------------------------------
@@ -525,7 +542,7 @@ def validate_delete_datacenter_request(request) -> None:
 # ---------------------------------------------------------------------------
 
 
-def validate_resource(resource) -> None:
+def validate_resource(resource) -> str | None:
     """Validate a Resource object.
 
     Mirrors Go Resource.Validate().
@@ -534,8 +551,8 @@ def validate_resource(resource) -> None:
     Args:
         resource: A Resource object.
 
-    Raises:
-        ErrStructValidation: If required fields are missing.
+    Returns:
+        Formatted error string on failure, None when valid.
     """
     errors = {}
     if not resource.name:
@@ -546,10 +563,11 @@ def validate_resource(resource) -> None:
         errors["AggregationType"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result is not None:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_list_resources_request(request) -> None:
+def validate_list_resources_request(request) -> str | None:
     """Validate ListResourcesRequest.
 
     Mirrors Go ListResourcesRequest.Validate().
@@ -558,18 +576,19 @@ def validate_list_resources_request(request) -> None:
     Args:
         request: A ListResourcesRequest object.
 
-    Raises:
-        ErrStructValidation: If required fields are missing.
+    Returns:
+        Formatted error string on failure, None when valid.
     """
     errors = {}
     if not request.domain_name:
         errors["DomainName"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result is not None:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_get_resource_request(request) -> None:
+def validate_get_resource_request(request) -> str | None:
     """Validate GetResourceRequest.
 
     Mirrors Go GetResourceRequest.Validate().
@@ -578,8 +597,8 @@ def validate_get_resource_request(request) -> None:
     Args:
         request: A GetResourceRequest object.
 
-    Raises:
-        ErrStructValidation: If required fields are missing.
+    Returns:
+        Formatted error string on failure, None when valid.
     """
     errors = {}
     if not request.domain_name:
@@ -588,10 +607,11 @@ def validate_get_resource_request(request) -> None:
         errors["ResourceName"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result is not None:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_create_resource_request(request) -> None:
+def validate_create_resource_request(request) -> str | None:
     """Validate CreateResourceRequest.
 
     Mirrors Go CreateResourceRequest.Validate().
@@ -600,8 +620,8 @@ def validate_create_resource_request(request) -> None:
     Args:
         request: A CreateResourceRequest object.
 
-    Raises:
-        ErrStructValidation: If required fields are missing.
+    Returns:
+        Formatted error string on failure, None when valid.
     """
     errors = {}
     if not request.domain_name:
@@ -610,10 +630,11 @@ def validate_create_resource_request(request) -> None:
         errors["Resource"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result is not None:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_update_resource_request(request) -> None:
+def validate_update_resource_request(request) -> str | None:
     """Validate UpdateResourceRequest.
 
     Mirrors Go UpdateResourceRequest.Validate().
@@ -622,8 +643,8 @@ def validate_update_resource_request(request) -> None:
     Args:
         request: An UpdateResourceRequest object.
 
-    Raises:
-        ErrStructValidation: If required fields are missing.
+    Returns:
+        Formatted error string on failure, None when valid.
     """
     errors = {}
     if not request.domain_name:
@@ -632,10 +653,11 @@ def validate_update_resource_request(request) -> None:
         errors["Resource"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result is not None:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_delete_resource_request(request) -> None:
+def validate_delete_resource_request(request) -> str | None:
     """Validate DeleteResourceRequest.
 
     Mirrors Go DeleteResourceRequest.Validate().
@@ -644,8 +666,8 @@ def validate_delete_resource_request(request) -> None:
     Args:
         request: A DeleteResourceRequest object.
 
-    Raises:
-        ErrStructValidation: If required fields are missing.
+    Returns:
+        Formatted error string on failure, None when valid.
     """
     errors = {}
     if not request.domain_name:
@@ -654,7 +676,8 @@ def validate_delete_resource_request(request) -> None:
         errors["ResourceName"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result is not None:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
 # ---------------------------------------------------------------------------
@@ -662,7 +685,7 @@ def validate_delete_resource_request(request) -> None:
 # ---------------------------------------------------------------------------
 
 
-def validate_as_map(as_map) -> None:
+def validate_as_map(as_map) -> str | None:
     """Validate an ASMap object.
 
     Mirrors Go ASMap.Validate().
@@ -671,8 +694,8 @@ def validate_as_map(as_map) -> None:
     Args:
         as_map: An ASMap object.
 
-    Raises:
-        ErrStructValidation: If required fields are missing.
+    Returns:
+        Formatted error string on failure, None when valid.
     """
     errors = {}
     if not as_map.name:
@@ -683,10 +706,11 @@ def validate_as_map(as_map) -> None:
         errors["Assignments"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result is not None:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_list_as_maps_request(request) -> None:
+def validate_list_as_maps_request(request) -> str | None:
     """Validate ListASMapsRequest.
 
     Mirrors Go ListASMapsRequest.Validate().
@@ -695,18 +719,19 @@ def validate_list_as_maps_request(request) -> None:
     Args:
         request: A ListASMapsRequest object.
 
-    Raises:
-        ErrStructValidation: If required fields are missing.
+    Returns:
+        Formatted error string on failure, None when valid.
     """
     errors = {}
     if not request.domain_name:
         errors["DomainName"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result is not None:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_get_as_map_request(request) -> None:
+def validate_get_as_map_request(request) -> str | None:
     """Validate GetASMapRequest.
 
     Mirrors Go GetASMapRequest.Validate().
@@ -715,8 +740,8 @@ def validate_get_as_map_request(request) -> None:
     Args:
         request: A GetASMapRequest object.
 
-    Raises:
-        ErrStructValidation: If required fields are missing.
+    Returns:
+        Formatted error string on failure, None when valid.
     """
     errors = {}
     if not request.as_map_name:
@@ -725,10 +750,11 @@ def validate_get_as_map_request(request) -> None:
         errors["DomainName"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result is not None:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_create_as_map_request(request) -> None:
+def validate_create_as_map_request(request) -> str | None:
     """Validate CreateASMapRequest.
 
     Mirrors Go CreateASMapRequest.Validate().
@@ -737,8 +763,8 @@ def validate_create_as_map_request(request) -> None:
     Args:
         request: A CreateASMapRequest object.
 
-    Raises:
-        ErrStructValidation: If required fields are missing.
+    Returns:
+        Formatted error string on failure, None when valid.
     """
     errors = {}
     if not request.domain_name:
@@ -747,10 +773,11 @@ def validate_create_as_map_request(request) -> None:
         errors["ASMap"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result is not None:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_update_as_map_request(request) -> None:
+def validate_update_as_map_request(request) -> str | None:
     """Validate UpdateASMapRequest.
 
     Mirrors Go UpdateASMapRequest.Validate().
@@ -759,8 +786,8 @@ def validate_update_as_map_request(request) -> None:
     Args:
         request: An UpdateASMapRequest object.
 
-    Raises:
-        ErrStructValidation: If required fields are missing.
+    Returns:
+        Formatted error string on failure, None when valid.
     """
     errors = {}
     if not request.domain_name:
@@ -769,10 +796,11 @@ def validate_update_as_map_request(request) -> None:
         errors["ASMap"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result is not None:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_delete_as_map_request(request) -> None:
+def validate_delete_as_map_request(request) -> str | None:
     """Validate DeleteASMapRequest.
 
     Mirrors Go DeleteASMapRequest.Validate().
@@ -781,8 +809,8 @@ def validate_delete_as_map_request(request) -> None:
     Args:
         request: A DeleteASMapRequest object.
 
-    Raises:
-        ErrStructValidation: If required fields are missing.
+    Returns:
+        Formatted error string on failure, None when valid.
     """
     errors = {}
     if not request.domain_name:
@@ -791,7 +819,8 @@ def validate_delete_as_map_request(request) -> None:
         errors["ASMapName"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result is not None:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
 # ---------------------------------------------------------------------------
@@ -799,7 +828,7 @@ def validate_delete_as_map_request(request) -> None:
 # ---------------------------------------------------------------------------
 
 
-def validate_geo_map(geo_map) -> None:
+def validate_geo_map(geo_map) -> str | None:
     """Validate a GeoMap object.
 
     Mirrors Go GeoMap.Validate().
@@ -811,8 +840,8 @@ def validate_geo_map(geo_map) -> None:
     Args:
         geo_map: A GeoMap object.
 
-    Raises:
-        ErrStructValidation: If required fields are missing.
+    Returns:
+        Formatted error string on failure, None when valid.
     """
     errors = {}
     if not geo_map.name:
@@ -821,10 +850,11 @@ def validate_geo_map(geo_map) -> None:
         errors["DefaultDatacenter"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result is not None:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_list_geo_maps_request(request) -> None:
+def validate_list_geo_maps_request(request) -> str | None:
     """Validate ListGeoMapsRequest.
 
     Mirrors Go ListGeoMapsRequest.Validate().
@@ -833,18 +863,19 @@ def validate_list_geo_maps_request(request) -> None:
     Args:
         request: A ListGeoMapsRequest object.
 
-    Raises:
-        ErrStructValidation: If required fields are missing.
+    Returns:
+        Formatted error string on failure, None when valid.
     """
     errors = {}
     if not request.domain_name:
         errors["DomainName"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result is not None:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_get_geo_map_request(request) -> None:
+def validate_get_geo_map_request(request) -> str | None:
     """Validate GetGeoMapRequest.
 
     Mirrors Go GetGeoMapRequest.Validate().
@@ -853,8 +884,8 @@ def validate_get_geo_map_request(request) -> None:
     Args:
         request: A GetGeoMapRequest object.
 
-    Raises:
-        ErrStructValidation: If required fields are missing.
+    Returns:
+        Formatted error string on failure, None when valid.
     """
     errors = {}
     if not request.map_name:
@@ -863,10 +894,11 @@ def validate_get_geo_map_request(request) -> None:
         errors["DomainName"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result is not None:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_create_geo_map_request(request) -> None:
+def validate_create_geo_map_request(request) -> str | None:
     """Validate CreateGeoMapRequest.
 
     Mirrors Go CreateGeoMapRequest.Validate().
@@ -875,8 +907,8 @@ def validate_create_geo_map_request(request) -> None:
     Args:
         request: A CreateGeoMapRequest object.
 
-    Raises:
-        ErrStructValidation: If required fields are missing.
+    Returns:
+        Formatted error string on failure, None when valid.
     """
     errors = {}
     if not request.domain_name:
@@ -885,10 +917,11 @@ def validate_create_geo_map_request(request) -> None:
         errors["GeoMap"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result is not None:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_update_geo_map_request(request) -> None:
+def validate_update_geo_map_request(request) -> str | None:
     """Validate UpdateGeoMapRequest.
 
     Mirrors Go UpdateGeoMapRequest.Validate().
@@ -897,8 +930,8 @@ def validate_update_geo_map_request(request) -> None:
     Args:
         request: An UpdateGeoMapRequest object.
 
-    Raises:
-        ErrStructValidation: If required fields are missing.
+    Returns:
+        Formatted error string on failure, None when valid.
     """
     errors = {}
     if not request.domain_name:
@@ -907,10 +940,11 @@ def validate_update_geo_map_request(request) -> None:
         errors["GeoMap"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result is not None:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_delete_geo_map_request(request) -> None:
+def validate_delete_geo_map_request(request) -> str | None:
     """Validate DeleteGeoMapRequest.
 
     Mirrors Go DeleteGeoMapRequest.Validate().
@@ -919,8 +953,8 @@ def validate_delete_geo_map_request(request) -> None:
     Args:
         request: A DeleteGeoMapRequest object.
 
-    Raises:
-        ErrStructValidation: If required fields are missing.
+    Returns:
+        Formatted error string on failure, None when valid.
     """
     errors = {}
     if not request.domain_name:
@@ -929,7 +963,8 @@ def validate_delete_geo_map_request(request) -> None:
         errors["MapName"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result is not None:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
 # ---------------------------------------------------------------------------
@@ -937,7 +972,7 @@ def validate_delete_geo_map_request(request) -> None:
 # ---------------------------------------------------------------------------
 
 
-def validate_cidr_map(cidr_map) -> None:
+def validate_cidr_map(cidr_map) -> str | None:
     """Validate a CIDRMap object.
 
     Mirrors Go CIDRMap.Validate().
@@ -949,18 +984,19 @@ def validate_cidr_map(cidr_map) -> None:
     Args:
         cidr_map: A CIDRMap object.
 
-    Raises:
-        ErrStructValidation: If required fields are missing.
+    Returns:
+        Formatted error string on failure, None when valid.
     """
     errors = {}
     if not cidr_map.name:
         errors["Name"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result is not None:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_list_cidr_maps_request(request) -> None:
+def validate_list_cidr_maps_request(request) -> str | None:
     """Validate ListCIDRMapsRequest.
 
     Mirrors Go ListCIDRMapsRequest.Validate().
@@ -969,18 +1005,19 @@ def validate_list_cidr_maps_request(request) -> None:
     Args:
         request: A ListCIDRMapsRequest object.
 
-    Raises:
-        ErrStructValidation: If required fields are missing.
+    Returns:
+        Formatted error string on failure, None when valid.
     """
     errors = {}
     if not request.domain_name:
         errors["DomainName"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result is not None:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_get_cidr_map_request(request) -> None:
+def validate_get_cidr_map_request(request) -> str | None:
     """Validate GetCIDRMapRequest.
 
     Mirrors Go GetCIDRMapRequest.Validate().
@@ -989,8 +1026,8 @@ def validate_get_cidr_map_request(request) -> None:
     Args:
         request: A GetCIDRMapRequest object.
 
-    Raises:
-        ErrStructValidation: If required fields are missing.
+    Returns:
+        Formatted error string on failure, None when valid.
     """
     errors = {}
     if not request.map_name:
@@ -999,10 +1036,11 @@ def validate_get_cidr_map_request(request) -> None:
         errors["DomainName"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result is not None:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_create_cidr_map_request(request) -> None:
+def validate_create_cidr_map_request(request) -> str | None:
     """Validate CreateCIDRMapRequest.
 
     Mirrors Go CreateCIDRMapRequest.Validate().
@@ -1011,8 +1049,8 @@ def validate_create_cidr_map_request(request) -> None:
     Args:
         request: A CreateCIDRMapRequest object.
 
-    Raises:
-        ErrStructValidation: If required fields are missing.
+    Returns:
+        Formatted error string on failure, None when valid.
     """
     errors = {}
     if not request.domain_name:
@@ -1021,10 +1059,11 @@ def validate_create_cidr_map_request(request) -> None:
         errors["CIDRMap"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result is not None:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_update_cidr_map_request(request) -> None:
+def validate_update_cidr_map_request(request) -> str | None:
     """Validate UpdateCIDRMapRequest.
 
     Mirrors Go UpdateCIDRMapRequest.Validate().
@@ -1033,8 +1072,8 @@ def validate_update_cidr_map_request(request) -> None:
     Args:
         request: An UpdateCIDRMapRequest object.
 
-    Raises:
-        ErrStructValidation: If required fields are missing.
+    Returns:
+        Formatted error string on failure, None when valid.
     """
     errors = {}
     if not request.domain_name:
@@ -1043,10 +1082,11 @@ def validate_update_cidr_map_request(request) -> None:
         errors["CIDRMap"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result is not None:
-        raise ErrStructValidation(result)
+        return result
+    return None
 
 
-def validate_delete_cidr_map_request(request) -> None:
+def validate_delete_cidr_map_request(request) -> str | None:
     """Validate DeleteCIDRMapRequest.
 
     Mirrors Go DeleteCIDRMapRequest.Validate().
@@ -1055,8 +1095,8 @@ def validate_delete_cidr_map_request(request) -> None:
     Args:
         request: A DeleteCIDRMapRequest object.
 
-    Raises:
-        ErrStructValidation: If required fields are missing.
+    Returns:
+        Formatted error string on failure, None when valid.
     """
     errors = {}
     if not request.domain_name:
@@ -1065,4 +1105,5 @@ def validate_delete_cidr_map_request(request) -> None:
         errors["MapName"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result is not None:
-        raise ErrStructValidation(result)
+        return result
+    return None

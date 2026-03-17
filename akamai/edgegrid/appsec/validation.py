@@ -4,12 +4,13 @@
 Provides validation for all AppSec API request models, mirroring the
 Go ozzo-validation and edgegriderr.ParseValidationErrors patterns.
 
-Two validation patterns are used:
+Each validator returns a formatted error string on failure, or None when valid.
+
+Two internal formatting patterns are used:
 1. Simple (.Filter()) pattern: _validate_required() - joins all errors sorted by key
 2. Parsed (ParseValidationErrors) pattern: _validate_parsed() - structured multi-line output
 """
 
-from akamai.edgegrid.errors import ErrStructValidation
 from akamai.edgegrid.validation import parse_validation_errors
 
 
@@ -96,14 +97,15 @@ def _validate_required(errors):
     Args:
         errors: Dict mapping field names to error messages (None if valid).
 
-    Raises:
-        ErrStructValidation: If any field has a validation error.
+    Returns:
+        Formatted error string on failure, None when valid.
     """
     filtered = {k: v for k, v in errors.items() if v is not None}
     if filtered:
         parts = [f"{k}: {v}" for k, v in sorted(filtered.items())]
         msg = "; ".join(parts) + "."
-        raise ErrStructValidation(f"struct validation: {msg}")
+        return f"struct validation: {msg}"
+    return None
 
 
 def _validate_parsed(errors):
@@ -115,122 +117,123 @@ def _validate_parsed(errors):
     Args:
         errors: Dict mapping field names to error messages, nested dicts, or None.
 
-    Raises:
-        ErrStructValidation: If any field has a validation error.
+    Returns:
+        Formatted error string on failure, None when valid.
     """
     result = parse_validation_errors(errors)
     if result is not None:
-        raise ErrStructValidation(f"struct validation: {result}")
+        return f"struct validation: {result}"
+    return None
 
 
-def validate_get_activations_request(params):
+def validate_get_activations_request(params) -> str | None:
     """Validate GetActivationsRequest."""
-    _validate_required({
+    return _validate_required({
         "activationid": _required(params.activation_id),
     })
 
 
-def validate_get_activation_history_request(params):
+def validate_get_activation_history_request(params) -> str | None:
     """Validate GetActivationHistoryRequest."""
-    _validate_required({
+    return _validate_required({
         "configId": _required(params.config_id),
     })
 
 
-def validate_get_configuration_request(params):
+def validate_get_configuration_request(params) -> str | None:
     """Validate GetConfigurationRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
     })
 
 
-def validate_get_configurations_request(params):
+def validate_get_configurations_request(params) -> str | None:
     """Validate GetConfigurationsRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
     })
 
 
-def validate_update_configuration_request(params):
+def validate_update_configuration_request(params) -> str | None:
     """Validate UpdateConfigurationRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
     })
 
 
-def validate_remove_configuration_request(params):
+def validate_remove_configuration_request(params) -> str | None:
     """Validate RemoveConfigurationRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
     })
 
 
-def validate_get_configuration_clone_request(params):
+def validate_get_configuration_clone_request(params) -> str | None:
     """Validate GetConfigurationCloneRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
     })
 
 
-def validate_create_configuration_clone_request(params):
+def validate_create_configuration_clone_request(params) -> str | None:
     """Validate CreateConfigurationCloneRequest."""
-    _validate_required({
+    return _validate_required({
         "CreateFromConfigID": _required(params.create_from.config_id),
     })
 
 
-def validate_get_configuration_version_request(params):
+def validate_get_configuration_version_request(params) -> str | None:
     """Validate GetConfigurationVersionRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
     })
 
 
-def validate_get_configuration_version_clone_request(params):
+def validate_get_configuration_version_clone_request(params) -> str | None:
     """Validate GetConfigurationVersionCloneRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
     })
 
 
-def validate_create_configuration_version_clone_request(params):
+def validate_create_configuration_version_clone_request(params) -> str | None:
     """Validate CreateConfigurationVersionCloneRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.create_from_version),
     })
 
 
-def validate_remove_configuration_version_clone_request(params):
+def validate_remove_configuration_version_clone_request(params) -> str | None:
     """Validate RemoveConfigurationVersionCloneRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
     })
 
 
-def validate_get_security_policies_request(params):
+def validate_get_security_policies_request(params) -> str | None:
     """Validate GetSecurityPoliciesRequest."""
-    _validate_parsed({
+    return _validate_parsed({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
     })
 
 
-def validate_get_security_policy_request(params):
+def validate_get_security_policy_request(params) -> str | None:
     """Validate GetSecurityPolicyRequest."""
-    _validate_parsed({
+    return _validate_parsed({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
     })
 
 
-def validate_create_security_policy_request(params):
+def validate_create_security_policy_request(params) -> str | None:
     """Validate CreateSecurityPolicyRequest."""
-    _validate_parsed({
+    return _validate_parsed({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyName": _required(params.policy_name),
@@ -238,9 +241,9 @@ def validate_create_security_policy_request(params):
     })
 
 
-def validate_create_security_policy_with_default_protections_request(params):
+def validate_create_security_policy_with_default_protections_request(params) -> str | None:
     """Validate CreateSecurityPolicyWithDefaultProtectionsRequest."""
-    _validate_parsed({
+    return _validate_parsed({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyName": _required(params.policy_name),
@@ -248,134 +251,134 @@ def validate_create_security_policy_with_default_protections_request(params):
     })
 
 
-def validate_update_security_policy_request(params):
+def validate_update_security_policy_request(params) -> str | None:
     """Validate UpdateSecurityPolicyRequest."""
-    _validate_parsed({
+    return _validate_parsed({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_remove_security_policy_request(params):
+def validate_remove_security_policy_request(params) -> str | None:
     """Validate RemoveSecurityPolicyRequest."""
-    _validate_parsed({
+    return _validate_parsed({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_get_security_policy_clone_request(params):
+def validate_get_security_policy_clone_request(params) -> str | None:
     """Validate GetSecurityPolicyCloneRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
     })
 
 
-def validate_get_security_policy_clones_request(params):
+def validate_get_security_policy_clones_request(params) -> str | None:
     """Validate GetSecurityPolicyClonesRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
     })
 
 
-def validate_create_security_policy_clone_request(params):
+def validate_create_security_policy_clone_request(params) -> str | None:
     """Validate CreateSecurityPolicyCloneRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
     })
 
 
-def validate_get_policy_protections_request(params):
+def validate_get_policy_protections_request(params) -> str | None:
     """Validate GetPolicyProtectionsRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_update_policy_protections_request(params):
+def validate_update_policy_protections_request(params) -> str | None:
     """Validate UpdatePolicyProtectionsRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_get_custom_rule_request(params):
+def validate_get_custom_rule_request(params) -> str | None:
     """Validate GetCustomRuleRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "ID": _required(params.id),
     })
 
 
-def validate_get_custom_rules_request(params):
+def validate_get_custom_rules_request(params) -> str | None:
     """Validate GetCustomRulesRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
     })
 
 
-def validate_create_custom_rule_request(params):
+def validate_create_custom_rule_request(params) -> str | None:
     """Validate CreateCustomRuleRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
     })
 
 
-def validate_update_custom_rule_request(params):
+def validate_update_custom_rule_request(params) -> str | None:
     """Validate UpdateCustomRuleRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "ID": _required(params.id),
     })
 
 
-def validate_remove_custom_rule_request(params):
+def validate_remove_custom_rule_request(params) -> str | None:
     """Validate RemoveCustomRuleRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "ID": _required(params.id),
     })
 
 
-def validate_get_custom_rules_usage_request(params):
+def validate_get_custom_rules_usage_request(params) -> str | None:
     """Validate GetCustomRulesUsageRequest."""
-    _validate_parsed({
+    return _validate_parsed({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "RuleIDs": _required(params.request_body),
     })
 
 
-def validate_get_custom_rule_action_request(params):
+def validate_get_custom_rule_action_request(params) -> str | None:
     """Validate GetCustomRuleActionRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_get_custom_rule_actions_request(params):
+def validate_get_custom_rule_actions_request(params) -> str | None:
     """Validate GetCustomRuleActionsRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_update_custom_rule_action_request(params):
+def validate_update_custom_rule_action_request(params) -> str | None:
     """Validate UpdateCustomRuleActionRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
@@ -383,104 +386,104 @@ def validate_update_custom_rule_action_request(params):
     })
 
 
-def validate_get_custom_deny_request(params):
+def validate_get_custom_deny_request(params) -> str | None:
     """Validate GetCustomDenyRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "ID": _required(params.id),
     })
 
 
-def validate_get_custom_deny_list_request(params):
+def validate_get_custom_deny_list_request(params) -> str | None:
     """Validate GetCustomDenyListRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
     })
 
 
-def validate_create_custom_deny_request(params):
+def validate_create_custom_deny_request(params) -> str | None:
     """Validate CreateCustomDenyRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
     })
 
 
-def validate_update_custom_deny_request(params):
+def validate_update_custom_deny_request(params) -> str | None:
     """Validate UpdateCustomDenyRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "ID": _required(params.id),
     })
 
 
-def validate_remove_custom_deny_request(params):
+def validate_remove_custom_deny_request(params) -> str | None:
     """Validate RemoveCustomDenyRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "ID": _required(params.id),
     })
 
 
-def validate_get_rate_policy_request(params):
+def validate_get_rate_policy_request(params) -> str | None:
     """Validate GetRatePolicyRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "ConfigVersion": _required(params.config_version),
         "RatePolicyID": _required(params.rate_policy_id),
     })
 
 
-def validate_get_rate_policies_request(params):
+def validate_get_rate_policies_request(params) -> str | None:
     """Validate GetRatePoliciesRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "ConfigVersion": _required(params.config_version),
     })
 
 
-def validate_create_rate_policy_request(params):
+def validate_create_rate_policy_request(params) -> str | None:
     """Validate CreateRatePolicyRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "ConfigVersion": _required(params.config_version),
     })
 
 
-def validate_update_rate_policy_request(params):
+def validate_update_rate_policy_request(params) -> str | None:
     """Validate UpdateRatePolicyRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "ConfigVersion": _required(params.config_version),
         "RatePolicyID": _required(params.rate_policy_id),
     })
 
 
-def validate_remove_rate_policy_request(params):
+def validate_remove_rate_policy_request(params) -> str | None:
     """Validate RemoveRatePolicyRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "ConfigVersion": _required(params.config_version),
         "RatePolicyID": _required(params.rate_policy_id),
     })
 
 
-def validate_get_rate_policy_actions_request(params):
+def validate_get_rate_policy_actions_request(params) -> str | None:
     """Validate GetRatePolicyActionsRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_update_rate_policy_action_request(params):
+def validate_update_rate_policy_action_request(params) -> str | None:
     """Validate UpdateRatePolicyActionRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
@@ -488,36 +491,36 @@ def validate_update_rate_policy_action_request(params):
     })
 
 
-def validate_get_eval_request(params):
+def validate_get_eval_request(params) -> str | None:
     """Validate GetEvalRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_update_eval_request(params):
+def validate_update_eval_request(params) -> str | None:
     """Validate UpdateEvalRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_remove_eval_request(params):
+def validate_remove_eval_request(params) -> str | None:
     """Validate RemoveEvalRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_get_eval_rule_request(params):
+def validate_get_eval_rule_request(params) -> str | None:
     """Validate GetEvalRuleRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
@@ -525,18 +528,18 @@ def validate_get_eval_rule_request(params):
     })
 
 
-def validate_get_eval_rules_request(params):
+def validate_get_eval_rules_request(params) -> str | None:
     """Validate GetEvalRulesRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_update_eval_rule_request(params):
+def validate_update_eval_rule_request(params) -> str | None:
     """Validate UpdateEvalRuleRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
@@ -544,45 +547,45 @@ def validate_update_eval_rule_request(params):
     })
 
 
-def validate_get_attack_group_request(params):
+def validate_get_attack_group_request(params) -> str | None:
     """Validate GetAttackGroupRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_get_attack_groups_request(params):
+def validate_get_attack_groups_request(params) -> str | None:
     """Validate GetAttackGroupsRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_update_attack_group_request(params):
+def validate_update_attack_group_request(params) -> str | None:
     """Validate UpdateAttackGroupRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_get_penalty_box_request(params):
+def validate_get_penalty_box_request(params) -> str | None:
     """Validate GetPenaltyBoxRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_update_penalty_box_request(params):
+def validate_update_penalty_box_request(params) -> str | None:
     """Validate UpdatePenaltyBoxRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
@@ -595,18 +598,18 @@ def validate_update_penalty_box_request(params):
     })
 
 
-def validate_get_penalty_box_conditions_request(params):
+def validate_get_penalty_box_conditions_request(params) -> str | None:
     """Validate GetPenaltyBoxConditionsRequest."""
-    _validate_parsed({
+    return _validate_parsed({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_update_penalty_box_conditions_request(params):
+def validate_update_penalty_box_conditions_request(params) -> str | None:
     """Validate UpdatePenaltyBoxConditionsRequest."""
-    _validate_parsed({
+    return _validate_parsed({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
@@ -614,52 +617,52 @@ def validate_update_penalty_box_conditions_request(params):
     })
 
 
-def validate_get_reputation_profile_request(params):
+def validate_get_reputation_profile_request(params) -> str | None:
     """Validate GetReputationProfileRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "ConfigVersion": _required(params.config_version),
         "RatePolicyID": _required(params.reputation_profile_id),
     })
 
 
-def validate_get_reputation_profiles_request(params):
+def validate_get_reputation_profiles_request(params) -> str | None:
     """Validate GetReputationProfilesRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "ConfigVersion": _required(params.config_version),
     })
 
 
-def validate_create_reputation_profile_request(params):
+def validate_create_reputation_profile_request(params) -> str | None:
     """Validate CreateReputationProfileRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "ConfigVersion": _required(params.config_version),
     })
 
 
-def validate_update_reputation_profile_request(params):
+def validate_update_reputation_profile_request(params) -> str | None:
     """Validate UpdateReputationProfileRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "ConfigVersion": _required(params.config_version),
         "ReputationProfileId": _required(params.reputation_profile_id),
     })
 
 
-def validate_remove_reputation_profile_request(params):
+def validate_remove_reputation_profile_request(params) -> str | None:
     """Validate RemoveReputationProfileRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "ConfigVersion": _required(params.config_version),
         "ReputationProfileId": _required(params.reputation_profile_id),
     })
 
 
-def validate_get_reputation_profile_action_request(params):
+def validate_get_reputation_profile_action_request(params) -> str | None:
     """Validate GetReputationProfileActionRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
@@ -667,18 +670,18 @@ def validate_get_reputation_profile_action_request(params):
     })
 
 
-def validate_get_reputation_profile_actions_request(params):
+def validate_get_reputation_profile_actions_request(params) -> str | None:
     """Validate GetReputationProfileActionsRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_update_reputation_profile_action_request(params):
+def validate_update_reputation_profile_action_request(params) -> str | None:
     """Validate UpdateReputationProfileActionRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
@@ -686,88 +689,88 @@ def validate_update_reputation_profile_action_request(params):
     })
 
 
-def validate_get_reputation_analysis_request(params):
+def validate_get_reputation_analysis_request(params) -> str | None:
     """Validate GetReputationAnalysisRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_update_reputation_analysis_request(params):
+def validate_update_reputation_analysis_request(params) -> str | None:
     """Validate UpdateReputationAnalysisRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_get_match_target_request(params):
+def validate_get_match_target_request(params) -> str | None:
     """Validate GetMatchTargetRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "ConfigVersion": _required(params.config_version),
         "TargetID": _required(params.target_id),
     })
 
 
-def validate_get_match_targets_request(params):
+def validate_get_match_targets_request(params) -> str | None:
     """Validate GetMatchTargetsRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "ConfigVersion": _required(params.config_version),
     })
 
 
-def validate_create_match_target_request(params):
+def validate_create_match_target_request(params) -> str | None:
     """Validate CreateMatchTargetRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "ConfigVersion": _required(params.config_version),
     })
 
 
-def validate_update_match_target_request(params):
+def validate_update_match_target_request(params) -> str | None:
     """Validate UpdateMatchTargetRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "ConfigVersion": _required(params.config_version),
         "TargetID": _required(params.target_id),
     })
 
 
-def validate_remove_match_target_request(params):
+def validate_remove_match_target_request(params) -> str | None:
     """Validate RemoveMatchTargetRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "ConfigVersion": _required(params.config_version),
         "TargetID": _required(params.target_id),
     })
 
 
-def validate_get_match_target_sequence_request(params):
+def validate_get_match_target_sequence_request(params) -> str | None:
     """Validate GetMatchTargetSequenceRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "ConfigVersion": _required(params.config_version),
         "Type": _required(params.type),
     })
 
 
-def validate_update_match_target_sequence_request(params):
+def validate_update_match_target_sequence_request(params) -> str | None:
     """Validate UpdateMatchTargetSequenceRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "ConfigVersion": _required(params.config_version),
         "Type": _required(params.config_version),
     })
 
 
-def validate_get_rule_request(params):
+def validate_get_rule_request(params) -> str | None:
     """Validate GetRuleRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
@@ -775,18 +778,18 @@ def validate_get_rule_request(params):
     })
 
 
-def validate_get_rules_request(params):
+def validate_get_rules_request(params) -> str | None:
     """Validate GetRulesRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_update_rule_request(params):
+def validate_update_rule_request(params) -> str | None:
     """Validate UpdateRuleRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
@@ -794,9 +797,9 @@ def validate_update_rule_request(params):
     })
 
 
-def validate_update_condition_exception_request(params):
+def validate_update_condition_exception_request(params) -> str | None:
     """Validate UpdateConditionExceptionRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
@@ -804,36 +807,36 @@ def validate_update_condition_exception_request(params):
     })
 
 
-def validate_get_rule_upgrade_request(params):
+def validate_get_rule_upgrade_request(params) -> str | None:
     """Validate GetRuleUpgradeRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_update_rule_upgrade_request(params):
+def validate_update_rule_upgrade_request(params) -> str | None:
     """Validate UpdateRuleUpgradeRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_get_rapid_rules_request(params):
+def validate_get_rapid_rules_request(params) -> str | None:
     """Validate GetRapidRulesRequest."""
-    _validate_parsed({
+    return _validate_parsed({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_update_rapid_rules_status_request(params):
+def validate_update_rapid_rules_status_request(params) -> str | None:
     """Validate UpdateRapidRulesStatusRequest."""
-    _validate_parsed({
+    return _validate_parsed({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
@@ -841,9 +844,9 @@ def validate_update_rapid_rules_status_request(params):
     })
 
 
-def validate_update_rapid_rules_default_action_request(params):
+def validate_update_rapid_rules_default_action_request(params) -> str | None:
     """Validate UpdateRapidRulesDefaultActionRequest."""
-    _validate_parsed({
+    return _validate_parsed({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
@@ -851,9 +854,9 @@ def validate_update_rapid_rules_default_action_request(params):
     })
 
 
-def validate_update_rapid_rule_action_lock_request(params):
+def validate_update_rapid_rule_action_lock_request(params) -> str | None:
     """Validate UpdateRapidRuleActionLockRequest."""
-    _validate_parsed({
+    return _validate_parsed({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
@@ -862,9 +865,9 @@ def validate_update_rapid_rule_action_lock_request(params):
     })
 
 
-def validate_update_rapid_rule_action_request(params):
+def validate_update_rapid_rule_action_request(params) -> str | None:
     """Validate UpdateRapidRuleActionRequest."""
-    _validate_parsed({
+    return _validate_parsed({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
@@ -874,9 +877,9 @@ def validate_update_rapid_rule_action_request(params):
     })
 
 
-def validate_update_rapid_rule_exception_request(params):
+def validate_update_rapid_rule_exception_request(params) -> str | None:
     """Validate UpdateRapidRuleExceptionRequest."""
-    _validate_parsed({
+    return _validate_parsed({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
@@ -885,224 +888,224 @@ def validate_update_rapid_rule_exception_request(params):
     })
 
 
-def validate_get_waf_mode_request(params):
+def validate_get_waf_mode_request(params) -> str | None:
     """Validate GetWAFModeRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_update_waf_mode_request(params):
+def validate_update_waf_mode_request(params) -> str | None:
     """Validate UpdateWAFModeRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_get_ip_geo_request(params):
+def validate_get_ip_geo_request(params) -> str | None:
     """Validate GetIPGeoRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_update_ip_geo_request(params):
+def validate_update_ip_geo_request(params) -> str | None:
     """Validate UpdateIPGeoRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_get_ip_geo_protection_request(params):
+def validate_get_ip_geo_protection_request(params) -> str | None:
     """Validate GetIPGeoProtectionRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_update_ip_geo_protection_request(params):
+def validate_update_ip_geo_protection_request(params) -> str | None:
     """Validate UpdateIPGeoProtectionRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_get_rate_protection_request(params):
+def validate_get_rate_protection_request(params) -> str | None:
     """Validate GetRateProtectionRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_update_rate_protection_request(params):
+def validate_update_rate_protection_request(params) -> str | None:
     """Validate UpdateRateProtectionRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_get_reputation_protection_request(params):
+def validate_get_reputation_protection_request(params) -> str | None:
     """Validate GetReputationProtectionRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_update_reputation_protection_request(params):
+def validate_update_reputation_protection_request(params) -> str | None:
     """Validate UpdateReputationProtectionRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_get_waf_protection_request(params):
+def validate_get_waf_protection_request(params) -> str | None:
     """Validate GetWAFProtectionRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_update_waf_protection_request(params):
+def validate_update_waf_protection_request(params) -> str | None:
     """Validate UpdateWAFProtectionRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_get_slow_post_protection_settings_request(params):
+def validate_get_slow_post_protection_settings_request(params) -> str | None:
     """Validate GetSlowPostProtectionSettingsRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_get_slow_post_protection_request(params):
+def validate_get_slow_post_protection_request(params) -> str | None:
     """Validate GetSlowPostProtectionRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_get_slow_post_protections_request(params):
+def validate_get_slow_post_protections_request(params) -> str | None:
     """Validate GetSlowPostProtectionsRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_update_slow_post_protection_request(params):
+def validate_update_slow_post_protection_request(params) -> str | None:
     """Validate UpdateSlowPostProtectionRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_update_slow_post_protection_setting_request(params):
+def validate_update_slow_post_protection_setting_request(params) -> str | None:
     """Validate UpdateSlowPostProtectionSettingRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_get_ip_geo_protections_request(params):
+def validate_get_ip_geo_protections_request(params) -> str | None:
     """Validate GetIPGeoProtectionsRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_get_rate_protections_request(params):
+def validate_get_rate_protections_request(params) -> str | None:
     """Validate GetRateProtectionsRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_get_reputation_protections_request(params):
+def validate_get_reputation_protections_request(params) -> str | None:
     """Validate GetReputationProtectionsRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_remove_reputation_protection_request(params):
+def validate_remove_reputation_protection_request(params) -> str | None:
     """Validate RemoveReputationProtectionRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_get_malware_policy_request(params):
+def validate_get_malware_policy_request(params) -> str | None:
     """Validate GetMalwarePolicyRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "ConfigVersion": _required(params.config_version),
         "MalwarePolicyID": _required(params.malware_policy_id),
     })
 
 
-def validate_get_malware_policies_request(params):
+def validate_get_malware_policies_request(params) -> str | None:
     """Validate GetMalwarePoliciesRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "ConfigVersion": _required(params.config_version),
     })
 
 
-def validate_create_malware_policy_request(params):
+def validate_create_malware_policy_request(params) -> str | None:
     """Validate CreateMalwarePolicyRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "ConfigVersion": _required(params.config_version),
         "Policy": _required(params.policy),
     })
 
 
-def validate_update_malware_policy_request(params):
+def validate_update_malware_policy_request(params) -> str | None:
     """Validate UpdateMalwarePolicyRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "ConfigVersion": _required(params.config_version),
         "MalwarePolicyID": _required(params.malware_policy_id),
@@ -1110,27 +1113,27 @@ def validate_update_malware_policy_request(params):
     })
 
 
-def validate_remove_malware_policy_request(params):
+def validate_remove_malware_policy_request(params) -> str | None:
     """Validate RemoveMalwarePolicyRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "ConfigVersion": _required(params.config_version),
         "MalwarePolicyID": _required(params.malware_policy_id),
     })
 
 
-def validate_get_malware_policy_actions_request(params):
+def validate_get_malware_policy_actions_request(params) -> str | None:
     """Validate GetMalwarePolicyActionsRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_update_malware_policy_action_request(params):
+def validate_update_malware_policy_action_request(params) -> str | None:
     """Validate UpdateMalwarePolicyActionRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
@@ -1140,9 +1143,9 @@ def validate_update_malware_policy_action_request(params):
     })
 
 
-def validate_update_malware_policy_actions_request(params):
+def validate_update_malware_policy_actions_request(params) -> str | None:
     """Validate UpdateMalwarePolicyActionsRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
@@ -1150,198 +1153,198 @@ def validate_update_malware_policy_actions_request(params):
     })
 
 
-def validate_get_malware_content_types_request(params):
+def validate_get_malware_content_types_request(params) -> str | None:
     """Validate GetMalwareContentTypesRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
     })
 
 
-def validate_get_malware_protection_request(params):
+def validate_get_malware_protection_request(params) -> str | None:
     """Validate GetMalwareProtectionRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_get_malware_protections_request(params):
+def validate_get_malware_protections_request(params) -> str | None:
     """Validate GetMalwareProtectionsRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_update_malware_protection_request(params):
+def validate_update_malware_protection_request(params) -> str | None:
     """Validate UpdateMalwareProtectionRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_get_api_endpoints_request(params):
+def validate_get_api_endpoints_request(params) -> str | None:
     """Validate GetApiEndpointsRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
     })
 
 
-def validate_get_api_hostname_coverage_match_targets_request(params):
+def validate_get_api_hostname_coverage_match_targets_request(params) -> str | None:
     """Validate GetApiHostnameCoverageMatchTargetsRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
     })
 
 
-def validate_get_api_hostname_coverage_overlapping_request(params):
+def validate_get_api_hostname_coverage_overlapping_request(params) -> str | None:
     """Validate GetApiHostnameCoverageOverlappingRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
     })
 
 
-def validate_get_api_request_constraints_request(params):
+def validate_get_api_request_constraints_request(params) -> str | None:
     """Validate GetApiRequestConstraintsRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_update_api_request_constraints_request(params):
+def validate_update_api_request_constraints_request(params) -> str | None:
     """Validate UpdateApiRequestConstraintsRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_remove_api_request_constraints_request(params):
+def validate_remove_api_request_constraints_request(params) -> str | None:
     """Validate RemoveApiRequestConstraintsRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_get_api_constraints_protection_request(params):
+def validate_get_api_constraints_protection_request(params) -> str | None:
     """Validate GetAPIConstraintsProtectionRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_update_api_constraints_protection_request(params):
+def validate_update_api_constraints_protection_request(params) -> str | None:
     """Validate UpdateAPIConstraintsProtectionRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_get_wap_selected_hostnames_request(params):
+def validate_get_wap_selected_hostnames_request(params) -> str | None:
     """Validate GetWAPSelectedHostnamesRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "SecurityPolicyID": _required(params.version),
     })
 
 
-def validate_update_wap_selected_hostnames_request(params):
+def validate_update_wap_selected_hostnames_request(params) -> str | None:
     """Validate UpdateWAPSelectedHostnamesRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "SecurityPolicyID": _required(params.version),
     })
 
 
-def validate_get_wap_bypass_network_lists_request(params):
+def validate_get_wap_bypass_network_lists_request(params) -> str | None:
     """Validate GetWAPBypassNetworkListsRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_update_wap_bypass_network_lists_request(params):
+def validate_update_wap_bypass_network_lists_request(params) -> str | None:
     """Validate UpdateWAPBypassNetworkListsRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_remove_wap_bypass_network_lists_request(params):
+def validate_remove_wap_bypass_network_lists_request(params) -> str | None:
     """Validate RemoveWAPBypassNetworkListsRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_get_siem_settings_request(params):
+def validate_get_siem_settings_request(params) -> str | None:
     """Validate GetSiemSettingsRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
     })
 
 
-def validate_update_siem_settings_request(params):
+def validate_update_siem_settings_request(params) -> str | None:
     """Validate UpdateSiemSettingsRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
     })
 
 
-def validate_remove_siem_settings_request(params):
+def validate_remove_siem_settings_request(params) -> str | None:
     """Validate RemoveSiemSettingsRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
     })
 
 
-def validate_get_selected_hostname_request(params):
+def validate_get_selected_hostname_request(params) -> str | None:
     """Validate GetSelectedHostnameRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
     })
 
 
-def validate_update_selected_hostname_request(params):
+def validate_update_selected_hostname_request(params) -> str | None:
     """Validate UpdateSelectedHostnameRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
     })
 
 
-def validate_get_host_move_validation_request(params):
+def validate_get_host_move_validation_request(params) -> str | None:
     """Validate GetHostMoveValidationRequest."""
-    _validate_parsed({
+    return _validate_parsed({
         "ConfigID": _required(params.config_id),
         "ConfigVersion": _required(params.config_version),
         "Network": _required_in(
@@ -1352,9 +1355,9 @@ def validate_get_host_move_validation_request(params):
     })
 
 
-def validate_create_activations_with_host_move_request(params):
+def validate_create_activations_with_host_move_request(params) -> str | None:
     """Validate CreateActivationsWithHostMoveRequest."""
-    _validate_parsed({
+    return _validate_parsed({
         "ConfigID": _required(params.config_id),
         "ConfigVersion": _required(params.config_version),
         "Action": _required(params.action),
@@ -1366,9 +1369,9 @@ def validate_create_activations_with_host_move_request(params):
     })
 
 
-def validate_get_export_configuration_request(params):
+def validate_get_export_configuration_request(params) -> str | None:
     """Validate GetExportConfigurationRequest."""
-    _validate_parsed({
+    return _validate_parsed({
         "Source": _in_values(
             params.source,
             ("TF",),
@@ -1377,43 +1380,43 @@ def validate_get_export_configuration_request(params):
     })
 
 
-def validate_get_version_notes_request(params):
+def validate_get_version_notes_request(params) -> str | None:
     """Validate GetVersionNotesRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
     })
 
 
-def validate_update_version_notes_request(params):
+def validate_update_version_notes_request(params) -> str | None:
     """Validate UpdateVersionNotesRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
     })
 
 
-def validate_get_threat_intel_request(params):
+def validate_get_threat_intel_request(params) -> str | None:
     """Validate GetThreatIntelRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_update_threat_intel_request(params):
+def validate_update_threat_intel_request(params) -> str | None:
     """Validate UpdateThreatIntelRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
     })
 
 
-def validate_get_tuning_recommendations_request(params):
+def validate_get_tuning_recommendations_request(params) -> str | None:
     """Validate GetTuningRecommendationsRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
@@ -1426,9 +1429,9 @@ def validate_get_tuning_recommendations_request(params):
     })
 
 
-def validate_get_attack_group_recommendations_request(params):
+def validate_get_attack_group_recommendations_request(params) -> str | None:
     """Validate GetAttackGroupRecommendationsRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
@@ -1442,9 +1445,9 @@ def validate_get_attack_group_recommendations_request(params):
     })
 
 
-def validate_get_rule_recommendations_request(params):
+def validate_get_rule_recommendations_request(params) -> str | None:
     """Validate GetRuleRecommendationsRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
         "PolicyID": _required(params.policy_id),
@@ -1458,209 +1461,390 @@ def validate_get_rule_recommendations_request(params):
     })
 
 
-def validate_get_advanced_settings_logging_request(params):
+def validate_get_advanced_settings_logging_request(params) -> str | None:
     """Validate GetAdvancedSettingsLoggingRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
     })
 
 
-def validate_update_advanced_settings_logging_request(params):
+def validate_update_advanced_settings_logging_request(params) -> str | None:
     """Validate UpdateAdvancedSettingsLoggingRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
     })
 
 
-def validate_remove_advanced_settings_logging_request(params):
+def validate_remove_advanced_settings_logging_request(params) -> str | None:
     """Validate RemoveAdvancedSettingsLoggingRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
     })
 
 
-def validate_get_advanced_settings_ase_penalty_box_request(params):
+def validate_get_advanced_settings_ase_penalty_box_request(params) -> str | None:
     """Validate GetAdvancedSettingsAsePenaltyBoxRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
     })
 
 
-def validate_update_advanced_settings_ase_penalty_box_request(params):
+def validate_update_advanced_settings_ase_penalty_box_request(params) -> str | None:
     """Validate UpdateAdvancedSettingsAsePenaltyBoxRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
     })
 
 
-def validate_get_advanced_settings_attack_payload_logging_request(params):
+def validate_get_advanced_settings_attack_payload_logging_request(params) -> str | None:
     """Validate GetAdvancedSettingsAttackPayloadLoggingRequest."""
-    _validate_parsed({
+    return _validate_parsed({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
     })
 
 
-def validate_update_advanced_settings_attack_payload_logging_request(params):
+def validate_update_advanced_settings_attack_payload_logging_request(params) -> str | None:
     """Validate UpdateAdvancedSettingsAttackPayloadLoggingRequest."""
-    _validate_parsed({
+    return _validate_parsed({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
     })
 
 
-def validate_remove_advanced_settings_attack_payload_logging_request(params):
+def validate_remove_advanced_settings_attack_payload_logging_request(params) -> str | None:
     """Validate RemoveAdvancedSettingsAttackPayloadLoggingRequest."""
-    _validate_parsed({
+    return _validate_parsed({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
     })
 
 
-def validate_get_advanced_settings_evasive_path_match_request(params):
+def validate_get_advanced_settings_evasive_path_match_request(params) -> str | None:
     """Validate GetAdvancedSettingsEvasivePathMatchRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
     })
 
 
-def validate_update_advanced_settings_evasive_path_match_request(params):
+def validate_update_advanced_settings_evasive_path_match_request(params) -> str | None:
     """Validate UpdateAdvancedSettingsEvasivePathMatchRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
     })
 
 
-def validate_remove_advanced_settings_evasive_path_match_request(params):
+def validate_remove_advanced_settings_evasive_path_match_request(params) -> str | None:
     """Validate RemoveAdvancedSettingsEvasivePathMatchRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
     })
 
 
-def validate_get_advanced_settings_ja4_fingerprint_request(params):
+def validate_get_advanced_settings_ja4_fingerprint_request(params) -> str | None:
     """Validate GetAdvancedSettingsJA4FingerprintRequest."""
-    _validate_parsed({
+    return _validate_parsed({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
     })
 
 
-def validate_update_advanced_settings_ja4_fingerprint_request(params):
+def validate_update_advanced_settings_ja4_fingerprint_request(params) -> str | None:
     """Validate UpdateAdvancedSettingsJA4FingerprintRequest."""
-    _validate_parsed({
+    return _validate_parsed({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
     })
 
 
-def validate_remove_advanced_settings_ja4_fingerprint_request(params):
+def validate_remove_advanced_settings_ja4_fingerprint_request(params) -> str | None:
     """Validate RemoveAdvancedSettingsJA4FingerprintRequest."""
-    _validate_parsed({
+    return _validate_parsed({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
     })
 
 
-def validate_get_advanced_settings_pii_learning_request(params):
+def validate_get_advanced_settings_pii_learning_request(params) -> str | None:
     """Validate GetAdvancedSettingsPIILearningRequest."""
-    _validate_parsed({
+    return _validate_parsed({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
     })
 
 
-def validate_update_advanced_settings_pii_learning_request(params):
+def validate_update_advanced_settings_pii_learning_request(params) -> str | None:
     """Validate UpdateAdvancedSettingsPIILearningRequest."""
-    _validate_parsed({
+    return _validate_parsed({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
     })
 
 
-def validate_get_advanced_settings_pragma_request(params):
+def validate_get_advanced_settings_pragma_request(params) -> str | None:
     """Validate GetAdvancedSettingsPragmaRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
     })
 
 
-def validate_update_advanced_settings_pragma_request(params):
+def validate_update_advanced_settings_pragma_request(params) -> str | None:
     """Validate UpdateAdvancedSettingsPragmaRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
     })
 
 
-def validate_get_advanced_settings_prefetch_request(params):
+def validate_get_advanced_settings_prefetch_request(params) -> str | None:
     """Validate GetAdvancedSettingsPrefetchRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
     })
 
 
-def validate_update_advanced_settings_prefetch_request(params):
+def validate_update_advanced_settings_prefetch_request(params) -> str | None:
     """Validate UpdateAdvancedSettingsPrefetchRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
     })
 
 
-def validate_get_advanced_settings_request_body_request(params):
+def validate_get_advanced_settings_request_body_request(params) -> str | None:
     """Validate GetAdvancedSettingsRequestBodyRequest."""
-    _validate_parsed({
+    return _validate_parsed({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
     })
 
 
-def validate_update_advanced_settings_request_body_request(params):
+def validate_update_advanced_settings_request_body_request(params) -> str | None:
     """Validate UpdateAdvancedSettingsRequestBodyRequest."""
-    _validate_parsed({
+    return _validate_parsed({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
     })
 
 
-def validate_remove_advanced_settings_request_body_request(params):
+def validate_remove_advanced_settings_request_body_request(params) -> str | None:
     """Validate RemoveAdvancedSettingsRequestBodyRequest."""
-    _validate_parsed({
+    return _validate_parsed({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
     })
 
 
-def validate_remove_advanced_settings_ase_penalty_box_request(params):
+def validate_remove_advanced_settings_ase_penalty_box_request(params) -> str | None:
     """Validate RemoveAdvancedSettingsAsePenaltyBoxRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
     })
 
 
-def validate_get_selected_hostnames_request(params):
+def validate_get_selected_hostnames_request(params) -> str | None:
     """Validate GetSelectedHostnamesRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
     })
 
 
-def validate_update_selected_hostnames_request(params):
+def validate_update_selected_hostnames_request(params) -> str | None:
     """Validate UpdateSelectedHostnamesRequest."""
-    _validate_required({
+    return _validate_required({
         "ConfigID": _required(params.config_id),
         "Version": _required(params.version),
     })
+
+
+# ============================================================================
+# Missing validators added to achieve full parity with Go appsec Validate()
+# ============================================================================
+
+_VALID_EXCEPTION_PROTECTIONS = (
+    "botmanagement", "ipgeo", "rate", "urlProtection", "slowpost",
+    "customrules", "waf", "apirequestconstraints", "clientrep",
+    "malwareprotection", "aprProtection",
+)
+
+_VALID_EXCEPTION_ACTION_TYPES = (
+    "alert", "deny", "all_custom", "abort", "allow", "delay",
+    "ignore", "monitor", "slow", "tarpit", "*",
+)
+
+
+def validate_exception(exc) -> str | None:
+    """Validate Exception fields (SIEM exception configuration).
+
+    Mirrors Go ``Exception.Validate()`` from siem_settings.go.
+    Validates Protection against known protection types and each
+    ActionType against valid action type values.
+    """
+    errors: dict[str, str | None] = {}
+    errors["Protection"] = _required_in(
+        exc.protection,
+        _VALID_EXCEPTION_PROTECTIONS,
+        (
+            f"value '{exc.protection}' is invalid. Must be one of: "
+            "'botmanagement', 'ipgeo', 'rate', 'urlProtection', "
+            "'slowpost', 'customrules', 'waf', "
+            "'apirequestconstraints', 'clientrep', "
+            "'malwareprotection', 'aprProtection'"
+        ),
+    )
+    req_err = _required(exc.action_types)
+    if req_err is not None:
+        errors["ActionTypes"] = req_err
+    else:
+        for action_type in exc.action_types:
+            if action_type not in _VALID_EXCEPTION_ACTION_TYPES:
+                errors["ActionTypes"] = (
+                    f"value '{action_type}' is invalid. Must be "
+                    f"one of: {list(_VALID_EXCEPTION_ACTION_TYPES)}"
+                )
+                break
+    return _validate_required(errors)
+
+
+def validate_get_evals_request(params) -> str | None:
+    """Validate GetEvalsRequest.
+
+    Mirrors Go ``GetEvalsRequest.Validate()`` from eval.go.
+    """
+    return _validate_required({
+        "ConfigID": _required(params.config_id),
+        "Version": _required(params.version),
+        "PolicyID": _required(params.policy_id),
+    })
+
+
+def validate_get_rapid_rules_default_action_request(params) -> str | None:
+    """Validate GetRapidRulesDefaultActionRequest.
+
+    Mirrors Go ``GetRapidRulesDefaultActionRequest.Validate()``
+    which delegates to ``GetRapidRulesRequest.Validate()``.
+    """
+    return validate_get_rapid_rules_request(params)
+
+
+def validate_get_rapid_rules_status_request(params) -> str | None:
+    """Validate GetRapidRulesStatusRequest.
+
+    Mirrors Go ``GetRapidRulesStatusRequest.Validate()``
+    which delegates to ``GetRapidRulesRequest.Validate()``.
+    """
+    return validate_get_rapid_rules_request(params)
+
+
+def validate_get_waf_protections_request(params) -> str | None:
+    """Validate GetWAFProtectionsRequest.
+
+    Mirrors Go ``GetWAFProtectionsRequest.Validate()`` from
+    waf_protection.go.
+    """
+    return _validate_required({
+        "ConfigID": _required(params.config_id),
+        "Version": _required(params.version),
+        "PolicyID": _required(params.policy_id),
+    })
+
+
+def validate_penalty_box_conditions_payload(payload) -> str | None:
+    """Validate PenaltyBoxConditionsPayload.
+
+    Mirrors Go ``PenaltyBoxConditionsPayload.Validate()`` from
+    penalty_box_conditions.go. Uses Required for ConditionOperator
+    and NotNil for Conditions.
+    """
+    errors: dict[str, str | None] = {}
+    errors["ConditionOperator"] = _required(
+        payload.condition_operator
+    )
+    if payload.conditions is None:
+        errors["Conditions"] = "is required"
+    return _validate_required(errors)
+
+
+def validate_remove_reputation_analysis_request(params) -> str | None:
+    """Validate RemoveReputationAnalysisRequest.
+
+    Mirrors Go ``RemoveReputationAnalysisRequest.Validate()`` from
+    reputation_analysis.go.
+    """
+    return _validate_required({
+        "ConfigID": _required(params.config_id),
+        "Version": _required(params.version),
+        "PolicyID": _required(params.policy_id),
+    })
+
+
+def validate_rule_ids(rule_ids) -> str | None:
+    """Validate RuleIDs.
+
+    Mirrors Go ``RuleIDs.Validate()`` from custom_rule.go.
+    IDs is required and must contain at least 1 element.
+    """
+    errors: dict[str, str | None] = {}
+    if not rule_ids.ids:
+        errors["IDs"] = "cannot be blank"
+    elif len(rule_ids.ids) < 1:
+        errors["IDs"] = "the length must be no less than 1"
+    return _validate_required(errors)
+
+
+def validate_update_rapid_rule_action_lock_request_body(body) -> str | None:
+    """Validate UpdateRapidRuleActionLockRequestBody.
+
+    Mirrors Go ``UpdateRapidRuleActionLockRequestBody.Validate()``
+    from rapid_rule.go. Uses NotNil for Enabled (bool pointer).
+    """
+    errors: dict[str, str | None] = {}
+    if body.enabled is None:
+        errors["Enabled"] = "is required"
+    return _validate_required(errors)
+
+
+def validate_update_rapid_rule_action_request_body(body) -> str | None:
+    """Validate UpdateRapidRuleActionRequestBody.
+
+    Mirrors Go ``UpdateRapidRuleActionRequestBody.Validate()``
+    from rapid_rule.go. Action is required.
+    """
+    return _validate_required({
+        "Action": _required(body.action),
+    })
+
+
+def validate_update_rapid_rules_default_action_request_body(body) -> str | None:
+    """Validate UpdateRapidRulesDefaultActionRequestBody.
+
+    Mirrors Go ``UpdateRapidRulesDefaultActionRequestBody.Validate()``
+    from rapid_rule.go. Action is required.
+    """
+    return _validate_required({
+        "Action": _required(body.action),
+    })
+
+
+def validate_update_rapid_rules_status_request_body(body) -> str | None:
+    """Validate UpdateRapidRulesStatusRequestBody.
+
+    Mirrors Go ``UpdateRapidRulesStatusRequestBody.Validate()``
+    from rapid_rule.go. Uses NotNil for Enabled (bool pointer).
+    """
+    errors: dict[str, str | None] = {}
+    if body.enabled is None:
+        errors["Enabled"] = "is required"
+    return _validate_required(errors)

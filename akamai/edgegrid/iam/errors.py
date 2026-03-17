@@ -100,20 +100,9 @@ class IAMError(Exception):  # pylint: disable=too-many-instance-attributes
         return str(self) == str(other)
 
 
-class ErrStructValidation(Exception):
-    """Raised when IAM request struct validation fails.
-
-    Mirrors Go iam.ErrStructValidation = errors.New("struct validation").
-    Used as the exception type for request validation failures before
-    any HTTP request is made.
-    """
-
-    def __init__(self, message: str = "struct validation"):
-        super().__init__(message)
-        self.message = message
-
-    def __str__(self) -> str:
-        return self.message
+# ErrStructValidation is the sentinel value for struct validation failures.
+# Mirrors Go: var ErrStructValidation = errors.New("struct validation")
+ErrStructValidation = "struct validation"  # pylint: disable=invalid-name
 
 
 def parse_iam_error_response(response) -> IAMError:

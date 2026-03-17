@@ -91,15 +91,9 @@ class Error(Exception):
         return str(self) == str(target)
 
 
-class ErrStructValidation(Exception):
-    """Raised when struct validation fails.
-
-    Mirrors Go ``ErrStructValidation = errors.New("struct validation")``
-    in ``ds.go`` line 15.
-    """
-
-    def __init__(self, message: str = "struct validation"):
-        super().__init__(message)
+# ErrStructValidation is the sentinel value for struct validation failures.
+# Mirrors Go: var ErrStructValidation = errors.New("struct validation")
+ErrStructValidation = "struct validation"
 
 
 # ---------------------------------------------------------------------------

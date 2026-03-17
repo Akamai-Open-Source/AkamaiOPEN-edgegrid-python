@@ -133,18 +133,9 @@ class Error(Exception):  # pylint: disable=too-many-instance-attributes
         return False
 
 
-class ErrStructValidation(Exception):
-    """Raised when struct validation fails.
-
-    Mirrors Go ``mtlstruststore.ErrStructValidation`` sentinel.
-    """
-
-    def __init__(self, message: str = "struct validation"):
-        super().__init__(message)
-        self.message = message
-
-    def __str__(self) -> str:
-        return self.message
+# ErrStructValidation is the sentinel value for struct validation failures.
+# Mirrors Go: var ErrStructValidation = errors.New("struct validation")
+ErrStructValidation = "struct validation"
 
 
 # ---------------------------------------------------------------------------

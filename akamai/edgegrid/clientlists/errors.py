@@ -14,8 +14,11 @@ import json
 import logging
 from dataclasses import dataclass
 
-from akamai.edgegrid.errors import ErrStructValidation
 from akamai.edgegrid.utils import unescape_content
+
+# ErrStructValidation is the sentinel value for struct validation failures.
+# Mirrors Go: var ErrStructValidation = errors.New("struct validation")
+ErrStructValidation = "struct validation"
 
 __all__ = ["Error", "ErrStructValidation", "parse_error_response"]
 

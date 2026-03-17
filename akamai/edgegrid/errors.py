@@ -5,6 +5,20 @@ sentinel exception classes for common error conditions, and a response parser
 for RFC 7807 problem detail payloads.
 
 Mirrors the common error patterns found in every Go v12 pkg/*/errors.go file.
+
+Error Hierarchy Design
+----------------------
+In Go, each service package defines its own independent Error struct that
+implements the error interface — there is no shared base type or inheritance.
+Following Go parity, most Python service error classes extend ``Exception``
+directly rather than inheriting from the ``Error`` class defined here. A
+small number of services (e.g., papi, edgeworkers) extend ``Error`` because
+their error structures closely align with the base RFC 7807 fields. Service
+clients that extend ``Exception`` directly carry service-specific extra fields
+(e.g., HAPI's ``request_instance``, IAM's ``behavior_name``).
+
+To catch *any* Akamai API error generically, catch ``Exception`` and check
+for the presence of common fields (``type``, ``title``, ``status_code``).
 """
 
 import json
@@ -34,6 +48,14 @@ class Error(Exception):
     status_code: int = 0
     errors: list | dict | str | None = None
 
+    def __post_init__(self):
+        """Populate the standard Exception args tuple.
+
+        Ensures ``self.args`` is not empty, so catching the exception
+        and printing ``.args`` behaves as expected for standard exceptions.
+        """
+        super().__init__(str(self))
+
     def __str__(self) -> str:
         """Format error as indented JSON, matching Go's Error() method.
 
@@ -45,8 +67,12 @@ class Error(Exception):
                 ...
             }
 
-        Fields with empty/zero/None values that have omitempty semantics
-        in Go are excluded from the JSON output.
+        Fields that have ``omitempty`` tags in the Go struct definition
+        (instance, statusCode, errors) are excluded when empty/zero/None.
+        Fields without ``omitempty`` (type, title, detail) are always
+        included — even when empty — to match Go ``json.MarshalIndent``
+        behavior. Service-specific Error subclasses should follow the
+        same convention, consulting each Go struct's JSON tags.
         """
         error_dict = {
             "type": self.type,
@@ -128,6 +154,15 @@ def parse_error_response(response) -> Error:
 
     Reads the response body, attempts JSON parsing for RFC 7807 structure,
     falls back to raw text with HTML unescaping on parse failure.
+
+    This is a **generic** parser that populates the common base ``Error``
+    fields (type, title, detail, instance, status_code, errors). Service-
+    specific parsers in each service's ``errors.py`` (e.g., HAPI's
+    ``parse_hapi_error()``, PAPI's ``parse_papi_error()``) extend this
+    pattern with additional fields such as ``request_instance``, ``method``,
+    ``warnings``, and ``activation_link``. Service clients should use their
+    own service-specific parser rather than this generic fallback when
+    detailed error information is required.
 
     Mirrors the common Error() method pattern across all Go service
     packages (e.g., pkg/iam/errors.go, pkg/papi/errors.go).
