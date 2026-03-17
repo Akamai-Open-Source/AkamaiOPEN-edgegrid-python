@@ -1,0 +1,7 @@
+{
+  "detail": "An unexpected error occurred on the server.",
+  "instance": "https://problems.luna.akamaiapis.net/appsec/error-instances/abc123def456",
+  "status": 500,
+  "title": "Internal Server Error",
+  "type": "https://problems.luna.akamaiapis.net/appsec/error-types/INTERNAL_SERVER_ERROR"
+}
