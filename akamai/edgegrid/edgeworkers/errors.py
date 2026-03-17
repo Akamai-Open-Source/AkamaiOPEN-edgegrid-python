@@ -1,6 +1,6 @@
 """Error types and sentinel errors for EdgeWorkers/EdgeKV API.
 
-Defines the EdgeWorkers-specific ``EdgeWorkersError`` class (extending the
+Defines the EdgeWorkers-specific ``Error`` class (extending the
 base ``Error``), the ``AdditionalDetail`` dataclass, a response-body parser
 (``parse_edgeworkers_error``), error-code constants, and every operation
 sentinel error constant used across the EdgeWorkers / EdgeKV package.
@@ -141,10 +141,10 @@ class AdditionalDetail:
 
 
 # ---------------------------------------------------------------------------
-# EdgeWorkersError — mirrors Go ``pkg/edgeworkers.Error`` struct
+# Error — mirrors Go ``pkg/edgeworkers.Error`` struct
 # ---------------------------------------------------------------------------
 @dataclass
-class EdgeWorkersError(BaseError):  # pylint: disable=too-many-instance-attributes
+class Error(BaseError):  # pylint: disable=too-many-instance-attributes
     """EdgeWorkers / EdgeKV specific API error.
 
     Extends the base ``Error`` class with EdgeWorkers-specific fields such
@@ -254,13 +254,13 @@ class EdgeWorkersError(BaseError):  # pylint: disable=too-many-instance-attribut
         * ``ErrVersionAlreadyDeactivated``: matches when
           ``error_code == "EW1032"``.
 
-        When *other* is another ``EdgeWorkersError`` the comparison falls
+        When *other* is another ``Error`` the comparison falls
         through to a status check and then a full string-representation
         comparison.
         """
         if isinstance(other, str):
             return self._matches_sentinel(other)
-        if not isinstance(other, EdgeWorkersError):
+        if not isinstance(other, Error):
             return False
         if self is other:
             return True
@@ -270,11 +270,11 @@ class EdgeWorkersError(BaseError):  # pylint: disable=too-many-instance-attribut
 # ---------------------------------------------------------------------------
 # Error parsing from HTTP response
 # ---------------------------------------------------------------------------
-def parse_edgeworkers_error(response) -> EdgeWorkersError:
+def parse_edgeworkers_error(response) -> Error:
     """Parse an EdgeWorkers API error from an HTTP response.
 
     Attempts to read the response body as JSON and populate all
-    ``EdgeWorkersError`` fields.  If the body is not valid JSON the
+    ``Error`` fields.  If the body is not valid JSON the
     function falls back to HTML-unescaped plain text in the ``detail``
     field.
 
@@ -284,9 +284,9 @@ def parse_edgeworkers_error(response) -> EdgeWorkersError:
         response: A ``requests.Response`` (or compatible) object.
 
     Returns:
-        A populated ``EdgeWorkersError`` instance.
+        A populated ``Error`` instance.
     """
-    error = EdgeWorkersError()
+    error = Error()
 
     # Read the response body — mirrors Go ioutil.ReadAll(r.Body)
     try:

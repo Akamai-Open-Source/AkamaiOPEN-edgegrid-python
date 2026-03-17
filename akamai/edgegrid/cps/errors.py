@@ -83,7 +83,7 @@ ErrUploadThirdPartyCertAndTrustChain = "upload third-party cert and trust chain"
 
 
 @dataclass
-class CPSError(Exception):
+class Error(Exception):
     """CPS API error response.
 
     Parses CPS-specific RFC 7807 error responses.
@@ -143,11 +143,11 @@ class CPSError(Exception):
         string, checks that ``status_code == 404`` and
         ``title == "Not Found"``.
 
-        For CPSError targets, compares by status_code first, then by
+        For Error targets, compares by status_code first, then by
         string representation.
 
         Args:
-            target: Either a sentinel error string or another CPSError.
+            target: Either a sentinel error string or another Error.
 
         Returns:
             True when this error is equivalent to *target*.
@@ -158,7 +158,7 @@ class CPSError(Exception):
                 and self.title == ENROLLMENT_NOT_FOUND_TITLE
             )
 
-        if not isinstance(target, CPSError):
+        if not isinstance(target, Error):
             return False
         if self is target:
             return True
@@ -172,7 +172,7 @@ class CPSError(Exception):
 # ---------------------------------------------------------------------------
 
 
-def parse_cps_error(response) -> CPSError:
+def parse_cps_error(response) -> Error:
     """Parse a CPS API error from an HTTP response.
 
     Reads the response body and attempts JSON parsing.  Falls back to raw
@@ -186,9 +186,9 @@ def parse_cps_error(response) -> CPSError:
         response: A ``requests.Response`` object (or compatible).
 
     Returns:
-        A populated ``CPSError`` instance.
+        A populated ``Error`` instance.
     """
-    error = CPSError()
+    error = Error()
 
     try:
         body = response.text

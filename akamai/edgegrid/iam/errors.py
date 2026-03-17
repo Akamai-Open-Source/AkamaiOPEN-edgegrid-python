@@ -1,6 +1,6 @@
 """Sentinel errors and error types for the IAM API client.
 
-Mirrors Go pkg/iam/errors.go — defines the IAMError class (RFC 7807 response
+Mirrors Go pkg/iam/errors.go — defines the Error class (RFC 7807 response
 parsing with IAM-specific fields), ErrStructValidation exception, error
 response parser functions, and all sentinel error constants from the IAM
 package.
@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 
 
 @dataclass
-class IAMError(Exception):  # pylint: disable=too-many-instance-attributes
+class Error(Exception):  # pylint: disable=too-many-instance-attributes
     """IAM API error with additional fields specific to IAM responses.
 
     Mirrors Go pkg/iam.Error struct which extends the base error pattern
@@ -79,19 +79,19 @@ class IAMError(Exception):  # pylint: disable=too-many-instance-attributes
         except (TypeError, ValueError) as err:
             return f"error marshaling API error: {err}"
 
-    def is_equivalent(self, other: 'IAMError') -> bool:
-        """Check if this error is equivalent to another IAMError.
+    def is_equivalent(self, other: 'Error') -> bool:
+        """Check if this error is equivalent to another Error.
 
         Mirrors Go's Error.Is() method: compare by status_code first,
         then by full string representation.
 
         Args:
-            other: Another IAMError instance to compare against.
+            other: Another Error instance to compare against.
 
         Returns:
             True if the errors are semantically equivalent.
         """
-        if not isinstance(other, IAMError):
+        if not isinstance(other, Error):
             return False
         if self is other:
             return True
@@ -105,7 +105,7 @@ class IAMError(Exception):  # pylint: disable=too-many-instance-attributes
 ErrStructValidation = "struct validation"  # pylint: disable=invalid-name
 
 
-def parse_iam_error_response(response) -> IAMError:
+def parse_iam_error_response(response) -> Error:
     """Parse an IAM API error from an HTTP response.
 
     Reads the response body, attempts JSON parsing for RFC 7807 structure,
@@ -123,9 +123,9 @@ def parse_iam_error_response(response) -> IAMError:
                   attributes (e.g., requests.Response).
 
     Returns:
-        IAMError populated from the response body.
+        Error populated from the response body.
     """
-    error = IAMError()
+    error = Error()
 
     try:
         body = response.text
@@ -161,11 +161,11 @@ def parse_iam_error_response(response) -> IAMError:
     return error
 
 
-def create_error_from_response(response, sentinel_msg: str) -> IAMError:
-    """Create an IAMError from response, wrapping with sentinel error message.
+def create_error_from_response(response, sentinel_msg: str) -> Error:
+    """Create an Error from response, wrapping with sentinel error message.
 
     Mirrors Go pattern: fmt.Errorf("%s: %w", ErrXxx, i.Error(resp))
-    Parses the response into an IAMError and prefixes the title with
+    Parses the response into an Error and prefixes the title with
     the sentinel error message.
 
     Args:
@@ -175,7 +175,7 @@ def create_error_from_response(response, sentinel_msg: str) -> IAMError:
                       ErrGetAPIClient = "get api client").
 
     Returns:
-        IAMError with title prefixed by the sentinel message.
+        Error with title prefixed by the sentinel message.
     """
     error = parse_iam_error_response(response)
     if error.title:
