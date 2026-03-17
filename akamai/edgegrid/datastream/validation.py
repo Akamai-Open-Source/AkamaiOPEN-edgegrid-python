@@ -388,7 +388,8 @@ def validate_s3_connector(connector) -> str | None:
     Returns
     -------
     str | None
-        Formatted error string one or more required fields are missing or invalid, ``None`` when valid.
+        Formatted error string when one or more required fields
+        are missing or invalid, ``None`` when valid.
     """
     errors: dict[str, str] = {}
     if not connector.destination_type:
@@ -424,7 +425,8 @@ def validate_azure_connector(connector) -> str | None:
     Returns
     -------
     str | None
-        Formatted error string one or more required fields are missing or invalid, ``None`` when valid.
+        Formatted error string when one or more required fields
+        are missing or invalid, ``None`` when valid.
     """
     errors: dict[str, str] = {}
     if not connector.destination_type:
@@ -458,7 +460,8 @@ def validate_datadog_connector(connector) -> str | None:
     Returns
     -------
     str | None
-        Formatted error string one or more required fields are missing or invalid, ``None`` when valid.
+        Formatted error string when one or more required fields
+        are missing or invalid, ``None`` when valid.
     """
     errors: dict[str, str] = {}
     if not connector.destination_type:
@@ -519,7 +522,8 @@ def validate_gcs_connector(connector) -> str | None:
     Returns
     -------
     str | None
-        Formatted error string one or more required fields are missing or invalid, ``None`` when valid.
+        Formatted error string when one or more required fields
+        are missing or invalid, ``None`` when valid.
     """
     errors: dict[str, str] = {}
     if not connector.destination_type:
@@ -629,7 +633,8 @@ def validate_oracle_cloud_storage_connector(connector) -> str | None:
     Returns
     -------
     str | None
-        Formatted error string one or more required fields are missing or invalid, ``None`` when valid.
+        Formatted error string when one or more required fields
+        are missing or invalid, ``None`` when valid.
     """
     errors: dict[str, str] = {}
     if not connector.destination_type:
@@ -767,7 +772,8 @@ def validate_s3_compatible_connector(connector) -> str | None:
     Returns
     -------
     str | None
-        Formatted error string one or more required fields are missing or invalid, ``None`` when valid.
+        Formatted error string when one or more required fields
+        are missing or invalid, ``None`` when valid.
     """
     errors: dict[str, str] = {}
     if not connector.destination_type:

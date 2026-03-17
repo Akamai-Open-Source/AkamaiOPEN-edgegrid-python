@@ -93,7 +93,7 @@ class Error(Exception):
 
 # ErrStructValidation is the sentinel value for struct validation failures.
 # Mirrors Go: var ErrStructValidation = errors.New("struct validation")
-ErrStructValidation = "struct validation"
+ErrStructValidation = "struct validation"  # pylint: disable=invalid-name
 
 
 # ---------------------------------------------------------------------------
