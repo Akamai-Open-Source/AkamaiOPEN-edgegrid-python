@@ -1,4 +1,5 @@
-"""Shared pytest fixtures and helpers for Identity and Access Management API tests."""
+# pylint: disable=missing-function-docstring
+"""Test fixtures and helpers for IAM service client tests."""
 
 import json
 import os
@@ -6,113 +7,153 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from akamai.edgegrid.session import Session
-from akamai.edgegrid.iam.iam import IAMClient
-
-# Directory containing this conftest.py
-TEST_DIR = os.path.abspath(os.path.dirname(__file__))
-# Directory containing JSON test fixtures
-TESTDATA_DIR = os.path.join(TEST_DIR, "testdata")
+# Path to this test directory — mirrors existing conftest.py pattern
+# at akamai/edgegrid/test/conftest.py which uses the same idiom.
+test_dir = os.path.abspath(os.path.dirname(__file__))
 
 
-def load_fixture(path):
-    """Load raw test data content from the testdata directory.
+def load_fixture(filename: str):
+    """Load a JSON fixture file from the testdata/ directory.
 
     Mirrors Go ``loadFixtureBytes`` helpers found in IAM test files.
-    Reads the file as UTF-8 text so callers can pass it directly to
-    ``json.loads`` or use it as a raw response body string.
+    Reads and parses a JSON file from ``testdata/`` relative to this
+    test directory.
 
     Args:
-        path: Relative path within ``testdata/``,
-            e.g. ``"accessible_groups_200.json"``.
+        filename: Name of the fixture file relative to ``testdata/``,
+            e.g. ``'lock_api_client_200.json'``.
 
     Returns:
-        String content of the requested fixture file.
+        Parsed JSON data (``dict`` or ``list``).
     """
-    full_path = os.path.join(TESTDATA_DIR, path)
-    with open(full_path, encoding="utf-8") as fobj:
-        return fobj.read()
+    filepath = os.path.join(test_dir, 'testdata', filename)
+    with open(filepath, 'r', encoding='utf-8') as fobj:
+        return json.load(fobj)
 
 
-def load_json_fixture(path):
-    """Load and parse a JSON fixture from the testdata directory.
+def mock_response(status_code: int = 200, body: str = "",
+                  headers: dict | None = None):
+    """Create a mock HTTP response mimicking ``requests.Response``.
 
-    Convenience wrapper around :func:`load_fixture` that additionally
-    deserialises the content into a Python object.
+    This mirrors Go's ``httptest.NewTLSServer`` response writing pattern
+    where the handler writes a status code and response body:
 
-    Args:
-        path: Relative path within ``testdata/``.
-
-    Returns:
-        Parsed JSON as ``dict`` or ``list``.
-    """
-    return json.loads(load_fixture(path))
-
-
-def create_mock_response(status_code, body="", headers=None):
-    """Create a mock HTTP response object.
-
-    Mirrors Go's ``httptest.NewTLSServer`` handler pattern where the test
-    writes a status code and response body.
+    - ``w.WriteHeader(tc.responseStatus)`` → ``status_code``
+    - ``w.Write([]byte(tc.responseBody))`` → ``body`` text
 
     Args:
         status_code: HTTP status code (e.g. 200, 400, 500).
-        body: Response body string (typically JSON).
-        headers: Optional response headers dict.
+        body: Response body as string (JSON or plain text).
+        headers: Optional response headers ``dict``.
 
     Returns:
-        MagicMock configured as an HTTP response with ``status_code``,
-        ``text``, ``json()``, ``content``, ``headers``, and ``ok``
-        attributes.
+        ``MagicMock`` configured to behave like ``requests.Response``
+        with ``status_code``, ``text``, ``content``, ``headers``,
+        ``json()``, and ``close()`` attributes.
     """
     resp = MagicMock()
     resp.status_code = status_code
-    resp.text = body
-    resp.content = body.encode("utf-8") if isinstance(body, str) else body
     resp.headers = headers or {}
-    resp.ok = status_code < 400
-    resp.url = ""
+    resp.text = body
+    resp.content = body.encode('utf-8') if body else b''
 
+    # Support .json() method — parse body if valid JSON,
+    # otherwise raise json.JSONDecodeError like real Response.json().
     if body and body.strip():
         try:
             parsed = json.loads(body)
             resp.json.return_value = parsed
-        except (json.JSONDecodeError, ValueError):
-            resp.json.side_effect = json.JSONDecodeError("No JSON body", "", 0)
+        except json.JSONDecodeError:
+            resp.json.side_effect = json.JSONDecodeError("", "", 0)
     else:
-        resp.json.return_value = {}
+        resp.json.side_effect = json.JSONDecodeError("", "", 0)
 
-    if status_code >= 400:
-        resp.raise_for_status.side_effect = Exception(f"HTTP {status_code}")
-    else:
-        resp.raise_for_status.return_value = None
+    # Support .close() for response body cleanup
+    resp.close.return_value = None
 
     return resp
 
 
 @pytest.fixture
 def mock_session():
-    """Create a mock Session for client construction tests.
+    """Create a mock Session for IAMClient testing.
 
-    Mirrors Go's ``session.New()`` used in ``mockAPIClient``.
-    Returns a ``MagicMock(spec=Session)`` that stands in for the
-    ``Session`` class.
+    Provides a ``MagicMock`` that mimics the ``Session`` class interface
+    (``exec`` method), allowing tests to control HTTP responses.
+
+    Mirrors Go's ``session.New()`` used inside ``mockAPIClient``.
+    Function-scoped so each test gets a fresh mock.
+
+    Usage in tests::
+
+        def test_something(mock_session):
+            mock_session.exec.return_value = (
+                mock_response(200, '{"key":"val"}'),
+                {"key": "val"},
+            )
+            client = IAMClient(mock_session)
+            result = client.some_method(params)
     """
-    session = MagicMock(spec=Session)
+    session = MagicMock()
     return session
 
 
 @pytest.fixture
-def mock_client(mock_session):  # pylint: disable=redefined-outer-name
-    """Create an ``IAMClient`` with a mocked session.
+def iam_client(mock_session):  # pylint: disable=redefined-outer-name
+    """Create an IAMClient instance with a mock session.
 
-    Mirrors Go's ``mockAPIClient(t, mockServer)`` helper.
-    The Go helper creates a TLS-aware session pointed at the mock
-    server.  In Python, we create an ``IAMClient`` with a mocked
-    session that can be configured per-test to return specific
-    responses.
+    Mirrors Go's ``mockAPIClient(t, mockServer)`` pattern — provides a
+    pre-configured client ready for testing with the ``mock_session``
+    fixture.
 
-    Returns:
-        ``IAMClient`` instance with a mock session.
+    The import of ``IAMClient`` is deferred to avoid circular import
+    issues between test infrastructure and production code.
     """
+    # Lazy import to avoid circular dependency at module load time
+    from akamai.edgegrid.iam.iam import IAMClient  # pylint: disable=import-outside-toplevel
     return IAMClient(mock_session)
+
+
+def assert_exec_called_with(mock_session, method: str, path: str,  # pylint: disable=redefined-outer-name
+                            **kwargs):
+    """Assert that ``session.exec`` was called with expected arguments.
+
+    Mirrors Go test assertions::
+
+        assert.Equal(t, tc.expectedPath, r.URL.String())
+        assert.Equal(t, http.MethodPost, r.Method)
+
+    Verifies the mock session's ``exec`` method was called exactly once
+    with the expected HTTP method and URL path as positional arguments,
+    and optionally checks keyword arguments (``body``, ``params``,
+    ``expect_json``, ``error_parser``, etc.).
+
+    Args:
+        mock_session: The mock ``Session`` instance.
+        method: Expected HTTP method (``GET``, ``POST``, ``PUT``,
+            ``DELETE``).
+        path: Expected URL path.
+        **kwargs: Additional expected keyword arguments passed to
+            ``session.exec`` (e.g. ``body``, ``params``,
+            ``expect_json``).
+    """
+    mock_session.exec.assert_called_once()
+    call_args = mock_session.exec.call_args
+
+    # Positional arguments: (method, path)
+    assert call_args[0][0] == method, (
+        f"Expected method {method}, got {call_args[0][0]}"
+    )
+    assert call_args[0][1] == path, (
+        f"Expected path {path}, got {call_args[0][1]}"
+    )
+
+    # Keyword arguments verification
+    for key, value in kwargs.items():
+        assert key in call_args.kwargs, (
+            f"Expected keyword argument '{key}' not found in exec call. "
+            f"Actual kwargs: {list(call_args.kwargs.keys())}"
+        )
+        assert call_args.kwargs[key] == value, (
+            f"Expected {key}={value!r}, got {call_args.kwargs[key]!r}"
+        )
