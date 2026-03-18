@@ -1055,7 +1055,7 @@ def validate_create_cidr_map_request(request) -> str | None:
     errors = {}
     if not request.domain_name:
         errors["DomainName"] = "cannot be blank"
-    if request.cidr is None:
+    if request.cidr_map is None:
         errors["CIDRMap"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result is not None:
@@ -1078,7 +1078,7 @@ def validate_update_cidr_map_request(request) -> str | None:
     errors = {}
     if not request.domain_name:
         errors["DomainName"] = "cannot be blank"
-    if request.cidr is None:
+    if request.cidr_map is None:
         errors["CIDRMap"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result is not None:
