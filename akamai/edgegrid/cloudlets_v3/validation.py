@@ -459,7 +459,7 @@ def validate_create_policy_version_request(request) -> str | None:
     """Validate CreatePolicyVersionRequest.
 
     Mirrors Go ``CreatePolicyVersionRequest.Validate()`` from
-    policy_version.go lines 117-123.
+    policy_version.go lines 117-123 with cascading rule validation.
     """
     errors: dict = {}
     cpv = request.create_policy_version
@@ -468,12 +468,13 @@ def validate_create_policy_version_request(request) -> str | None:
 
     if desc is not None and desc and len(desc) > 255:
         errors["Description"] = "the length must be no more than 255"
-    if (
-        match_rules is not None
-        and len(match_rules) > 0
-        and len(match_rules) > 5000
-    ):
-        errors["MatchRules"] = "the length must be no more than 5000"
+
+    # Validate match rules list AND individual rules
+    if match_rules is not None and len(match_rules) > 0:
+        match_err = validate_match_rules(match_rules)
+        if match_err is not None:
+            return match_err  # Return match rule errors directly
+
     if request.policy_id == 0:
         errors["PolicyID"] = "cannot be blank"
     return parse_validation_errors(errors)
@@ -627,19 +628,58 @@ def validate_list_active_policy_properties_request(
 
 
 def validate_match_rules(match_rules) -> str | None:
-    """Validate MatchRules (list length check).
+    """Validate MatchRules list and each individual rule.
 
     Mirrors Go ``MatchRules.Validate()`` from match_rule.go
-    lines 314-321.
+    lines 314-321 which calls rule.Validate() for each element.
     """
+    if match_rules is None or len(match_rules) == 0:
+        return None
+
     errors: dict = {}
-    if (
-        match_rules is not None
-        and len(match_rules) > 0
-        and len(match_rules) > 5000
-    ):
+    if len(match_rules) > 5000:
         errors["MatchRules"] = "the length must be no more than 5000"
-    return parse_validation_errors(errors)
+
+    _type_to_validator = {
+        "apMatchRule": validate_match_rule_ap,
+        "asMatchRule": validate_match_rule_as,
+        "cdMatchRule": validate_match_rule_pr,
+        "erMatchRule": validate_match_rule_er,
+        "frMatchRule": validate_match_rule_fr,
+        "igMatchRule": validate_match_rule_rc,
+    }
+
+    for i, rule in enumerate(match_rules):
+        rule_type = getattr(rule, "type", "")
+        validator_fn = _type_to_validator.get(rule_type)
+        if validator_fn is None:
+            # Fallback: try to detect by class name
+            cls_name = type(rule).__name__
+            _cls_to_validator = {
+                "MatchRuleAP": validate_match_rule_ap,
+                "MatchRuleAS": validate_match_rule_as,
+                "MatchRulePR": validate_match_rule_pr,
+                "MatchRuleER": validate_match_rule_er,
+                "MatchRuleFR": validate_match_rule_fr,
+                "MatchRuleRC": validate_match_rule_rc,
+            }
+            validator_fn = _cls_to_validator.get(cls_name)
+        if validator_fn is not None:
+            rule_err = validator_fn(rule)
+            if rule_err is not None:
+                errors[f"MatchRules[{i}]"] = (
+                    "{\n"
+                    + "\n".join(
+                        "\t" + line for line in rule_err.split("\n")
+                    )
+                    + "\n}"
+                )
+    if not errors:
+        return None
+    parts = []
+    for key in sorted(errors.keys()):
+        parts.append(f"{key}: {errors[key]}")
+    return "\n".join(parts)
 
 
 # =========================================================================

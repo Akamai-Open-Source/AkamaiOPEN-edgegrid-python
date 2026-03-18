@@ -1736,16 +1736,23 @@ _ALL_OMV_HANDLERS: dict[str, type] = {
 
 
 def _deserialize_object_match_value(
-    data: Any, handlers: dict[str, type]
+    data: Any, handlers: dict[str, type],
+    rule_type_label: str = "",
 ) -> Any:
     """Deserialize objectMatchValue based on its type field.
 
     Args:
         data: Raw objectMatchValue dict from JSON.
         handlers: Map of type string to class constructor.
+        rule_type_label: Label for error messages (e.g.
+            'MatchCriteriaPR').
 
     Returns:
         Typed ObjectMatchValue instance, or None.
+
+    Raises:
+        ValueError: If the objectMatchValue type is not in the
+            allowed handlers map.
     """
     if not data or not isinstance(data, dict):
         return data
@@ -1753,6 +1760,13 @@ def _deserialize_object_match_value(
     handler = handlers.get(omv_type)
     if handler is not None:
         return handler.from_dict(data)
+    if omv_type:
+        label = rule_type_label or "MatchCriteria"
+        raise ValueError(
+            f"unmarshalling MatchRules: "
+            f"unmarshalling {label}: "
+            f"objectMatchValue has unexpected type: '{omv_type}'"
+        )
     return data
 
 
@@ -1837,7 +1851,8 @@ MatchCriteriaRC = MatchCriteria
 
 
 def _deserialize_criteria_list(
-    data: list | None, handlers: dict[str, type]
+    data: list | None, handlers: dict[str, type],
+    rule_type_label: str = "",
 ) -> list[MatchCriteria] | None:
     """Deserialize a list of match criteria dicts.
 
@@ -1851,7 +1866,9 @@ def _deserialize_criteria_list(
         if not isinstance(item, dict):
             continue
         omv_raw = item.get("objectMatchValue")
-        omv = _deserialize_object_match_value(omv_raw, handlers)
+        omv = _deserialize_object_match_value(
+            omv_raw, handlers, rule_type_label=rule_type_label,
+        )
         criteria = MatchCriteria(
             match_type=item.get("matchType", ""),
             match_value=item.get("matchValue", ""),
@@ -2008,7 +2025,8 @@ class MatchRuleAP:
             return cls()
         matches_raw = data.get("matches")
         matches = _deserialize_criteria_list(
-            matches_raw, _SIMPLE_OBJECT_OMV_HANDLERS
+            matches_raw, _SIMPLE_OBJECT_OMV_HANDLERS,
+            rule_type_label="MatchCriteriaAP",
         )
         return cls(
             name=data.get("name", ""),
@@ -2146,7 +2164,8 @@ class MatchRulePR:
             return cls()
         matches_raw = data.get("matches")
         matches = _deserialize_criteria_list(
-            matches_raw, _SIMPLE_OBJECT_OMV_HANDLERS
+            matches_raw, _SIMPLE_OBJECT_OMV_HANDLERS,
+            rule_type_label="MatchCriteriaPR",
         )
         fs_raw = data.get("forwardSettings")
         return cls(
@@ -2229,7 +2248,8 @@ class MatchRuleER:
             return cls()
         matches_raw = data.get("matches")
         matches = _deserialize_criteria_list(
-            matches_raw, _SIMPLE_OBJECT_OMV_HANDLERS
+            matches_raw, _SIMPLE_OBJECT_OMV_HANDLERS,
+            rule_type_label="MatchCriteriaER",
         )
         return cls(
             name=data.get("name", ""),
@@ -2312,7 +2332,8 @@ class MatchRuleFR:
             return cls()
         matches_raw = data.get("matches")
         matches = _deserialize_criteria_list(
-            matches_raw, _SIMPLE_OBJECT_OMV_HANDLERS
+            matches_raw, _SIMPLE_OBJECT_OMV_HANDLERS,
+            rule_type_label="MatchCriteriaFR",
         )
         fs_raw = data.get("forwardSettings")
         return cls(
@@ -2385,7 +2406,8 @@ class MatchRuleRC:
             return cls()
         matches_raw = data.get("matches")
         matches = _deserialize_criteria_list(
-            matches_raw, _SIMPLE_OBJECT_OMV_HANDLERS
+            matches_raw, _SIMPLE_OBJECT_OMV_HANDLERS,
+            rule_type_label="MatchCriteriaRC",
         )
         return cls(
             name=data.get("name", ""),
@@ -2459,20 +2481,37 @@ def deserialize_match_rules(data: list | None) -> list | None:
 
     Raises:
         ValueError: If a match rule dict contains an unrecognised
-            ``"type"`` value.
+            ``"type"`` value, a non-string type, or a missing type.
     """
     if data is None:
         return None
+    if not isinstance(data, list):
+        raise ValueError(
+            "unmarshalling MatchRules: expected a list"
+        )
     result: list = []
     for item in data:
         if not isinstance(item, dict):
-            result.append(item)
-            continue
-        rule_type = item.get("type", "")
+            raise ValueError(
+                "unmarshalling MatchRules: "
+                "match rule entry should be an object"
+            )
+        if "type" not in item:
+            raise ValueError(
+                "unmarshalling MatchRules: "
+                "match rule entry should contain 'type' field"
+            )
+        rule_type = item["type"]
+        if not isinstance(rule_type, str):
+            raise ValueError(
+                "unmarshalling MatchRules: "
+                "'type' field on match rule entry should be a string"
+            )
         handler = _MATCH_RULE_HANDLERS.get(rule_type)
         if handler is None:
             raise ValueError(
-                f"unsupported match rule type: {rule_type!r}"
+                "unmarshalling MatchRules: "
+                f"unsupported match rule type: {rule_type}"
             )
         result.append(handler.from_dict(item))
     return result if result else None
