@@ -37,6 +37,7 @@ from akamai.edgegrid.papi.papi import Client
 from akamai.edgegrid.papi import models
 from akamai.edgegrid.papi import errors as papi_errors
 from akamai.edgegrid.papi.test.conftest import (
+    assert_request_made,
     make_mock_response,
 )
 
@@ -210,6 +211,7 @@ class TestPapiGetContracts:
         assert len(result.contracts.items) == 1
         assert result.contracts.items[0].contract_id == "ctr_1-1TJZH5"
         assert result.contracts.items[0].contract_type_name == "DIRECT_CUSTOMER"
+        assert_request_made(mock_session_request, "GET", "/papi/v1/contracts")
 
     def test_500_internal_server_error(self, papi_client, mock_session_request):
         _setup_error(mock_session_request, 500, ERR_500_BODY)
@@ -235,6 +237,7 @@ class TestPapiGetGroups:
         assert result.groups is not None
         assert len(result.groups.items) == 1
         assert result.groups.items[0].group_id == "grp_15225"
+        assert_request_made(mock_session_request, "GET", "/papi/v1/groups")
 
     def test_500_internal_server_error(self, papi_client, mock_session_request):
         _setup_error(mock_session_request, 500, ERR_500_BODY)
@@ -261,6 +264,7 @@ class TestPapiGetProducts:
         assert len(result.products.items) == 1
         assert result.products.items[0].product_id == "prd_Alta"
         assert result.products.items[0].product_name == "Alta"
+        assert_request_made(mock_session_request, "GET", "/papi/v1/products")
 
     def test_500_internal_server_error(self, papi_client, mock_session_request):
         _setup_error(mock_session_request, 500, ERR_500_BODY)
@@ -332,6 +336,7 @@ class TestPapiGetRuleFormats:
         assert result.rule_formats is not None
         assert "latest" in result.rule_formats.items
         assert "v2015-08-08" in result.rule_formats.items
+        assert_request_made(mock_session_request, "GET", "/papi/v1/rule-formats")
 
     def test_500_internal_server_error(self, papi_client, mock_session_request):
         _setup_error(mock_session_request, 500, ERR_500_BODY)
@@ -357,6 +362,10 @@ class TestPapiSearchProperties:
         assert len(result.versions.items) == 2
         assert result.versions.items[0].property_id == "prp_175780"
         assert result.versions.items[1].property_id == "prp_175781"
+        assert_request_made(
+            mock_session_request, "POST",
+            "/papi/v1/search/find-by-value",
+        )
 
     def test_500_internal_server_error(self, papi_client, mock_session_request):
         _setup_error(mock_session_request, 500, ERR_500_BODY)
@@ -413,6 +422,10 @@ class TestPapiCreateActivation:
         )
         assert result.activation_id == "atv_67037"
         assert "atv_67037" in result.activation_link
+        assert_request_made(
+            mock_session_request, "POST",
+            "/papi/v1/properties/prp_175780/activations",
+        )
 
     def test_200_compliance_record_none(self, papi_client, mock_session_request):
         body = '{"activationLink":"/papi/v1/properties/prp_173136/activations/atv_67037?contractId=ctr_1-1TJZFB&groupId=grp_15225"}'
@@ -554,6 +567,10 @@ class TestPapiGetActivations:
         assert result.activations is not None
         assert len(result.activations.items) == 1
         assert result.activations.items[0].activation_id == "atv_67037"
+        assert_request_made(
+            mock_session_request, "GET",
+            "/papi/v1/properties/prp_175780/activations",
+        )
 
     def test_500_internal_server_error(self, papi_client, mock_session_request):
         _setup_error(mock_session_request, 500, ERR_500_BODY)
@@ -673,6 +690,7 @@ class TestPapiGetProperties:
         assert result.properties is not None
         assert len(result.properties.items) == 1
         assert result.properties.items[0].property_id == "prp_175780"
+        assert_request_made(mock_session_request, "GET", "/papi/v1/properties")
 
     def test_500_internal_server_error(self, papi_client, mock_session_request):
         _setup_error(mock_session_request, 500, ERR_500_BODY)
@@ -707,6 +725,7 @@ class TestPapiCreateProperty:
             )
         )
         assert result.property_id == "prp_175780"
+        assert_request_made(mock_session_request, "POST", "/papi/v1/properties")
 
     def test_500_internal_server_error(self, papi_client, mock_session_request):
         _setup_error(mock_session_request, 500, ERR_500_BODY)
@@ -750,6 +769,10 @@ class TestPapiGetProperty:
         assert result.property is not None
         assert result.property.property_id == "prp_175780"
         assert result.property.property_name == "my-property"
+        assert_request_made(
+            mock_session_request, "GET",
+            "/papi/v1/properties/prp_175780",
+        )
 
     def test_500_internal_server_error(self, papi_client, mock_session_request):
         _setup_error(mock_session_request, 500, ERR_500_BODY)
@@ -784,6 +807,10 @@ class TestPapiRemoveProperty:
             )
         )
         assert result.message == "Deletion Successful."
+        assert_request_made(
+            mock_session_request, "DELETE",
+            "/papi/v1/properties/prp_175780",
+        )
 
     def test_500_internal_server_error(self, papi_client, mock_session_request):
         _setup_error(mock_session_request, 500, ERR_500_BODY)
@@ -856,6 +883,7 @@ class TestPapiGetCPCodes:
         assert result.cp_codes is not None
         assert len(result.cp_codes.items) == 1
         assert result.cp_codes.items[0].cp_code_id == "cpc_33190"
+        assert_request_made(mock_session_request, "GET", "/papi/v1/cpcodes")
 
     def test_500_internal_server_error(self, papi_client, mock_session_request):
         _setup_error(mock_session_request, 500, ERR_500_BODY)
@@ -1075,6 +1103,9 @@ class TestPapiGetEdgeHostnames:
         assert result.edge_hostnames is not None
         assert len(result.edge_hostnames.items) == 1
         assert result.edge_hostnames.items[0].id == "ehn_887436"
+        assert_request_made(
+            mock_session_request, "GET", "/papi/v1/edgehostnames",
+        )
 
     def test_500_internal_server_error(self, papi_client, mock_session_request):
         _setup_error(mock_session_request, 500, ERR_500_BODY)
@@ -1852,6 +1883,10 @@ class TestPapiGetPropertyVersion:
         assert result.property_id == "prp_175780"
         assert result.versions is not None
         assert len(result.versions.items) == 1
+        assert_request_made(
+            mock_session_request, "GET",
+            "/papi/v1/properties/prp_175780/versions/1",
+        )
 
     def test_500_internal_server_error(self, papi_client, mock_session_request):
         _setup_error(mock_session_request, 500, ERR_500_BODY)
@@ -2329,6 +2364,10 @@ class TestPapiGetRuleTree:
         assert result.rules.name == "default"
         assert len(result.rules.behaviors) == 1
         assert result.rules.behaviors[0].name == "origin"
+        assert_request_made(
+            mock_session_request, "GET",
+            "/papi/v1/properties/prp_175780/versions/1/rules",
+        )
 
     def test_200_ok_with_rule_format(self, papi_client, mock_session_request):
         body = '{"accountId":"act_1-1TJZFB","contractId":"ctr_1-1TJZFW","groupId":"grp_15166","propertyId":"prp_175780","propertyVersion":1,"etag":"etag_1","ruleFormat":"v2023-01-05","rules":{"name":"default","children":[],"behaviors":[],"criteria":[],"options":{"is_secure":false},"variables":[]}}'

@@ -1124,37 +1124,6 @@ class IAMClient:
             ) from exc
         return prop.property_name
 
-    def map_property_name_to_id(self, name: str) -> int:
-        """Map a property name to its ID.
-
-        Calls ListProperties and searches for the matching name.
-        Raises an error with ErrNoProperty sentinel if not found.
-
-        See: https://techdocs.akamai.com/iam-api/reference/get-properties
-        """
-        logger.debug("MapPropertyNameToID")
-        if not name:
-            raise ValueError(
-                f"{iam_errors.ErrMapPropertyNameToID}: "
-                f"{iam_errors.ErrStructValidation}:\n"
-                " name cannot be blank"
-            )
-        try:
-            properties = self.list_properties(
-                models.ListPropertiesRequest()
-            )
-        except Exception as exc:
-            raise ValueError(
-                f"{iam_errors.ErrMapPropertyNameToID}: "
-                f"request failed: {exc}"
-            ) from exc
-        for prop in properties:
-            if prop.property_name == name:
-                return prop.property_id
-        raise ValueError(
-            f"{iam_errors.ErrNoProperty}: {name}"
-        )
-
     def block_users(
         self, params: models.BlockUsersRequest,
     ) -> list[models.UsersForProperty]:

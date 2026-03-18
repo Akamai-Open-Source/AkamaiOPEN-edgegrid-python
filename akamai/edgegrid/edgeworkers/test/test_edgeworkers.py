@@ -638,6 +638,7 @@ class TestListEdgeKVAccessTokens:
                 include_expired=False),
         )
 
+        assert_request(mock_session, "GET", "/edgekv/v1/tokens")
         assert len(result.tokens) == 2
         assert result.tokens[0].name == "my_token"
         assert result.tokens[1].name == "token1"
@@ -654,6 +655,7 @@ class TestListEdgeKVAccessTokens:
                 include_expired=True),
         )
 
+        assert_request(mock_session, "GET", "/edgekv/v1/tokens")
         assert len(result.tokens) == 2
 
     def test_500_internal_server_error(self, mock_session,

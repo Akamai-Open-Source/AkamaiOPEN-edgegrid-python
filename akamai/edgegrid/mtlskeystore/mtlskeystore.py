@@ -230,8 +230,8 @@ class Client:
 
         :param params: Request containing the certificate ID.
         :returns: RotateClientCertificateVersionResponse with version details.
-        :raises ValueError: On validation failure.
-        :raises Error: On API error (direct, not wrapped with sentinel).
+        :raises ValueError: On validation failure or API error wrapped
+            with sentinel.
         """
         logger.debug("Rotating client certificate versions")
         err = validate_rotate_client_certificate_version_request(params)
@@ -241,11 +241,17 @@ class Client:
                 f"validation failed: {err}")
         path = (f"/mtls-origin-keystore/v1/client-certificates"
                 f"/{params.certificate_id}/versions")
-        response, result = self._session.exec(
-            "POST", path, expect_json=True,
-            error_parser=parse_error_response)
+        try:
+            response, result = self._session.exec(
+                "POST", path, expect_json=True,
+                error_parser=parse_error_response)
+        except Error as exc:
+            raise _wrap_error(
+                ErrRotateClientCertificateVersion, exc) from exc
         if response.status_code != 201:
-            raise parse_error_response(response)
+            raise _wrap_error(
+                ErrRotateClientCertificateVersion,
+                parse_error_response(response))
         return _parse_rotate_response(result)
 
     def list_client_certificate_versions(
@@ -260,8 +266,8 @@ class Client:
 
         :param params: Request with certificate ID and optional filter.
         :returns: ListClientCertificateVersionsResponse with version list.
-        :raises ValueError: On validation failure.
-        :raises Error: On API error (direct, not wrapped with sentinel).
+        :raises ValueError: On validation failure or API error wrapped
+            with sentinel.
         """
         logger.debug("Fetching client certificate versions")
         err = validate_list_client_certificate_versions_request(params)
@@ -274,12 +280,18 @@ class Client:
         query_params = None
         if params.include_associated_properties:
             query_params = {"includeAssociatedProperties": "true"}
-        response, result = self._session.exec(
-            "GET", path, expect_json=True,
-            params=query_params,
-            error_parser=parse_error_response)
+        try:
+            response, result = self._session.exec(
+                "GET", path, expect_json=True,
+                params=query_params,
+                error_parser=parse_error_response)
+        except Error as exc:
+            raise _wrap_error(
+                ErrListClientCertificateVersions, exc) from exc
         if response.status_code != 200:
-            raise parse_error_response(response)
+            raise _wrap_error(
+                ErrListClientCertificateVersions,
+                parse_error_response(response))
         return _parse_list_versions_response(result)
 
     def delete_client_certificate_version(
@@ -298,8 +310,8 @@ class Client:
 
         :param params: Request with certificate ID and version number.
         :returns: Response or None (for 204 No Content).
-        :raises ValueError: On validation failure.
-        :raises Error: On API error (direct, not wrapped with sentinel).
+        :raises ValueError: On validation failure or API error wrapped
+            with sentinel.
         """
         logger.debug("Deleting client certificate version")
         err = validate_delete_client_certificate_version_request(params)
@@ -309,14 +321,20 @@ class Client:
                 f"validation failed: {err}")
         path = (f"/mtls-origin-keystore/v1/client-certificates"
                 f"/{params.certificate_id}/versions/{params.version}")
-        response, result = self._session.exec(
-            "DELETE", path, expect_json=True,
-            error_parser=parse_error_response)
+        try:
+            response, result = self._session.exec(
+                "DELETE", path, expect_json=True,
+                error_parser=parse_error_response)
+        except Error as exc:
+            raise _wrap_error(
+                ErrDeleteClientCertificateVersion, exc) from exc
         # Go returns (nil, nil) for 204 No Content
         if response.status_code == 204:
             return None
         if response.status_code != 202:
-            raise parse_error_response(response)
+            raise _wrap_error(
+                ErrDeleteClientCertificateVersion,
+                parse_error_response(response))
         return _parse_delete_version_response(result)
 
     def upload_signed_client_certificate(
@@ -331,8 +349,8 @@ class Client:
 
         :param params: Request with certificate ID, version, body, and
             optional acknowledgeAllWarnings flag.
-        :raises ValueError: On validation failure.
-        :raises Error: On API error (direct, not wrapped with sentinel).
+        :raises ValueError: On validation failure or API error wrapped
+            with sentinel.
         """
         logger.debug("Uploading signed client certificate")
         err = validate_upload_signed_client_certificate_request(params)
@@ -350,12 +368,18 @@ class Client:
                     "true" if params.acknowledge_all_warnings else "false"
             }
         body = _serialize_upload_body(params.body)
-        response, _ = self._session.exec(
-            "POST", path, body=body,
-            params=query_params,
-            error_parser=parse_error_response)
+        try:
+            response, _ = self._session.exec(
+                "POST", path, body=body,
+                params=query_params,
+                error_parser=parse_error_response)
+        except Error as exc:
+            raise _wrap_error(
+                ErrUploadClientCertificateVersion, exc) from exc
         if response.status_code != 200:
-            raise parse_error_response(response)
+            raise _wrap_error(
+                ErrUploadClientCertificateVersion,
+                parse_error_response(response))
 
     # ------------------------------------------------------------------
     # Pattern 1 — ListAccountCACertificates (account_ca_certificates.go)

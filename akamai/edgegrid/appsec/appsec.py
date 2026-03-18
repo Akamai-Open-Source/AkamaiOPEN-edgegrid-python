@@ -426,6 +426,56 @@ class Client:  # pylint: disable=too-many-public-methods
     # ConfigurationVersionClone  (configuration_version_clone.go)
     # ==================================================================
 
+    def get_configuration_version_clone(
+        self, params: models.GetConfigurationVersionCloneRequest
+    ) -> dict:
+        """Get details of a configuration version clone.
+
+        Mirrors Go ``appsec.GetConfigurationVersionClone``.
+        """
+        logger.debug("GetConfigurationVersionClone")
+
+        err = validation.validate_get_configuration_version_clone_request(
+            params,
+        )
+        if err is not None:
+            raise errors.Error(
+                title=f"{errors.ErrStructValidation}: {err}",
+            )
+
+        uri = (
+            f"/appsec/v1/configs/{params.config_id}"
+            f"/versions/{params.version}"
+        )
+
+        _, result = self._exec("GET", uri)
+        return result
+
+    def remove_configuration_version_clone(
+        self, params: models.RemoveConfigurationVersionCloneRequest
+    ) -> dict:
+        """Delete a configuration version clone.
+
+        Mirrors Go ``appsec.RemoveConfigurationVersionClone``.
+        """
+        logger.debug("RemoveConfigurationVersionClone")
+
+        err = validation.validate_remove_configuration_version_clone_request(
+            params,
+        )
+        if err is not None:
+            raise errors.Error(
+                title=f"{errors.ErrStructValidation}: {err}",
+            )
+
+        uri = (
+            f"/appsec/v1/configs/{params.config_id}"
+            f"/versions/{params.version}"
+        )
+
+        _, result = self._exec("DELETE", uri)
+        return result
+
     def create_configuration_version_clone(
         self, params: models.CreateConfigurationVersionCloneRequest
     ) -> dict:
@@ -604,6 +654,57 @@ class Client:  # pylint: disable=too-many-public-methods
     # ==================================================================
     # SecurityPolicyClone  (security_policy_clone.go)
     # ==================================================================
+
+    def get_security_policy_clone(
+        self, params: models.GetSecurityPolicyCloneRequest
+    ) -> dict:
+        """Get details of a security policy clone.
+
+        Mirrors Go ``appsec.GetSecurityPolicyClone``.
+        """
+        logger.debug("GetSecurityPolicyClone")
+
+        err = validation.validate_get_security_policy_clone_request(params)
+        if err is not None:
+            raise errors.Error(
+                title=f"{errors.ErrStructValidation}: {err}",
+            )
+
+        uri = (
+            f"/appsec/v1/configs/{params.config_id}"
+            f"/versions/{params.version}"
+            f"/security-policies/{params.policy_id}"
+        )
+
+        _, result = self._exec("GET", uri)
+        return result
+
+    def get_security_policy_clones(
+        self, params: models.GetSecurityPolicyClonesRequest
+    ) -> dict:
+        """List security policy clones for a configuration version.
+
+        Mirrors Go ``appsec.GetSecurityPolicyClones``.
+        """
+        logger.debug("GetSecurityPolicyClone")
+
+        err = validation.validate_get_security_policy_clones_request(params)
+        if err is not None:
+            raise errors.Error(
+                title=f"{errors.ErrStructValidation}: {err}",
+            )
+
+        uri = (
+            f"/appsec/v1/configs/{params.config_id}"
+            f"/versions/{params.version}"
+            f"/security-policies"
+        )
+
+        _, result = self._exec(
+            "GET", uri,
+            params={"detail": "true", "notMatched": "false"},
+        )
+        return result
 
     def create_security_policy_clone(
         self, params: models.CreateSecurityPolicyCloneRequest
@@ -1224,6 +1325,31 @@ class Client:  # pylint: disable=too-many-public-methods
     # ==================================================================
     # Eval  (eval.go)
     # ==================================================================
+
+    def get_evals(
+        self, params: models.GetEvalsRequest
+    ) -> dict:
+        """Get evaluation mode settings for a policy (plural variant).
+
+        Mirrors Go ``appsec.GetEvals``.
+        """
+        logger.debug("GetEvals")
+
+        err = validation.validate_get_evals_request(params)
+        if err is not None:
+            raise errors.Error(
+                title=f"{errors.ErrStructValidation}: {err}",
+            )
+
+        uri = (
+            f"/appsec/v1/configs/{params.config_id}"
+            f"/versions/{params.version}"
+            f"/security-policies/{params.policy_id}"
+            f"/mode"
+        )
+
+        _, result = self._exec("GET", uri)
+        return result
 
     def get_eval(
         self, params: models.GetEvalRequest
@@ -1931,6 +2057,31 @@ class Client:  # pylint: disable=too-many-public-methods
         _, result = self._exec("PUT", uri, body=_body(params))
         return result
 
+    def remove_reputation_analysis(
+        self, params: models.RemoveReputationAnalysisRequest
+    ) -> dict:
+        """Remove reputation analysis settings for a policy.
+
+        Mirrors Go ``appsec.RemoveReputationAnalysis``.
+        """
+        logger.debug("RemoveReputationAnalysis")
+
+        err = validation.validate_remove_reputation_analysis_request(params)
+        if err is not None:
+            raise errors.Error(
+                title=f"{errors.ErrStructValidation}: {err}",
+            )
+
+        uri = (
+            f"/appsec/v1/configs/{params.config_id}"
+            f"/versions/{params.version}"
+            f"/security-policies/{params.policy_id}"
+            f"/reputation-analysis"
+        )
+
+        _, result = self._exec("PUT", uri, body=_body(params))
+        return result
+
     # ==================================================================
     # MatchTarget  (match_target.go)
     # ==================================================================
@@ -2066,6 +2217,34 @@ class Client:  # pylint: disable=too-many-public-methods
     # MatchTargetSequence  (match_target_sequence.go)
     # ==================================================================
 
+    def get_match_target_sequence(
+        self, params: models.GetMatchTargetSequenceRequest
+    ) -> dict:
+        """Get match target sequence for a configuration.
+
+        Mirrors Go ``appsec.GetMatchTargetSequence``.
+        """
+        logger.debug("GetMatchTargetSequence")
+
+        err = validation.validate_get_match_target_sequence_request(params)
+        if err is not None:
+            raise errors.Error(
+                title=f"{errors.ErrStructValidation}: {err}",
+            )
+
+        uri = (
+            f"/appsec/v1/configs/{params.config_id}"
+            f"/versions/{params.config_version}"
+            f"/match-targets/sequence"
+        )
+
+        qp: dict[str, str] = {}
+        if params.type:
+            qp["type"] = params.type
+
+        _, result = self._exec("GET", uri, params=qp if qp else None)
+        return result
+
     def update_match_target_sequence(
         self, params: models.UpdateMatchTargetSequenceRequest
     ) -> dict:
@@ -2176,6 +2355,32 @@ class Client:  # pylint: disable=too-many-public-methods
         _, result = self._exec("PUT", uri, body=_body(params))
         return result
 
+    def update_rule_condition_exception(
+        self, params: models.UpdateConditionExceptionRequest
+    ) -> dict:
+        """Update a rule's condition/exception without changing its action.
+
+        Mirrors Go ``appsec.UpdateRuleConditionException``.
+        """
+        logger.debug("UpdateRuleConditionException")
+
+        err = validation.validate_update_condition_exception_request(params)
+        if err is not None:
+            raise errors.Error(
+                title=f"{errors.ErrStructValidation}: {err}",
+            )
+
+        uri = (
+            f"/appsec/v1/configs/{params.config_id}"
+            f"/versions/{params.version}"
+            f"/security-policies/{params.policy_id}"
+            f"/rules/{params.rule_id}"
+            f"/condition-exception"
+        )
+
+        _, result = self._exec("PUT", uri, body=_body(params))
+        return result
+
     # ==================================================================
     # RuleUpgrade  (rule_upgrade.go)
     # ==================================================================
@@ -2258,17 +2463,6 @@ class Client:  # pylint: disable=too-many-public-methods
 
         _, result = self._exec("GET", uri)
         return result
-
-    def get_penalty_boxes(
-        self, params: models.GetPenaltyBoxRequest
-    ) -> dict:
-        """Get penalty box settings for a policy (list variant).
-
-        This is a convenience alias for ``get_penalty_box`` that returns
-        the same response shape.  Included per schema requirements.
-        """
-        logger.debug("GetPenaltyBoxes")
-        return self.get_penalty_box(params)
 
     def update_penalty_box(
         self, params: models.UpdatePenaltyBoxRequest
@@ -2392,19 +2586,7 @@ class Client:  # pylint: disable=too-many-public-methods
 
         return result
 
-    def get_rapid_rule(
-        self, params: models.GetRapidRulesRequest
-    ) -> dict:
-        """Get a single rapid rule by rule_id.
-
-        Convenience wrapper — calls ``get_rapid_rules`` with the
-        rule_id filter set.
-
-        Mirrors Go ``appsec.GetRapidRules`` with a ``RuleID`` parameter.
-        """
-        return self.get_rapid_rules(params)
-
-    def update_rapid_rule(
+    def update_rapid_rule_exception(
         self, params: models.UpdateRapidRuleExceptionRequest
     ) -> dict:
         """Update a rapid rule condition/exception.
@@ -2428,6 +2610,164 @@ class Client:  # pylint: disable=too-many-public-methods
         )
 
         _, result = self._exec("PUT", uri, body=params.body)
+        return result
+
+    def get_rapid_rules_default_action(
+        self, params: models.GetRapidRulesRequest
+    ) -> dict:
+        """Get rapid rules default action for a policy.
+
+        Mirrors Go ``appsec.GetRapidRulesDefaultAction``.
+        """
+        logger.debug("GetRapidRulesDefaultAction")
+
+        err = validation.validate_get_rapid_rules_default_action_request(
+            params,
+        )
+        if err is not None:
+            raise errors.Error(
+                title=f"{errors.ErrStructValidation}: {err}",
+            )
+
+        uri = (
+            f"/appsec/v1/configs/{params.config_id}"
+            f"/versions/{params.version}"
+            f"/security-policies/{params.policy_id}"
+            f"/rapid-rules/action"
+        )
+
+        _, result = self._exec("GET", uri)
+        return result
+
+    def update_rapid_rules_default_action(
+        self,
+        params: models.UpdateRapidRulesDefaultActionRequest,
+    ) -> dict:
+        """Update rapid rules default action for a policy.
+
+        Mirrors Go ``appsec.UpdateRapidRulesDefaultAction``.
+        """
+        logger.debug("UpdateRapidRulesDefaultAction")
+
+        err = validation.validate_update_rapid_rules_default_action_request(
+            params,
+        )
+        if err is not None:
+            raise errors.Error(
+                title=f"{errors.ErrStructValidation}: {err}",
+            )
+
+        uri = (
+            f"/appsec/v1/configs/{params.config_id}"
+            f"/versions/{params.version}"
+            f"/security-policies/{params.policy_id}"
+            f"/rapid-rules/action"
+        )
+
+        _, result = self._exec("PUT", uri, body=_body(params.body))
+        return result
+
+    def get_rapid_rules_status(
+        self, params: models.GetRapidRulesRequest
+    ) -> dict:
+        """Get rapid rules status for a policy.
+
+        Mirrors Go ``appsec.GetRapidRulesStatus``.
+        """
+        logger.debug("GetRapidRulesStatus")
+
+        err = validation.validate_get_rapid_rules_status_request(params)
+        if err is not None:
+            raise errors.Error(
+                title=f"{errors.ErrStructValidation}: {err}",
+            )
+
+        uri = (
+            f"/appsec/v1/configs/{params.config_id}"
+            f"/versions/{params.version}"
+            f"/security-policies/{params.policy_id}"
+            f"/rapid-rules/status"
+        )
+
+        _, result = self._exec("GET", uri)
+        return result
+
+    def update_rapid_rules_status(
+        self, params: models.UpdateRapidRulesStatusRequest
+    ) -> dict:
+        """Update rapid rules status for a policy.
+
+        Mirrors Go ``appsec.UpdateRapidRulesStatus``.
+        """
+        logger.debug("UpdateRapidRulesStatus")
+
+        err = validation.validate_update_rapid_rules_status_request(params)
+        if err is not None:
+            raise errors.Error(
+                title=f"{errors.ErrStructValidation}: {err}",
+            )
+
+        uri = (
+            f"/appsec/v1/configs/{params.config_id}"
+            f"/versions/{params.version}"
+            f"/security-policies/{params.policy_id}"
+            f"/rapid-rules/status"
+        )
+
+        _, result = self._exec("PUT", uri, body=_body(params.body))
+        return result
+
+    def update_rapid_rule_action(
+        self, params: models.UpdateRapidRuleActionRequest
+    ) -> dict:
+        """Update a rapid rule action.
+
+        Mirrors Go ``appsec.UpdateRapidRuleAction``.
+        """
+        logger.debug("UpdateRapidRuleAction")
+
+        err = validation.validate_update_rapid_rule_action_request(params)
+        if err is not None:
+            raise errors.Error(
+                title=f"{errors.ErrStructValidation}: {err}",
+            )
+
+        uri = (
+            f"/appsec/v1/configs/{params.config_id}"
+            f"/versions/{params.version}"
+            f"/security-policies/{params.policy_id}"
+            f"/rapid-rules/{params.rule_id}"
+            f"/versions/{params.rule_version}"
+            f"/action"
+        )
+
+        _, result = self._exec("PUT", uri, body=_body(params.body))
+        return result
+
+    def update_rapid_rule_action_lock(
+        self, params: models.UpdateRapidRuleActionLockRequest
+    ) -> dict:
+        """Update a rapid rule action lock.
+
+        Mirrors Go ``appsec.UpdateRapidRuleActionLock``.
+        """
+        logger.debug("UpdateRapidRuleActionLock")
+
+        err = validation.validate_update_rapid_rule_action_lock_request(params)
+        if err is not None:
+            raise errors.Error(
+                title=f"{errors.ErrStructValidation}: {err}",
+            )
+
+        uri = (
+            f"/appsec/v1/configs/{params.config_id}"
+            f"/versions/{params.version}"
+            f"/security-policies/{params.policy_id}"
+            f"/rapid-rules/{params.rule_id}"
+            f"/lock"
+        )
+
+        _, result = self._exec("PUT", uri, body=_body(params.body))
         return result
 
     # ==================================================================
@@ -2538,6 +2878,31 @@ class Client:  # pylint: disable=too-many-public-methods
         _, result = self._exec("PUT", uri, body=_body(params))
         return result
 
+    def get_waf_protections(
+        self, params: models.GetWAFProtectionsRequest
+    ) -> dict:
+        """Get WAF protections status for a policy (plural variant).
+
+        Mirrors Go ``appsec.GetWAFProtections``.
+        """
+        logger.debug("GetWAFProtections")
+
+        err = validation.validate_get_waf_protections_request(params)
+        if err is not None:
+            raise errors.Error(
+                title=f"{errors.ErrStructValidation}: {err}",
+            )
+
+        uri = (
+            f"/appsec/v1/configs/{params.config_id}"
+            f"/versions/{params.version}"
+            f"/security-policies/{params.policy_id}"
+            f"/protections"
+        )
+
+        _, result = self._exec("GET", uri)
+        return result
+
     # ==================================================================
     # IPGeo  (ip_geo.go)
     # ==================================================================
@@ -2646,6 +3011,31 @@ class Client:  # pylint: disable=too-many-public-methods
         _, result = self._exec("PUT", uri, body=_body(params))
         return result
 
+    def get_ip_geo_protections(
+        self, params: models.GetIPGeoProtectionsRequest
+    ) -> dict:
+        """Get IP/Geo protections status for a policy (plural variant).
+
+        Mirrors Go ``appsec.GetIPGeoProtections``.
+        """
+        logger.debug("GetIPGeoProtections")
+
+        err = validation.validate_get_ip_geo_protections_request(params)
+        if err is not None:
+            raise errors.Error(
+                title=f"{errors.ErrStructValidation}: {err}",
+            )
+
+        uri = (
+            f"/appsec/v1/configs/{params.config_id}"
+            f"/versions/{params.version}"
+            f"/security-policies/{params.policy_id}"
+            f"/protections"
+        )
+
+        _, result = self._exec("GET", uri)
+        return result
+
     # ==================================================================
     # RateProtection  (rate_protection.go)
     # ==================================================================
@@ -2700,6 +3090,31 @@ class Client:  # pylint: disable=too-many-public-methods
         _, result = self._exec("PUT", uri, body=_body(params))
         return result
 
+    def get_rate_protections(
+        self, params: models.GetRateProtectionsRequest
+    ) -> dict:
+        """Get rate control protections status for a policy (plural variant).
+
+        Mirrors Go ``appsec.GetRateProtections``.
+        """
+        logger.debug("GetRateProtections")
+
+        err = validation.validate_get_rate_protections_request(params)
+        if err is not None:
+            raise errors.Error(
+                title=f"{errors.ErrStructValidation}: {err}",
+            )
+
+        uri = (
+            f"/appsec/v1/configs/{params.config_id}"
+            f"/versions/{params.version}"
+            f"/security-policies/{params.policy_id}"
+            f"/protections"
+        )
+
+        _, result = self._exec("GET", uri)
+        return result
+
     # ==================================================================
     # ReputationProtection  (reputation_protection.go)
     # ==================================================================
@@ -2739,6 +3154,56 @@ class Client:  # pylint: disable=too-many-public-methods
         logger.debug("UpdateReputationProtection")
 
         err = validation.validate_update_reputation_protection_request(params)
+        if err is not None:
+            raise errors.Error(
+                title=f"{errors.ErrStructValidation}: {err}",
+            )
+
+        uri = (
+            f"/appsec/v1/configs/{params.config_id}"
+            f"/versions/{params.version}"
+            f"/security-policies/{params.policy_id}"
+            f"/protections"
+        )
+
+        _, result = self._exec("PUT", uri, body=_body(params))
+        return result
+
+    def get_reputation_protections(
+        self, params: models.GetReputationProtectionsRequest
+    ) -> dict:
+        """Get reputation protections status for a policy (plural variant).
+
+        Mirrors Go ``appsec.GetReputationProtections``.
+        """
+        logger.debug("GetReputationProtections")
+
+        err = validation.validate_get_reputation_protections_request(params)
+        if err is not None:
+            raise errors.Error(
+                title=f"{errors.ErrStructValidation}: {err}",
+            )
+
+        uri = (
+            f"/appsec/v1/configs/{params.config_id}"
+            f"/versions/{params.version}"
+            f"/security-policies/{params.policy_id}"
+            f"/protections"
+        )
+
+        _, result = self._exec("GET", uri)
+        return result
+
+    def remove_reputation_protection(
+        self, params: models.RemoveReputationProtectionRequest
+    ) -> dict:
+        """Remove reputation protection for a policy.
+
+        Mirrors Go ``appsec.RemoveReputationProtection``.
+        """
+        logger.debug("RemoveReputationProtection")
+
+        err = validation.validate_remove_reputation_protection_request(params)
         if err is not None:
             raise errors.Error(
                 title=f"{errors.ErrStructValidation}: {err}",
@@ -2808,6 +3273,31 @@ class Client:  # pylint: disable=too-many-public-methods
         _, result = self._exec("PUT", uri, body=_body(params))
         return result
 
+    def get_slow_post_protections(
+        self, params: models.GetSlowPostProtectionsRequest
+    ) -> dict:
+        """Get slow POST protections status for a policy (plural variant).
+
+        Mirrors Go ``appsec.GetSlowPostProtections``.
+        """
+        logger.debug("GetSlowPostProtections")
+
+        err = validation.validate_get_slow_post_protections_request(params)
+        if err is not None:
+            raise errors.Error(
+                title=f"{errors.ErrStructValidation}: {err}",
+            )
+
+        uri = (
+            f"/appsec/v1/configs/{params.config_id}"
+            f"/versions/{params.version}"
+            f"/security-policies/{params.policy_id}"
+            f"/protections"
+        )
+
+        _, result = self._exec("GET", uri)
+        return result
+
     # ==================================================================
     # SlowPostProtectionSetting  (slow_post_protection_setting.go)
     # ==================================================================
@@ -2838,17 +3328,6 @@ class Client:  # pylint: disable=too-many-public-methods
 
         _, result = self._exec("GET", uri)
         return result
-
-    def get_slow_post_protection_setting(
-        self, params: models.GetSlowPostProtectionSettingsRequest
-    ) -> dict:
-        """Get slow POST protection setting for a single policy.
-
-        Convenience alias using the same request type as
-        ``get_slow_post_protection_settings``.
-        """
-        logger.debug("GetSlowPostProtectionSetting")
-        return self.get_slow_post_protection_settings(params)
 
     def update_slow_post_protection_setting(
         self, params: models.UpdateSlowPostProtectionSettingRequest
@@ -3055,6 +3534,33 @@ class Client:  # pylint: disable=too-many-public-methods
         _, result = self._exec("PUT", uri, body=_body(params))
         return result
 
+    def update_malware_policy_actions(
+        self, params: models.UpdateMalwarePolicyActionsRequest
+    ) -> dict:
+        """Update all malware policy actions for a policy.
+
+        Mirrors Go ``appsec.UpdateMalwarePolicyActions``.
+        """
+        logger.debug("UpdateMalwarePolicyActions")
+
+        err = validation.validate_update_malware_policy_actions_request(params)
+        if err is not None:
+            raise errors.Error(
+                title=f"{errors.ErrStructValidation}: {err}",
+            )
+
+        uri = (
+            f"/appsec/v1/configs/{params.config_id}"
+            f"/versions/{params.version}"
+            f"/security-policies/{params.policy_id}"
+            f"/malware-policies"
+        )
+
+        _, result = self._exec(
+            "PUT", uri, body=params.malware_policy_actions,
+        )
+        return result
+
     # ==================================================================
     # MalwareContentTypes  (malware_content_types.go)
     # ==================================================================
@@ -3135,6 +3641,31 @@ class Client:  # pylint: disable=too-many-public-methods
         )
 
         _, result = self._exec("PUT", uri, body=_body(params))
+        return result
+
+    def get_malware_protections(
+        self, params: models.GetMalwareProtectionsRequest
+    ) -> dict:
+        """Get malware protections status for a policy (plural variant).
+
+        Mirrors Go ``appsec.GetMalwareProtections`` (deprecated).
+        """
+        logger.debug("GetMalwareProtections")
+
+        err = validation.validate_get_malware_protections_request(params)
+        if err is not None:
+            raise errors.Error(
+                title=f"{errors.ErrStructValidation}: {err}",
+            )
+
+        uri = (
+            f"/appsec/v1/configs/{params.config_id}"
+            f"/versions/{params.version}"
+            f"/security-policies/{params.policy_id}"
+            f"/protections"
+        )
+
+        _, result = self._exec("GET", uri)
         return result
 
     # ==================================================================
@@ -3578,6 +4109,54 @@ class Client:  # pylint: disable=too-many-public-methods
     # SelectedHostname  (selected_hostname.go)
     # ==================================================================
 
+    def get_selected_hostname(
+        self, params: models.GetSelectedHostnameRequest
+    ) -> dict:
+        """Get selected hostname for a config version (singular).
+
+        Mirrors Go ``appsec.GetSelectedHostname``.
+        """
+        logger.debug("GetSelectedHostname")
+
+        err = validation.validate_get_selected_hostname_request(params)
+        if err is not None:
+            raise errors.Error(
+                title=f"{errors.ErrStructValidation}: {err}",
+            )
+
+        uri = (
+            f"/appsec/v1/configs/{params.config_id}"
+            f"/versions/{params.version}"
+            f"/selected-hostnames"
+        )
+
+        _, result = self._exec("GET", uri)
+        return result
+
+    def update_selected_hostnames(
+        self, params: models.UpdateSelectedHostnamesRequest
+    ) -> dict:
+        """Update selected hostnames for a config version (plural).
+
+        Mirrors Go ``appsec.UpdateSelectedHostnames``.
+        """
+        logger.debug("UpdateSelectedHostnames")
+
+        err = validation.validate_update_selected_hostnames_request(params)
+        if err is not None:
+            raise errors.Error(
+                title=f"{errors.ErrStructValidation}: {err}",
+            )
+
+        uri = (
+            f"/appsec/v1/configs/{params.config_id}"
+            f"/versions/{params.version}"
+            f"/selected-hostnames"
+        )
+
+        _, result = self._exec("PUT", uri, body=_body(params))
+        return result
+
     def get_selected_hostnames(
         self, params: models.GetSelectedHostnamesRequest
     ) -> dict:
@@ -3736,6 +4315,33 @@ class Client:  # pylint: disable=too-many-public-methods
         _, result = self._exec("PUT", uri, body=_body(params))
         return result
 
+    def remove_wap_bypass_network_lists(
+        self, params: models.RemoveWAPBypassNetworkListsRequest
+    ) -> dict:
+        """Remove WAP bypass network lists for a policy.
+
+        Mirrors Go ``appsec.RemoveWAPBypassNetworkLists``.
+        """
+        logger.debug("RemoveWAPBypassNetworkLists")
+
+        err = validation.validate_remove_wap_bypass_network_lists_request(
+            params,
+        )
+        if err is not None:
+            raise errors.Error(
+                title=f"{errors.ErrStructValidation}: {err}",
+            )
+
+        uri = (
+            f"/appsec/v1/configs/{params.config_id}"
+            f"/versions/{params.version}"
+            f"/security-policies/{params.policy_id}"
+            f"/bypass-network-lists"
+        )
+
+        _, result = self._exec("PUT", uri, body=_body(params))
+        return result
+
     # ==================================================================
     # FailoverHostnames  (failover_hostnames.go)
     # ==================================================================
@@ -3761,7 +4367,7 @@ class Client:  # pylint: disable=too-many-public-methods
     # HostMoveActivations  (host_move_activations.go)
     # ==================================================================
 
-    def get_host_move_activations(
+    def get_host_move_validation(
         self, params: models.GetHostMoveValidationRequest
     ) -> dict:
         """Get host move validation for a config version and network.
@@ -3786,7 +4392,7 @@ class Client:  # pylint: disable=too-many-public-methods
         _, result = self._exec("GET", uri)
         return result
 
-    def create_host_move_activation(
+    def create_activations_with_host_move(
         self,
         params: models.CreateActivationsWithHostMoveRequest,
     ) -> dict:
@@ -3817,7 +4423,7 @@ class Client:  # pylint: disable=too-many-public-methods
     # ExportConfiguration  (export_configuration.go)
     # ==================================================================
 
-    def get_export_configurations(
+    def get_export_configuration(
         self, params: models.GetExportConfigurationRequest
     ) -> dict | models.GetExportConfigurationResponse:
         """Export a security configuration version.
@@ -4330,6 +4936,41 @@ class Client:  # pylint: disable=too-many-public-methods
         _, result = self._exec("PUT", uri, body=_body(params))
         return result
 
+    def remove_advanced_settings_evasive_path_match(
+        self,
+        params: models.RemoveAdvancedSettingsEvasivePathMatchRequest,
+    ) -> dict:
+        """Remove evasive path match settings for a config or policy.
+
+        Mirrors Go ``appsec.RemoveAdvancedSettingsEvasivePathMatch`` — calls
+        ``update_advanced_settings_evasive_path_match`` with
+        ``enable_path_match`` set to ``False``.
+        """
+        logger.debug("RemoveAdvancedSettingsEvasivePathMatch")
+
+        err = validation.validate_remove_advanced_settings_evasive_path_match_request(
+            params
+        )
+        if err is not None:
+            raise errors.Error(
+                title=str(errors.ErrStructValidation), detail=err
+            )
+
+        request = models.UpdateAdvancedSettingsEvasivePathMatchRequest(
+            config_id=params.config_id,
+            version=params.version,
+            policy_id=params.policy_id,
+            enable_path_match=False,
+        )
+        self.update_advanced_settings_evasive_path_match(request)
+
+        return {
+            "configId": params.config_id,
+            "version": params.version,
+            "policyId": params.policy_id,
+            "enablePathMatch": False,
+        }
+
     # ==================================================================
     # Advanced Settings — JA4 Fingerprint
     #   (advanced_settings_ja4_fingerprints.go)
@@ -4393,6 +5034,39 @@ class Client:  # pylint: disable=too-many-public-methods
         )
 
         _, result = self._exec("PUT", uri, body=_body(params))
+        return result
+
+    def remove_advanced_settings_ja4_fingerprint(
+        self,
+        params: models.RemoveAdvancedSettingsJA4FingerprintRequest,
+    ) -> dict:
+        """Remove JA4 fingerprint settings for a configuration.
+
+        Mirrors Go ``appsec.RemoveAdvancedSettingsJA4Fingerprint``.
+        """
+        logger.debug("RemoveAdvancedSettingsJA4Fingerprint")
+
+        err = validation.validate_remove_advanced_settings_ja4_fingerprint_request(
+            params
+        )
+        if err is not None:
+            raise errors.Error(
+                title=str(errors.ErrStructValidation), detail=err
+            )
+
+        uri = (
+            f"/appsec/v1/configs/{params.config_id}"
+            f"/versions/{params.version}"
+            f"/advanced-settings/ja4-fingerprint"
+        )
+
+        request = models.UpdateAdvancedSettingsJA4FingerprintRequest(
+            config_id=params.config_id,
+            version=params.version,
+            header_names=None,
+        )
+
+        _, result = self._exec("PUT", uri, body=_body(request))
         return result
 
     # ==================================================================
@@ -4650,31 +5324,6 @@ class Client:  # pylint: disable=too-many-public-methods
         )
         return result
 
-    def remove_advanced_settings_pragma(
-        self,
-        params: models.UpdateAdvancedSettingsPragmaRequest,
-    ) -> dict:
-        """Remove (reset) pragma header settings for a configuration or policy.
-
-        Uses PUT to reset the pragma settings by sending an empty payload.
-        """
-        logger.debug("RemoveAdvancedSettingsPragma")
-
-        err = validation.validate_update_advanced_settings_pragma_request(
-            params
-        )
-        if err is not None:
-            raise errors.Error(
-                title=str(errors.ErrStructValidation), detail=err
-            )
-
-        uri = self._pragma_uri(
-            params.config_id, params.version, params.policy_id,
-        )
-
-        _, result = self._exec("PUT", uri, body=None)
-        return result
-
     # ==================================================================
     # Advanced Settings — Prefetch  (advanced_settings_prefetch.go)
     # ==================================================================
@@ -4803,6 +5452,31 @@ class Client:  # pylint: disable=too-many-public-methods
         logger.debug("UpdateAdvancedSettingsRequestBody")
 
         err = validation.validate_update_advanced_settings_request_body_request(
+            params
+        )
+        if err is not None:
+            raise errors.Error(
+                title=str(errors.ErrStructValidation), detail=err
+            )
+
+        uri = self._request_body_uri(
+            params.config_id, params.version, params.policy_id,
+        )
+
+        _, result = self._exec("PUT", uri, body=_body(params))
+        return result
+
+    def remove_advanced_settings_request_body(
+        self,
+        params: models.RemoveAdvancedSettingsRequestBodyRequest,
+    ) -> dict:
+        """Remove request body inspection settings for a config or policy.
+
+        Mirrors Go ``appsec.RemoveAdvancedSettingsRequestBody``.
+        """
+        logger.debug("RemoveAdvancedSettingsRequestBody")
+
+        err = validation.validate_remove_advanced_settings_request_body_request(
             params
         )
         if err is not None:
