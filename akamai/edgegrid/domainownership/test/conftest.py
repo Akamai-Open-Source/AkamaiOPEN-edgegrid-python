@@ -1,4 +1,5 @@
-"""Shared pytest fixtures and helpers for Domain Ownership API tests."""
+# pylint: disable=missing-function-docstring
+"""pytest fixtures and helpers for Domain Ownership test suite."""
 
 import json
 import os
@@ -6,112 +7,104 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from akamai.edgegrid.session import Session
-from akamai.edgegrid.domainownership.domainownership import Client
-
-# Directory containing this conftest.py
-TEST_DIR = os.path.abspath(os.path.dirname(__file__))
-# Directory containing JSON test fixtures
-TESTDATA_DIR = os.path.join(TEST_DIR, "testdata")
+# ---------------------------------------------------------------------------
+# Module-level constant — directory containing this conftest.py.
+# Mirrors the existing pattern from ``akamai/edgegrid/test/conftest.py``.
+# ---------------------------------------------------------------------------
+test_dir = os.path.abspath(os.path.dirname(__file__))
 
 
-def load_fixture(path):
-    """Load raw test data content from the testdata directory.
-
-    Mirrors Go ``loadFixtureBytes`` helpers found in domainownership
-    test files.  Reads the file as UTF-8 text so callers can pass it
-    directly to ``json.loads`` or use it as a raw response body string.
-
-    Args:
-        path: Relative path within ``testdata/``,
-            e.g. ``"add_domains_all_success.json"``.
-
-    Returns:
-        String content of the requested fixture file.
-    """
-    full_path = os.path.join(TESTDATA_DIR, path)
-    with open(full_path, encoding="utf-8") as fobj:
-        return fobj.read()
+# ---------------------------------------------------------------------------
+# Helper utilities (non-fixture, importable by test modules directly)
+# ---------------------------------------------------------------------------
 
 
-def load_json_fixture(path):
-    """Load and parse a JSON fixture from the testdata directory.
+def make_mock_response(status_code, body="", headers=None):
+    """Create a mock HTTP response.
 
-    Convenience wrapper around :func:`load_fixture` that additionally
-    deserialises the content into a Python object.
-
-    Args:
-        path: Relative path within ``testdata/``.
-
-    Returns:
-        Parsed JSON as ``dict`` or ``list``.
-    """
-    return json.loads(load_fixture(path))
-
-
-def create_mock_response(status_code, body="", headers=None):
-    """Create a mock HTTP response object.
-
-    Mirrors Go's ``httptest.NewTLSServer`` handler pattern where the test
-    writes a status code and response body.
+    Mirrors Go httptest server responses.  Builds a ``MagicMock`` that
+    behaves like a ``requests.Response`` with ``status_code``, ``text``,
+    ``json()``, ``content``, and ``headers`` attributes.
 
     Args:
         status_code: HTTP status code (e.g. 200, 400, 500).
-        body: Response body string (typically JSON).
+        body: Response body string (JSON or plain text).
         headers: Optional response headers dict.
 
     Returns:
-        MagicMock configured as an HTTP response with ``status_code``,
-        ``text``, ``json()``, ``content``, ``headers``, and ``ok``
-        attributes.
+        MagicMock configured as a ``requests.Response``.
     """
-    resp = MagicMock()
-    resp.status_code = status_code
-    resp.text = body
-    resp.content = body.encode("utf-8") if isinstance(body, str) else body
-    resp.headers = headers or {}
-    resp.ok = status_code < 400
-    resp.url = ""
+    response = MagicMock()
+    response.status_code = status_code
+    response.headers = headers or {}
+    response.text = body
 
-    if body and body.strip():
-        try:
-            parsed = json.loads(body)
-            resp.json.return_value = parsed
-        except (json.JSONDecodeError, ValueError):
-            resp.json.side_effect = json.JSONDecodeError("No JSON body", "", 0)
-    else:
-        resp.json.return_value = {}
+    # Configure json() to return parsed body or raise on non-JSON
+    try:
+        response.json.return_value = json.loads(body) if body.strip() else {}
+    except (json.JSONDecodeError, ValueError):
+        response.json.side_effect = json.JSONDecodeError("", "", 0)
 
-    if status_code >= 400:
-        resp.raise_for_status.side_effect = Exception(f"HTTP {status_code}")
-    else:
-        resp.raise_for_status.return_value = None
+    response.content = body.encode("utf-8") if body else b""
+    return response
 
-    return resp
+
+def load_fixture(filename):
+    """Load a JSON test fixture from the testdata directory.
+
+    Args:
+        filename: Name of the JSON file in ``testdata/``.
+
+    Returns:
+        Parsed JSON data (``dict`` or ``list``).
+    """
+    filepath = os.path.join(test_dir, "testdata", filename)
+    with open(filepath, encoding="utf-8") as fobj:
+        return json.load(fobj)
+
+
+# ---------------------------------------------------------------------------
+# Fixtures — automatically discovered and injected by pytest
+# ---------------------------------------------------------------------------
 
 
 @pytest.fixture
 def mock_session():
-    """Create a mock Session for client construction tests.
+    """Create a mock Session for testing.
 
-    Mirrors Go's ``session.New()`` used in ``mockAPIClient``.
-    Returns a ``MagicMock(spec=Session)`` that stands in for the
-    ``Session`` class.
+    Mirrors Go's ``mockAPIClient`` pattern which creates a mock HTTP
+    server and session.  In Python we mock the Session's ``request``
+    method directly so that each test can configure the return value.
     """
-    session = MagicMock(spec=Session)
+    session = MagicMock()
+    session.request = MagicMock()
     return session
 
 
 @pytest.fixture
-def mock_client(mock_session):  # pylint: disable=redefined-outer-name
-    """Create a ``Client`` with a mocked session.
+def client(mock_session):  # pylint: disable=redefined-outer-name
+    """Create a Domain Ownership client with a mock session.
 
-    Mirrors Go's ``mockAPIClient(t, mockServer)`` helper.
-    The Go helper creates a TLS-aware session pointed at the mock
-    server.  In Python, we create a ``Client`` with a mocked session
-    that can be configured per-test to return specific responses.
-
-    Returns:
-        ``Client`` instance with a mock session.
+    Mirrors Go's ``mockAPIClient(t, mockServer)`` which constructs
+    a ``Client(session)`` backed by the mock HTTP infrastructure.
+    Uses a lazy import to avoid circular import issues.
     """
+    from akamai.edgegrid.domainownership.domainownership import Client  # pylint: disable=import-outside-toplevel
     return Client(mock_session)
+
+
+@pytest.fixture
+def error_parser():
+    """Provide error response parsing capability for tests.
+
+    Returns a callable that, given a status code and response body
+    string, creates a mock response and parses it through the same
+    error handling logic used by the production client.
+    """
+    from akamai.edgegrid.domainownership.errors import parse_error_response  # pylint: disable=import-outside-toplevel
+
+    def _parse(status_code, body):
+        resp = make_mock_response(status_code, body)
+        return parse_error_response(resp)
+
+    return _parse
