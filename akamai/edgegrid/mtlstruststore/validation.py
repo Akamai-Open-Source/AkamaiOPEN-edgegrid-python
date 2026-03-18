@@ -714,14 +714,25 @@ def validate_validate_certificates_request(
 ) -> str | None:
     """Validate ValidateCertificatesRequest.
 
-    Mirrors Go ``ValidateCertificatesRequest.Validate()`` which only
-    checks ``Certificates: Required`` -- no per-item validation.
+    Mirrors Go ``ValidateCertificatesRequest.Validate()`` which checks
+    ``Certificates: Required`` and each item via ``Validate()``.
     """
-    errors: dict[str, str | None] = {}
-    errors["Certificates"] = (
-        "cannot be blank" if not req.certificates else None
-    )
-    return parse_validation_errors(errors)
+    if not req.certificates:
+        errors: dict[str, str | None] = {}
+        errors["Certificates"] = "cannot be blank"
+        return parse_validation_errors(errors)
+
+    # Per-item validation — mirrors Go validation.Each(...)
+    item_errors: dict[str, str | None] = {}
+    for idx, cert in enumerate(req.certificates):
+        cert_err = validate_validate_certificate(cert)
+        if cert_err is not None:
+            item_errors[f"Certificates[{idx}]"] = (
+                "{\n\t" + cert_err + "\n}"
+            )
+    if item_errors:
+        return parse_validation_errors(item_errors)
+    return None
 
 
 def validate_validate_certificate(

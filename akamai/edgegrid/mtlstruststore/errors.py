@@ -117,10 +117,11 @@ class Error(Exception):  # pylint: disable=too-many-instance-attributes
         if isinstance(target, str):
             for sentinel, status, err_type in _ERROR_MATCHERS:
                 if target == sentinel:
-                    return (
+                    if (
                         self.status == status
                         and self.type == err_type
-                    )
+                    ):
+                        return True
             return False
 
         if isinstance(target, Error):

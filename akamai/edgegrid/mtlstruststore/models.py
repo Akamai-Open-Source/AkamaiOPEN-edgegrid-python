@@ -348,11 +348,11 @@ class Associations:
         return cls(
             properties=[
                 AssociationProperty.from_dict(p)
-                for p in data.get("properties", [])
+                for p in (data.get("properties") or [])
             ],
             enrollments=[
                 AssociationEnrollment.from_dict(e)
-                for e in data.get("enrollments", [])
+                for e in (data.get("enrollments") or [])
             ],
         )
 
@@ -509,7 +509,7 @@ class ListCASetActivitiesResponse:
     def from_dict(cls, data: dict) -> ListCASetActivitiesResponse:
         """Create ListCASetActivitiesResponse from API response dict."""
         return cls(
-            ca_set_id=data.get("caSetID", ""),
+            ca_set_id=data.get("caSetId", ""),
             ca_set_link=data.get("caSetLink", ""),
             ca_set_name=data.get("caSetName", ""),
             created_date=data.get("createdDate", ""),
