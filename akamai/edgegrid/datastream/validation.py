@@ -59,6 +59,48 @@ def _validate_custom_headers(
         errors["CustomHeaderValue"] = "cannot be blank"
 
 
+def _validate_destination(connector) -> str | None:
+    """Dispatch connector-specific validation.
+
+    Mirrors Go ozzo-validation recursive ``Validatable`` call when
+    ``StreamConfiguration.Destination`` is non-nil.  Each connector
+    implements ``Validate()`` in Go; here we dispatch to the
+    corresponding ``validate_*_connector`` function.
+
+    Returns
+    -------
+    str | None
+        Formatted error string on validation failure, ``None`` when
+        valid.
+    """
+    # Import validators lazily to avoid forward-reference issues.
+    _dispatch: dict[type, str] = {
+        models.S3Connector: "validate_s3_connector",
+        models.AzureConnector: "validate_azure_connector",
+        models.DatadogConnector: "validate_datadog_connector",
+        models.SplunkConnector: "validate_splunk_connector",
+        models.GCSConnector: "validate_gcs_connector",
+        models.CustomHTTPSConnector: "validate_custom_https_connector",
+        models.SumoLogicConnector: "validate_sumo_logic_connector",
+        models.OracleCloudStorageConnector: (
+            "validate_oracle_cloud_storage_connector"
+        ),
+        models.LogglyConnector: "validate_loggly_connector",
+        models.NewRelicConnector: "validate_new_relic_connector",
+        models.ElasticsearchConnector: "validate_elasticsearch_connector",
+        models.S3CompatibleConnector: "validate_s3_compatible_connector",
+        models.TrafficPeakConnector: "validate_traffic_peak_connector",
+        models.DynatraceConnector: "validate_dynatrace_connector",
+    }
+    fn_name = _dispatch.get(type(connector))
+    if fn_name is not None:
+        # All validate_* functions are module-global in this file.
+        validate_fn = globals().get(fn_name)
+        if validate_fn is not None:
+            return validate_fn(connector)
+    return None
+
+
 def _validate_stream_configuration(  # pylint: disable=too-many-branches
     sc,
     errors: dict[str, str],
@@ -152,8 +194,14 @@ def _validate_stream_configuration(  # pylint: disable=too-many-branches
         ] = "must be a valid value"
 
     # Destination: Required (interface nil check in Go)
+    # When Destination is non-nil, ozzo-validation also calls
+    # Destination.Validate() recursively (Validatable interface).
     if sc.destination is None:
         errors["StreamConfiguration.Destination"] = "cannot be blank"
+    else:
+        dest_err = _validate_destination(sc.destination)
+        if dest_err:
+            errors["StreamConfiguration.Destination"] = dest_err
 
     # ContractId: Required
     if not sc.contract_id:
