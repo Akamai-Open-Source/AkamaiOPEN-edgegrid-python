@@ -1078,11 +1078,13 @@ def validate_create_secure_token_request(
             "If you specify an acl don't specify a url."
         )
 
-    # Expiry: Min(1), Max(720)
-    if request.expiry < 1:
-        errors["Expiry"] = "must be no less than 1"
-    elif request.expiry > 720:
-        errors["Expiry"] = "must be no greater than 720"
+    # Expiry: Min(1), Max(720) — skip when zero value (Go ozzo-validation
+    # skips Min/Max rules for the zero value of a type; int zero = 0).
+    if request.expiry != 0:
+        if request.expiry < 1:
+            errors["Expiry"] = "must be no less than 1"
+        elif request.expiry > 720:
+            errors["Expiry"] = "must be no greater than 720"
 
     # Hostname: Required.When(PropertyID == "")
     if not request.property_id and not request.hostname:
