@@ -1424,10 +1424,10 @@ def validate_update_include_rule_tree_request(req) -> str | None:
     if not getattr(req, "include_version", 0):
         errs["IncludeVersion"] = "cannot be blank"
 
-    # Rules: nested validation (Validatable)
+    # Rules: nested validation (Validatable RulesUpdate)
     rules = getattr(req, "rules", None)
     if rules is not None:
-        r_errs = _rules_errors(rules)
+        r_errs = _rules_update_errors(rules)
         if r_errs:
             errs["Rules"] = r_errs
 

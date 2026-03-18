@@ -1193,6 +1193,7 @@ class UpdateRulesRequest:
     group_id: str = ""
     validate_mode: str = ""
     validate_rules: bool = False
+    rule_format: str = ""
     rules: RulesUpdate | None = None
 
 
@@ -1820,6 +1821,7 @@ class UpdateIncludeRuleTreeRequest:
     group_id: str = ""
     include_id: str = ""
     include_version: int = 0
+    rule_format: str = ""
     rules: RulesUpdate | None = None
     validate_mode: str = ""
     validate_rules: bool = False
@@ -2893,6 +2895,7 @@ class ValidateDomainsOwnershipRequest:
     property_id: str = ""
     contract_id: str = ""
     group_id: str = ""
+    body: ValidateDomainsOwnershipRequestBody | None = None
 
 
 @dataclass
@@ -3155,8 +3158,7 @@ class PatchPropertyHostnameBucketRequest:
     property_id: str = ""
     contract_id: str = ""
     group_id: str = ""
-    add: list[PatchPropertyHostnameBucketAdd] = field(default_factory=list)
-    remove: list[str] = field(default_factory=list)
+    body: PatchPropertyHostnameBucketBody | None = None
 
 
 @dataclass

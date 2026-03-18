@@ -630,7 +630,7 @@ class Client:  # pylint: disable=too-many-public-methods
             response.group_id = result.get("groupId", "")
             cp_data = result.get("cpcodes", {})
             if isinstance(cp_data, dict):
-                response.cpcodes = models.CPCodeItems(
+                response.cp_codes = models.CPCodeItems(
                     items=[
                         _dict_to_cp_code(c)
                         for c in cp_data.get("items", [])
@@ -671,7 +671,7 @@ class Client:  # pylint: disable=too-many-public-methods
             response.group_id = result.get("groupId", "")
             cp_data = result.get("cpcodes", {})
             if isinstance(cp_data, dict):
-                response.cpcodes = models.CPCodeItems(
+                response.cp_codes = models.CPCodeItems(
                     items=[
                         _dict_to_cp_code(c)
                         for c in cp_data.get("items", [])
@@ -1425,7 +1425,11 @@ class Client:  # pylint: disable=too-many-public-methods
                 items = act_data.get("items", [])
                 if items:
                     response.activations = models.IncludeActivationsRes(
-                        items=items
+                        items=[
+                            _dict_to_include_activation(i)
+                            for i in items
+                            if isinstance(i, dict)
+                        ]
                     )
         return response
 
@@ -2281,6 +2285,7 @@ class Client:  # pylint: disable=too-many-public-methods
 
         response = models.GetAuditHistoryResponse()
         if isinstance(result, dict):
+            response.hostname = result.get("hostname", "")
             history_data = result.get("history", {})
             if isinstance(history_data, dict):
                 response.history = models.HostnameHistory(
@@ -3043,10 +3048,34 @@ def _populate_cp_code_detail(response, data: dict) -> None:
     """Populate CPCodeDetailResponse from a JSON dict."""
     response.id = data.get("id", 0)
     response.name = data.get("name", "")
-    response.contracts = data.get("contracts", [])
-    response.products = data.get("products", [])
-    response.default_time_zone = data.get("defaultTimeZone")
-    response.override_time_zone = data.get("overrideTimeZone")
+    response.purgeable = data.get("purgeable", False)
+    response.account_id = data.get("accountId", "")
+    response.default_time_zone = data.get("defaultTimeZone", "")
+    response.type = data.get("type", "")
+    override_tz = data.get("overrideTimeZone")
+    if isinstance(override_tz, dict):
+        response.override_time_zone = models.CPCodeTimeZone(
+            timezone_id=override_tz.get("timezoneId", ""),
+            timezone_value=override_tz.get("timezoneValue", ""),
+        )
+    else:
+        response.override_time_zone = override_tz
+    contracts = data.get("contracts", [])
+    response.contracts = [
+        models.CPCodeContract(
+            contract_id=c.get("contractId", ""),
+            status=c.get("status", ""),
+        ) if isinstance(c, dict) else c
+        for c in contracts
+    ]
+    products = data.get("products", [])
+    response.products = [
+        models.CPCodeProduct(
+            product_id=p.get("productId", ""),
+            product_name=p.get("productName", ""),
+        ) if isinstance(p, dict) else p
+        for p in products
+    ]
 
 
 def _dict_to_edge_hostname(data: dict) -> models.EdgeHostnameGetItem:
@@ -3146,6 +3175,28 @@ def _dict_to_include_version(data: dict) -> models.IncludeVersion:
     return item
 
 
+def _dict_to_rule_behavior(data: dict) -> models.RuleBehavior:
+    """Convert a JSON dict to a RuleBehavior model."""
+    return models.RuleBehavior(
+        locked=data.get("locked", False),
+        name=data.get("name", ""),
+        options=data.get("options", {}),
+        uuid=data.get("uuid", ""),
+        template_uuid=data.get("templateUuid", ""),
+    )
+
+
+def _dict_to_rule_variable(data: dict) -> models.RuleVariable:
+    """Convert a JSON dict to a RuleVariable model."""
+    return models.RuleVariable(
+        description=data.get("description"),
+        hidden=data.get("hidden", False),
+        name=data.get("name", ""),
+        sensitive=data.get("sensitive", False),
+        value=data.get("value"),
+    )
+
+
 def _dict_to_rules(data: dict) -> models.Rules:
     """Convert a JSON dict to a Rules model."""
     rules = models.Rules()
@@ -3153,10 +3204,26 @@ def _dict_to_rules(data: dict) -> models.Rules:
     rules.criteria_locked = data.get("criteriaLocked", False)
     rules.criteria_must_satisfy = data.get("criteriaMustSatisfy", "")
     rules.options = data.get("options")
-    rules.behaviors = data.get("behaviors", [])
-    rules.criteria = data.get("criteria", [])
-    rules.children = data.get("children", [])
-    rules.variables = data.get("variables", [])
+    rules.behaviors = [
+        _dict_to_rule_behavior(b)
+        for b in data.get("behaviors", [])
+        if isinstance(b, dict)
+    ]
+    rules.criteria = [
+        _dict_to_rule_behavior(c)
+        for c in data.get("criteria", [])
+        if isinstance(c, dict)
+    ]
+    rules.children = [
+        _dict_to_rules(ch)
+        for ch in data.get("children", [])
+        if isinstance(ch, dict)
+    ]
+    rules.variables = [
+        _dict_to_rule_variable(v)
+        for v in data.get("variables", [])
+        if isinstance(v, dict)
+    ]
     rules.comments = data.get("comments", "")
     rules.custom_override = data.get("customOverride")
     rules.uuid = data.get("uuid", "")
