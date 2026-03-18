@@ -16,9 +16,12 @@ from dataclasses import dataclass
 
 from akamai.edgegrid.utils import unescape_content
 
-# ErrStructValidation is the sentinel value for struct validation failures.
+# ErrStructValidation is the sentinel exception for struct validation failures.
 # Mirrors Go: var ErrStructValidation = errors.New("struct validation")
-ErrStructValidation = "struct validation"
+# Re-exported from the base errors module so service-level code can import it
+# from the service package, matching Go's per-package ErrStructValidation pattern.
+# pylint: disable=unused-import
+from akamai.edgegrid.errors import ErrStructValidation  # noqa: F401
 
 __all__ = ["Error", "ErrStructValidation", "parse_error_response"]
 

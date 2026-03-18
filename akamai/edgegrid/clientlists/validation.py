@@ -1,31 +1,33 @@
-"""Request validation functions for the Client Lists API.
+"""Validation functions for Client Lists API requests.
 
 Mirrors the ``validate()`` methods on Go request structs from:
 - ``pkg/clientlists/client_list.go`` (8 validators)
-- ``pkg/clientlists/client_list_activation.go`` (4 private validators + 1 public)
+- ``pkg/clientlists/client_list_activation.go`` (5 validators)
 
-Each function checks exactly the same required fields as its Go
-counterpart and returns a formatted error string on failure or
-``None`` when validation passes.
+Each function enforces exactly the same constraints as its Go counterpart,
+raising ``ErrStructValidation`` on failure or returning ``None`` when
+validation passes.  Validation errors prevent HTTP requests from being made.
 """
 
 from akamai.edgegrid.validation import parse_validation_errors
+from akamai.edgegrid.clientlists.errors import ErrStructValidation
 from akamai.edgegrid.clientlists import models
 
 
-# ---------------------------------------------------------------------------
-# Valid list types for GetClientListsRequest.Type validation
-# Mirrors Go getValidListTypesAsInterface() in client_list.go
-# ---------------------------------------------------------------------------
-_VALID_LIST_TYPES = (
-    models.IP,
-    models.GEO,
-    models.ASN,
-    models.TLS_FINGERPRINT,
-    models.FILE_HASH,
-    models.USER,
-    models.DOMAIN,
-)
+def _raise_on_errors(errors: dict[str, str | None]) -> None:
+    """Format validation errors and raise ErrStructValidation if any exist.
+
+    Uses ``parse_validation_errors()`` from the base validation module to
+    format the errors dict into a human-readable multi-line string, then
+    wraps it in ``ErrStructValidation``.
+
+    Args:
+        errors: A dict mapping field names to error messages.
+                ``None`` values are filtered out by parse_validation_errors.
+    """
+    result = parse_validation_errors(errors)
+    if result is not None:
+        raise ErrStructValidation(f"struct validation: {result}")
 
 
 # ===================================================================
@@ -34,182 +36,182 @@ _VALID_LIST_TYPES = (
 
 
 def validate_get_client_lists_request(
-    params: models.GetClientListsRequest,
-) -> str | None:
-    """Validate a GetClientListsRequest.
+    type_list: list[str] | None,
+) -> None:
+    """Validate GetClientListsRequest parameters.
 
-    Mirrors Go ``GetClientListsRequest.validate()`` (client_list.go).
-    Validates that any specified Type values are valid ClientListType
-    values.
+    Mirrors Go ``GetClientListsRequest.validate()`` (client_list.go
+    lines 494-500).
+
+    If type list is provided, each value must be a valid ClientListType.
+    Error message mirrors Go's ``fmt.Sprintf("Invalid 'type' value(s)
+    provided. Valid values are: %s", listTypes)``.
 
     Args:
-        params: The request parameters to validate.
+        type_list: List of client list type filter values, or ``None``.
 
-    Returns:
-        Formatted error string, or ``None`` if valid.
+    Raises:
+        ErrStructValidation: If any type value is not in VALID_LIST_TYPES.
     """
     errors: dict[str, str | None] = {}
-    if params.type:
-        for t in params.type:
-            if t not in _VALID_LIST_TYPES:
+    if type_list:
+        for t in type_list:
+            if t not in models.VALID_LIST_TYPES:
                 errors["Type"] = (
-                    f"Invalid 'type' value(s) provided. "
-                    f"Valid values are: {list(_VALID_LIST_TYPES)}"
+                    "Invalid 'type' value(s) provided. "
+                    f"Valid values are: {models.VALID_LIST_TYPES}"
                 )
                 break
-    return parse_validation_errors(errors)
+    _raise_on_errors(errors)
 
 
-def validate_get_client_list_request(
-    params: models.GetClientListRequest,
-) -> str | None:
-    """Validate a GetClientListRequest.
+def validate_get_client_list_request(list_id: str) -> None:
+    """Validate GetClientListRequest parameters.
 
-    Mirrors Go ``GetClientListRequest.validate()`` (client_list.go).
+    Mirrors Go ``GetClientListRequest.validate()`` (client_list.go
+    lines 462-466).
     Requires: ListID (non-empty string).
 
     Args:
-        params: The request parameters to validate.
+        list_id: The client list identifier.
 
-    Returns:
-        Formatted error string, or ``None`` if valid.
+    Raises:
+        ErrStructValidation: If list_id is empty.
     """
     errors: dict[str, str | None] = {}
-    if not params.list_id:
+    if not list_id:
         errors["ListID"] = "cannot be blank"
-    return parse_validation_errors(errors)
+    _raise_on_errors(errors)
 
 
 def validate_create_client_list_request(
-    params: models.CreateClientListRequest,
-) -> str | None:
-    """Validate a CreateClientListRequest.
+    name: str, type_val: str,
+) -> None:
+    """Validate CreateClientListRequest parameters.
 
-    Mirrors Go ``CreateClientListRequest.validate()`` (client_list.go).
+    Mirrors Go ``CreateClientListRequest.validate()`` (client_list.go
+    lines 481-486).
     Requires: Name, Type.
 
     Args:
-        params: The request parameters to validate.
+        name: The name for the new client list.
+        type_val: The type of the new client list.
 
-    Returns:
-        Formatted error string, or ``None`` if valid.
+    Raises:
+        ErrStructValidation: If name or type_val is empty.
     """
     errors: dict[str, str | None] = {}
-    if not params.name:
+    if not name:
         errors["Name"] = "cannot be blank"
-    if not params.type:
+    if not type_val:
         errors["Type"] = "cannot be blank"
-    return parse_validation_errors(errors)
+    _raise_on_errors(errors)
 
 
-def validate_update_client_list_request(
-    params: models.UpdateClientListRequest,
-) -> str | None:
-    """Validate an UpdateClientListRequest.
+def validate_update_client_list_request(list_id: str) -> None:
+    """Validate UpdateClientListRequest parameters.
 
-    Mirrors Go ``UpdateClientListRequest.validate()`` (client_list.go).
+    Mirrors Go ``UpdateClientListRequest.validate()`` (client_list.go
+    lines 468-473).
     Requires: ListID, Name.
 
-    Note: The Go implementation validates ListID for both the "ListID"
-    and "Name" fields — this is a known Go SDK bug that is mirrored
-    here for parity.
+    Note: The Go implementation validates ``v.ListID`` for both the
+    ``"ListID"`` and ``"Name"`` validation keys — this is a known Go
+    SDK bug that is mirrored here for exact parity.
 
     Args:
-        params: The request parameters to validate.
+        list_id: The client list identifier (checked for both ListID
+                 and Name fields per Go bug).
 
-    Returns:
-        Formatted error string, or ``None`` if valid.
+    Raises:
+        ErrStructValidation: If list_id is empty.
     """
     errors: dict[str, str | None] = {}
-    if not params.list_id:
+    if not list_id:
         errors["ListID"] = "cannot be blank"
-    # Go bug: Name validation also checks ListID instead of Name
-    if not params.list_id:
+    # Go bug: Name validation also checks v.ListID instead of v.Name
+    if not list_id:
         errors["Name"] = "cannot be blank"
-    return parse_validation_errors(errors)
+    _raise_on_errors(errors)
 
 
-def validate_update_client_list_items_request(
-    params: models.UpdateClientListItemsRequest,
-) -> str | None:
-    """Validate an UpdateClientListItemsRequest.
+def validate_update_client_list_items_request(list_id: str) -> None:
+    """Validate UpdateClientListItemsRequest parameters.
 
-    Mirrors Go ``UpdateClientListItemsRequest.validate()`` (client_list.go).
+    Mirrors Go ``UpdateClientListItemsRequest.validate()``
+    (client_list.go lines 475-479).
     Requires: ListID.
 
     Args:
-        params: The request parameters to validate.
+        list_id: The client list identifier.
 
-    Returns:
-        Formatted error string, or ``None`` if valid.
+    Raises:
+        ErrStructValidation: If list_id is empty.
     """
     errors: dict[str, str | None] = {}
-    if not params.list_id:
+    if not list_id:
         errors["ListID"] = "cannot be blank"
-    return parse_validation_errors(errors)
+    _raise_on_errors(errors)
 
 
-def validate_delete_client_list_request(
-    params: models.DeleteClientListRequest,
-) -> str | None:
-    """Validate a DeleteClientListRequest.
+def validate_delete_client_list_request(list_id: str) -> None:
+    """Validate DeleteClientListRequest parameters.
 
-    Mirrors Go ``DeleteClientListRequest.validate()`` (client_list.go).
+    Mirrors Go ``DeleteClientListRequest.validate()`` (client_list.go
+    lines 488-492).
     Requires: ListID.
 
     Args:
-        params: The request parameters to validate.
+        list_id: The client list identifier.
 
-    Returns:
-        Formatted error string, or ``None`` if valid.
+    Raises:
+        ErrStructValidation: If list_id is empty.
     """
     errors: dict[str, str | None] = {}
-    if not params.list_id:
+    if not list_id:
         errors["ListID"] = "cannot be blank"
-    return parse_validation_errors(errors)
+    _raise_on_errors(errors)
 
 
 def validate_translate_usernames_request(
-    params: models.TranslateUsernamesRequest,
-) -> str | None:
-    """Validate a TranslateUsernamesRequest.
+    usernames: list[str],
+) -> None:
+    """Validate TranslateUsernamesRequest parameters.
 
-    Mirrors Go ``TranslateUsernamesRequest.validate()`` (client_list.go).
-    Requires: The list itself must be non-empty (validation.Required +
-    validation.Length(1, 0)).
-
-    TranslateUsernamesRequest is ``list[str]``.
+    Mirrors Go ``TranslateUsernamesRequest.validate()`` (client_list.go
+    lines 502-509).
+    Requires: non-empty list with at least one element
+    (``validation.Required`` + ``validation.Length(1, 0)``).
 
     Args:
-        params: The list of usernames to translate.
+        usernames: The list of usernames to translate.
 
-    Returns:
-        Formatted error string, or ``None`` if valid.
+    Raises:
+        ErrStructValidation: If usernames is empty or None.
     """
     errors: dict[str, str | None] = {}
-    if not params or len(params) < 1:
+    if not usernames or len(usernames) < 1:
         errors["TranslateUsernamesRequest"] = "cannot be blank"
-    return parse_validation_errors(errors)
+    _raise_on_errors(errors)
 
 
-def validate_get_client_list_items_request(
-    params: models.GetClientListItemsRequest,
-) -> str | None:
-    """Validate a GetClientListItemsRequest.
+def validate_get_client_list_items_request(list_id: str) -> None:
+    """Validate GetClientListItemsRequest parameters.
 
-    Mirrors Go ``GetClientListItemsRequest.validate()`` (client_list.go).
+    Mirrors Go ``GetClientListItemsRequest.validate()`` (client_list.go
+    lines 511-515).
     Requires: ListID.
 
     Args:
-        params: The request parameters to validate.
+        list_id: The client list identifier.
 
-    Returns:
-        Formatted error string, or ``None`` if valid.
+    Raises:
+        ErrStructValidation: If list_id is empty.
     """
     errors: dict[str, str | None] = {}
-    if not params.list_id:
+    if not list_id:
         errors["ListID"] = "cannot be blank"
-    return parse_validation_errors(errors)
+    _raise_on_errors(errors)
 
 
 # ===================================================================
@@ -217,114 +219,111 @@ def validate_get_client_list_items_request(
 # ===================================================================
 
 
-def validate_get_activation_request(
-    params: models.GetActivationRequest,
-) -> str | None:
-    """Validate a GetActivationRequest.
+def validate_get_activation_request(activation_id: int) -> None:
+    """Validate GetActivationRequest parameters.
 
     Mirrors Go ``GetActivationRequest.validate()``
-    (client_list_activation.go).
-    Requires: ActivationID.
+    (client_list_activation.go lines 114-118).
+    Requires: ActivationID (non-zero).  For integers,
+    ``validation.Required`` means the value must not be zero.
 
     Args:
-        params: The request parameters to validate.
+        activation_id: The activation identifier.
 
-    Returns:
-        Formatted error string, or ``None`` if valid.
+    Raises:
+        ErrStructValidation: If activation_id is zero or falsy.
     """
     errors: dict[str, str | None] = {}
-    if not params.activation_id:
+    if not activation_id:
         errors["ActivationID"] = "cannot be blank"
-    return parse_validation_errors(errors)
+    _raise_on_errors(errors)
 
 
 def validate_get_activation_status_request(
-    params: models.GetActivationStatusRequest,
-) -> str | None:
-    """Validate a GetActivationStatusRequest.
+    list_id: str, network: str,
+) -> None:
+    """Validate GetActivationStatusRequest parameters.
 
     Mirrors Go ``GetActivationStatusRequest.validate()``
-    (client_list_activation.go).
+    (client_list_activation.go lines 120-125).
     Requires: ListID, Network.
 
     Args:
-        params: The request parameters to validate.
+        list_id: The client list identifier.
+        network: The activation network.
 
-    Returns:
-        Formatted error string, or ``None`` if valid.
+    Raises:
+        ErrStructValidation: If list_id or network is empty.
     """
     errors: dict[str, str | None] = {}
-    if not params.list_id:
+    if not list_id:
         errors["ListID"] = "cannot be blank"
-    if not params.network:
+    if not network:
         errors["Network"] = "cannot be blank"
-    return parse_validation_errors(errors)
+    _raise_on_errors(errors)
 
 
 def validate_create_activation_request(
-    params: models.CreateActivationRequest,
-) -> str | None:
-    """Validate a CreateActivationRequest.
+    list_id: str, network: str,
+) -> None:
+    """Validate CreateActivationRequest parameters.
 
     Mirrors Go ``CreateActivationRequest.validate()``
-    (client_list_activation.go).
+    (client_list_activation.go lines 127-132).
     Requires: ListID, Network.
 
     Args:
-        params: The request parameters to validate.
+        list_id: The client list identifier.
+        network: The activation network.
 
-    Returns:
-        Formatted error string, or ``None`` if valid.
+    Raises:
+        ErrStructValidation: If list_id or network is empty.
     """
     errors: dict[str, str | None] = {}
-    if not params.list_id:
+    if not list_id:
         errors["ListID"] = "cannot be blank"
-    if not params.network:
+    if not network:
         errors["Network"] = "cannot be blank"
-    return parse_validation_errors(errors)
+    _raise_on_errors(errors)
 
 
 def validate_create_deactivation_request(
-    params: models.CreateActivationRequest,
-) -> str | None:
-    """Validate a CreateDeactivationRequest.
+    list_id: str, network: str,
+) -> None:
+    """Validate CreateDeactivationRequest parameters.
 
     Mirrors Go ``CreateDeactivationRequest.validate()``
-    (client_list_activation.go).
+    (client_list_activation.go lines 134-139).
     Requires: ListID, Network.
 
     Args:
-        params: The request parameters to validate.
+        list_id: The client list identifier.
+        network: The activation network.
 
-    Returns:
-        Formatted error string, or ``None`` if valid.
+    Raises:
+        ErrStructValidation: If list_id or network is empty.
     """
     errors: dict[str, str | None] = {}
-    if not params.list_id:
+    if not list_id:
         errors["ListID"] = "cannot be blank"
-    if not params.network:
+    if not network:
         errors["Network"] = "cannot be blank"
-    return parse_validation_errors(errors)
+    _raise_on_errors(errors)
 
 
-def validate_activation_network(network: str) -> str | None:
+def validate_activation_network(network: str) -> None:
     """Validate ActivationNetwork value.
 
     Mirrors Go ``ActivationNetwork.Validate()``
-    (client_list_activation.go).
-    The value must be either STAGING or PRODUCTION.
-
-    Returns ``None`` if valid, otherwise an error string.
+    (client_list_activation.go lines 142-144).
+    Uses ``validation.In(Staging, Production)`` — must be one of the
+    two valid ``ActivationNetwork`` constants.
 
     Args:
         network: The activation network value to validate.
 
-    Returns:
-        Error string, or ``None`` if valid.
+    Raises:
+        ValueError: If network is not STAGING or PRODUCTION.
     """
     if network not in (models.STAGING, models.PRODUCTION):
-        return (
-            f"value '{network}' is invalid. Must be one of: "
-            f"'{models.STAGING}' or '{models.PRODUCTION}'"
-        )
-    return None
+        raise ValueError(f"must be a valid value: {network}")
