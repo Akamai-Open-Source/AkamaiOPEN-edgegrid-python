@@ -1,3 +1,4 @@
+# pylint: disable=too-many-lines
 """Request validation functions for the Bot Manager API client.
 
 Each function validates the parameters for a specific Bot Manager API request,

@@ -75,6 +75,7 @@ class GetAkamaiBotCategoryActionListRequest:
     """Request for retrieving Akamai bot category action list."""
     config_id: int = 0
     version: int = 0
+    security_policy_id: str = ""
     category_id: str = ""
 
 @dataclass
@@ -89,6 +90,7 @@ class GetAkamaiBotCategoryActionRequest:
     """Request for retrieving a specific Akamai bot category action."""
     config_id: int = 0
     version: int = 0
+    security_policy_id: str = ""
     category_id: str = ""
 
 @dataclass
@@ -96,6 +98,7 @@ class UpdateAkamaiBotCategoryActionRequest:
     """Request for updating an Akamai bot category action."""
     config_id: int = 0
     version: int = 0
+    security_policy_id: str = ""
     category_id: str = ""
     json_payload: Any = None
 

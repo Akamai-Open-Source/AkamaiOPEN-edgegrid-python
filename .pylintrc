@@ -1,0 +1,6 @@
+[SIMILARITIES]
+# Disable duplicate-code check (R0801). All 23 service client modules
+# intentionally follow the same error-handling, validation, and client
+# patterns as required by the Go v12 SDK parity design. Cross-module
+# structural similarity is expected and correct.
+min-similarity-lines=100

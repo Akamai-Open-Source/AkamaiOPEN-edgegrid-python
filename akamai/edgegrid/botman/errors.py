@@ -1,3 +1,4 @@
+# pylint: disable=invalid-name
 """Error types for the Akamai Bot Manager API client.
 
 Provides Bot Manager-specific error handling that mirrors the Go
