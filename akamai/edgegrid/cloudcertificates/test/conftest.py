@@ -1,4 +1,27 @@
-"""Shared pytest fixtures and helpers for Cloud Certificates API tests."""
+"""Shared pytest fixtures and helpers for Cloud Certificates API tests.
+
+Provides test infrastructure mirroring Go's ``mockAPIClient`` pattern from
+``pkg/cloudcertificates/cloudcertificates_test.go`` (lines 17-32).  Instead
+of Go's ``httptest.NewTLSServer`` with TLS certificate pools, Python tests
+mock the session's ``exec()`` method directly using ``unittest.mock``.
+
+Exports
+-------
+test_dir : str
+    Absolute path of this test package directory.
+mock_session : pytest.fixture
+    Function-scoped ``MagicMock`` simulating a :class:`Session`.
+client : pytest.fixture
+    Function-scoped :class:`Client` backed by *mock_session*.
+MockResponse : class
+    Lightweight HTTP response simulator with *status_code*, *headers*,
+    ``json()``, and ``text``.
+load_fixture : function
+    Load and parse a JSON fixture from ``testdata/``.
+setup_mock_response : function
+    Configure *mock_session* to return a canned ``(MockResponse, body)``
+    tuple from its ``exec()`` method.
+"""
 
 import json
 import os
@@ -6,112 +29,170 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from akamai.edgegrid.session import Session
 from akamai.edgegrid.cloudcertificates.cloudcertificates import Client
 
-# Directory containing this conftest.py
-TEST_DIR = os.path.abspath(os.path.dirname(__file__))
-# Directory containing JSON test fixtures
-TESTDATA_DIR = os.path.join(TEST_DIR, "testdata")
+# ---------------------------------------------------------------------------
+# Module-level constant — mirrors existing pattern in
+# akamai/edgegrid/test/conftest.py
+# ---------------------------------------------------------------------------
+
+test_dir = os.path.abspath(os.path.dirname(__file__))
 
 
-def load_fixture(path):
-    """Load raw test data content from the testdata directory.
+# ---------------------------------------------------------------------------
+# MockResponse — lightweight HTTP response object for testing
+# ---------------------------------------------------------------------------
 
-    Mirrors Go ``loadFixtureBytes`` helpers found in cloudcertificates
-    test files.  Reads the file as UTF-8 text so callers can pass it
-    directly to ``json.loads`` or use it as a raw response body string.
+
+class MockResponse:
+    """Simulate an HTTP response for unit tests.
+
+    Mirrors the response written by Go's ``httptest.NewTLSServer`` handler
+    (status code, headers, and a JSON or plain-text body).  Preferred over
+    a ``MagicMock`` because it provides deterministic ``json()`` / ``text``
+    behaviour without relying on mock auto-attribute semantics.
+
+    Attributes:
+        status_code: HTTP status code (e.g. 200, 400, 500).
+        headers: Response header dict.
+    """
+
+    def __init__(self, status_code, body="", headers=None):
+        """Initialise the mock response.
+
+        Args:
+            status_code: HTTP status code.
+            body: Response body — a JSON string or a ``dict``.
+            headers: Optional response header mapping.
+        """
+        self.status_code = status_code
+        self.headers = headers or {}
+        self._body = body
+
+    def json(self):
+        """Parse the body as JSON.
+
+        Returns:
+            Parsed body as ``dict`` or ``list``.
+
+        Raises:
+            json.JSONDecodeError: When *body* is a non-JSON string.
+        """
+        if isinstance(self._body, dict):
+            return self._body
+        return json.loads(self._body)
+
+    @property
+    def text(self):
+        """Return the raw body as a string.
+
+        If the body was provided as a ``dict`` it is serialised to a JSON
+        string so that callers always receive ``str``.
+
+        Returns:
+            String representation of the response body.
+        """
+        if isinstance(self._body, dict):
+            return json.dumps(self._body)
+        return self._body
+
+
+# ---------------------------------------------------------------------------
+# Helper functions
+# ---------------------------------------------------------------------------
+
+
+def load_fixture(filename):
+    """Load and parse a JSON fixture from the ``testdata/`` directory.
+
+    Mirrors Go ``loadFixtureBytes`` / ``loadFixtureString`` helpers found
+    across cloudcertificates test files.
 
     Args:
-        path: Relative path within ``testdata/``,
+        filename: Relative path within ``testdata/``,
             e.g. ``"create_certificate_base_response.json"``.
 
     Returns:
-        String content of the requested fixture file.
+        Parsed JSON data (``dict`` or ``list``).
     """
-    full_path = os.path.join(TESTDATA_DIR, path)
-    with open(full_path, encoding="utf-8") as fobj:
-        return fobj.read()
+    filepath = os.path.join(test_dir, "testdata", filename)
+    with open(filepath, encoding="utf-8") as fobj:
+        return json.load(fobj)
 
 
-def load_json_fixture(path):
-    """Load and parse a JSON fixture from the testdata directory.
+def setup_mock_response(mock_session, status_code, body="", headers=None):  # pylint: disable=redefined-outer-name
+    """Configure *mock_session* to return a canned HTTP response.
 
-    Convenience wrapper around :func:`load_fixture` that additionally
-    deserialises the content into a Python object.
+    Sets ``mock_session.exec.return_value`` to a ``(MockResponse,
+    parsed_body)`` tuple so that the :class:`Client` methods under test
+    receive consistent response data.
+
+    Mirrors Go's ``httptest.NewTLSServer`` handler that writes a status
+    code, headers, and a response body.
 
     Args:
-        path: Relative path within ``testdata/``.
+        mock_session: The ``MagicMock`` standing in for :class:`Session`.
+        status_code: HTTP status code to return.
+        body: Response body — a JSON string, a ``dict``, or an empty
+            string for no-body responses (e.g. 204).
+        headers: Optional ``dict`` of response headers.
 
     Returns:
-        Parsed JSON as ``dict`` or ``list``.
+        The configured :class:`MockResponse` instance (useful for
+        additional per-test assertions).
     """
-    return json.loads(load_fixture(path))
+    response = MockResponse(status_code, body, headers)
 
-
-def create_mock_response(status_code, body="", headers=None):
-    """Create a mock HTTP response object.
-
-    Mirrors Go's ``httptest.NewTLSServer`` handler pattern where the test
-    writes a status code and response body.
-
-    Args:
-        status_code: HTTP status code (e.g. 200, 400, 500).
-        body: Response body string (typically JSON).
-        headers: Optional response headers dict.
-
-    Returns:
-        MagicMock configured as an HTTP response with ``status_code``,
-        ``text``, ``json()``, ``content``, ``headers``, and ``ok``
-        attributes.
-    """
-    resp = MagicMock()
-    resp.status_code = status_code
-    resp.text = body
-    resp.content = body.encode("utf-8") if isinstance(body, str) else body
-    resp.headers = headers or {}
-    resp.ok = status_code < 400
-    resp.url = ""
-
-    if body and body.strip():
+    # Derive the parsed body that Session.exec would normally produce
+    # after deserialising the JSON response.
+    if isinstance(body, str) and body:
         try:
-            parsed = json.loads(body)
-            resp.json.return_value = parsed
+            parsed_body = json.loads(body)
         except (json.JSONDecodeError, ValueError):
-            resp.json.side_effect = json.JSONDecodeError("No JSON body", "", 0)
+            parsed_body = body
+    elif isinstance(body, dict):
+        parsed_body = body
     else:
-        resp.json.return_value = {}
+        parsed_body = None
 
-    if status_code >= 400:
-        resp.raise_for_status.side_effect = Exception(f"HTTP {status_code}")
-    else:
-        resp.raise_for_status.return_value = None
+    mock_session.exec.return_value = (response, parsed_body)
+    return response
 
-    return resp
+
+# ---------------------------------------------------------------------------
+# Pytest fixtures
+# ---------------------------------------------------------------------------
 
 
 @pytest.fixture
 def mock_session():
-    """Create a mock Session for client construction tests.
+    """Create a mock session for testing Cloud Certificates client.
 
-    Mirrors Go's ``session.New()`` used in ``mockAPIClient``.
-    Returns a ``MagicMock(spec=Session)`` that stands in for the
-    ``Session`` class.
+    Returns a ``MagicMock`` that simulates the :class:`Session` class
+    with a mockable ``exec()`` method.  Each test receives a fresh
+    instance (function scope) to prevent cross-test contamination.
+
+    Mirrors Go's ``mockAPIClient`` which creates an ``httptest.NewTLSServer``-
+    backed session and returns ``Client(s)``.
+
+    Returns:
+        ``MagicMock`` simulating :class:`Session`.
     """
-    session = MagicMock(spec=Session)
+    session = MagicMock()
     return session
 
 
 @pytest.fixture
-def mock_client(mock_session):  # pylint: disable=redefined-outer-name
-    """Create a ``Client`` with a mocked session.
+def client(mock_session):  # pylint: disable=redefined-outer-name
+    """Create a Cloud Certificates :class:`Client` with a mock session.
 
-    Mirrors Go's ``mockAPIClient(t, mockServer)`` helper.
-    The Go helper creates a TLS-aware session pointed at the mock
-    server.  In Python, we create a ``Client`` with a mocked session
-    that can be configured per-test to return specific responses.
+    Mirrors Go's ``mockAPIClient(t, mockServer)`` which returns
+    ``Client(s)`` where ``s`` is a session backed by a mock server.
+
+    Args:
+        mock_session: The mock session fixture.
 
     Returns:
-        ``Client`` instance with a mock session.
+        :class:`Client` instance backed by *mock_session*.
     """
     return Client(mock_session)
