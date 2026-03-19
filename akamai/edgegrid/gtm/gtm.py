@@ -1496,7 +1496,7 @@ class GTMClient:  # pylint: disable=too-many-public-methods
 
         url = (
             f"/config-gtm/v1/domains/{params.domain_name}"
-            f"/as-maps/{params.map_name}"
+            f"/as-maps/{params.as_map_name}"
         )
         headers = _version_headers("GET")
 
@@ -1626,7 +1626,7 @@ class GTMClient:  # pylint: disable=too-many-public-methods
 
         url = (
             f"/config-gtm/v1/domains/{params.domain_name}"
-            f"/as-maps/{params.map_name}"
+            f"/as-maps/{params.as_map_name}"
         )
         headers = _version_headers("DELETE")
 
@@ -1716,7 +1716,7 @@ class GTMClient:  # pylint: disable=too-many-public-methods
 
         url = (
             f"/config-gtm/v1/domains/{params.domain_name}"
-            f"/geographic-maps/{params.map_name}"
+            f"/geographic-maps/{params.geo_map_name}"
         )
         headers = _version_headers("GET")
 
@@ -1846,7 +1846,7 @@ class GTMClient:  # pylint: disable=too-many-public-methods
 
         url = (
             f"/config-gtm/v1/domains/{params.domain_name}"
-            f"/geographic-maps/{params.map_name}"
+            f"/geographic-maps/{params.geo_map_name}"
         )
         headers = _version_headers("DELETE")
 
@@ -1935,7 +1935,7 @@ class GTMClient:  # pylint: disable=too-many-public-methods
 
         url = (
             f"/config-gtm/v1/domains/{params.domain_name}"
-            f"/cidr-maps/{params.map_name}"
+            f"/cidr-maps/{params.cidr_map_name}"
         )
         headers = _version_headers("GET")
 
@@ -2065,7 +2065,7 @@ class GTMClient:  # pylint: disable=too-many-public-methods
 
         url = (
             f"/config-gtm/v1/domains/{params.domain_name}"
-            f"/cidr-maps/{params.map_name}"
+            f"/cidr-maps/{params.cidr_map_name}"
         )
         headers = _version_headers("DELETE")
 

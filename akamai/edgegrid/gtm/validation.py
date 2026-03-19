@@ -332,7 +332,9 @@ def validate_create_property_request(request) -> str | None:
     """Validate CreatePropertyRequest.
 
     Mirrors Go CreatePropertyRequest.Validate().
-    Required: DomainName, Property.
+    Required: DomainName, Property.  When Property is non-nil,
+    also runs Property-level validation (ozzo-validation calls
+    Validatable.Validate() on non-nil struct fields).
 
     Args:
         request: A CreatePropertyRequest object.
@@ -345,6 +347,10 @@ def validate_create_property_request(request) -> str | None:
         errors["DomainName"] = "cannot be blank"
     if request.property is None:
         errors["Property"] = "cannot be blank"
+    else:
+        prop_err = validate_property(request.property)
+        if prop_err is not None:
+            return prop_err
     result = parse_validation_errors(errors)
     if result is not None:
         return result
@@ -355,7 +361,9 @@ def validate_update_property_request(request) -> str | None:
     """Validate UpdatePropertyRequest.
 
     Mirrors Go UpdatePropertyRequest.Validate().
-    Required: DomainName, Property.
+    Required: DomainName, Property.  When Property is non-nil,
+    also runs Property-level validation (ozzo-validation calls
+    Validatable.Validate() on non-nil struct fields).
 
     Args:
         request: An UpdatePropertyRequest object.
@@ -368,6 +376,10 @@ def validate_update_property_request(request) -> str | None:
         errors["DomainName"] = "cannot be blank"
     if request.property is None:
         errors["Property"] = "cannot be blank"
+    else:
+        prop_err = validate_property(request.property)
+        if prop_err is not None:
+            return prop_err
     result = parse_validation_errors(errors)
     if result is not None:
         return result
@@ -888,7 +900,7 @@ def validate_get_geo_map_request(request) -> str | None:
         Formatted error string on failure, None when valid.
     """
     errors = {}
-    if not request.map_name:
+    if not request.geo_map_name:
         errors["MapName"] = "cannot be blank"
     if not request.domain_name:
         errors["DomainName"] = "cannot be blank"
@@ -959,7 +971,7 @@ def validate_delete_geo_map_request(request) -> str | None:
     errors = {}
     if not request.domain_name:
         errors["DomainName"] = "cannot be blank"
-    if not request.map_name:
+    if not request.geo_map_name:
         errors["MapName"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result is not None:
@@ -1030,7 +1042,7 @@ def validate_get_cidr_map_request(request) -> str | None:
         Formatted error string on failure, None when valid.
     """
     errors = {}
-    if not request.map_name:
+    if not request.cidr_map_name:
         errors["MapName"] = "cannot be blank"
     if not request.domain_name:
         errors["DomainName"] = "cannot be blank"
@@ -1101,7 +1113,7 @@ def validate_delete_cidr_map_request(request) -> str | None:
     errors = {}
     if not request.domain_name:
         errors["DomainName"] = "cannot be blank"
-    if not request.map_name:
+    if not request.cidr_map_name:
         errors["MapName"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result is not None:
