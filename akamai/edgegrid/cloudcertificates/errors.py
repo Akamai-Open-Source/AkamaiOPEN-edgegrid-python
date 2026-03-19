@@ -440,7 +440,8 @@ class Error(Exception):  # pylint: disable=too-many-instance-attributes
         """
 
         try:
-            return f"API error: \n{json.dumps(self.to_dict(), indent='\t')}"
+            msg = json.dumps(self.to_dict(), indent="\t")
+            return f"API error: \n{msg}"
         except (TypeError, ValueError) as exc:
             return f"error marshaling API error: {exc} "
 

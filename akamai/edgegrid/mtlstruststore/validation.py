@@ -250,7 +250,12 @@ def _valid_certificate_status_for_date(
     if not timestamp_str:
         return None
     try:
-        timestamp = datetime.fromisoformat(timestamp_str)
+        # Normalize 'Z' suffix to '+00:00' for Python 3.10 compat
+        # (fromisoformat did not accept 'Z' until Python 3.11).
+        ts_normalized = timestamp_str
+        if timestamp_str.endswith("Z"):
+            ts_normalized = timestamp_str[:-1] + "+00:00"
+        timestamp = datetime.fromisoformat(ts_normalized)
     except (ValueError, TypeError):
         return None
     if timestamp.tzinfo is None:
