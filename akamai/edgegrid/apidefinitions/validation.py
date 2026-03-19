@@ -73,6 +73,14 @@ def _collect_verify_version_request_body_errors(b) -> dict | None:
     errors: dict = {}
     if not b.networks:
         errors["Networks"] = "cannot be blank"
+    else:
+        network_errors: dict = {}
+        for i, net in enumerate(b.networks):
+            net_err = validate_network_type(net)
+            if net_err:
+                network_errors[str(i)] = net_err
+        if network_errors:
+            errors["Networks"] = network_errors
     return errors or None
 
 
@@ -93,6 +101,14 @@ def _collect_activation_request_body_errors(b) -> dict | None:
     errors: dict = {}
     if not b.networks:
         errors["Networks"] = "cannot be blank"
+    else:
+        network_errors: dict = {}
+        for i, net in enumerate(b.networks):
+            net_err = validate_network_type(net)
+            if net_err:
+                network_errors[str(i)] = net_err
+        if network_errors:
+            errors["Networks"] = network_errors
     if b.notification_recipients:
         recipient_errors: dict = {}
         for i, email in enumerate(b.notification_recipients):
@@ -1096,9 +1112,10 @@ def validate_register_endpoint_request(r) -> str | None:  # pylint: disable=too-
     if not r.group_id:
         errors["GroupID"] = "cannot be blank"
 
-    # BasePath: must not end with '/'
+    # BasePath: must not end with '/' (only when length > 1; lone '/' is OK)
+    # Mirrors Go: validation.When(len(r.BasePath) > 1, ...)
     base_path = getattr(r, "base_path", "")
-    if base_path and base_path.endswith("/"):
+    if len(base_path) > 1 and base_path.endswith("/"):
         errors["BasePath"] = "basePath should not end with `/`"
 
     # Optional enum-typed fields — validate when non-empty
