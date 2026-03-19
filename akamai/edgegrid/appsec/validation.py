@@ -178,8 +178,13 @@ def validate_get_configuration_clone_request(params) -> str | None:
 
 def validate_create_configuration_clone_request(params) -> str | None:
     """Validate CreateConfigurationCloneRequest."""
+    create_from = params.create_from or {}
+    if isinstance(create_from, dict):
+        config_id = create_from.get("configId")
+    else:
+        config_id = getattr(create_from, "config_id", None)
     return _validate_required({
-        "CreateFromConfigID": _required(params.create_from.config_id),
+        "CreateFromConfigID": _required(config_id),
     })
 
 

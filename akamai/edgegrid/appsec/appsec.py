@@ -388,15 +388,7 @@ class Client:  # pylint: disable=too-many-public-methods
             f"/appsec/v1/configs/{params.config_id}"
             f"/versions"
         )
-        query: dict[str, str] = {}
-        if params.page:
-            query["page"] = str(params.page)
-        if params.page_size:
-            query["pageSize"] = str(params.page_size)
-        if params.detail:
-            query["detail"] = str(params.detail).lower()
-
-        _, result = self._exec("GET", uri, params=query or None)
+        _, result = self._exec("GET", uri)
         return result
 
     def get_configuration_version(
@@ -1058,7 +1050,7 @@ class Client:  # pylint: disable=too-many-public-methods
         uri = (
             f"/appsec/v1/configs/{params.config_id}"
             f"/versions/{params.version}"
-            f"/custom-deny/{params.deny_id}"
+            f"/custom-deny/{params.id}"
         )
 
         _, result = self._exec("GET", uri)
@@ -1108,7 +1100,7 @@ class Client:  # pylint: disable=too-many-public-methods
         uri = (
             f"/appsec/v1/configs/{params.config_id}"
             f"/versions/{params.version}"
-            f"/custom-deny/{params.deny_id}"
+            f"/custom-deny/{params.id}"
         )
 
         _, result = self._exec(
@@ -1134,7 +1126,7 @@ class Client:  # pylint: disable=too-many-public-methods
         uri = (
             f"/appsec/v1/configs/{params.config_id}"
             f"/versions/{params.version}"
-            f"/custom-deny/{params.deny_id}"
+            f"/custom-deny/{params.id}"
         )
 
         _, result = self._exec("DELETE", uri, expect_json=False)
@@ -1563,7 +1555,7 @@ class Client:  # pylint: disable=too-many-public-methods
             f"/appsec/v1/configs/{params.config_id}"
             f"/versions/{params.version}"
             f"/security-policies/{params.policy_id}"
-            f"/eval-groups/{params.group_id}"
+            f"/eval-groups/{params.group}"
         )
 
         _, result = self._exec(
@@ -1591,7 +1583,7 @@ class Client:  # pylint: disable=too-many-public-methods
             f"/appsec/v1/configs/{params.config_id}"
             f"/versions/{params.version}"
             f"/security-policies/{params.policy_id}"
-            f"/eval-groups/{params.group_id}"
+            f"/eval-groups/{params.group}"
             f"/action-condition-exception"
         )
 
@@ -1759,7 +1751,7 @@ class Client:  # pylint: disable=too-many-public-methods
             f"/appsec/v1/configs/{params.config_id}"
             f"/versions/{params.version}"
             f"/security-policies/{params.policy_id}"
-            f"/attack-groups/{params.group_id}"
+            f"/attack-groups/{params.group}"
         )
 
         _, result = self._exec(
@@ -1787,7 +1779,7 @@ class Client:  # pylint: disable=too-many-public-methods
             f"/appsec/v1/configs/{params.config_id}"
             f"/versions/{params.version}"
             f"/security-policies/{params.policy_id}"
-            f"/attack-groups/{params.group_id}"
+            f"/attack-groups/{params.group}"
             f"/action-condition-exception"
         )
 
@@ -2239,8 +2231,7 @@ class Client:  # pylint: disable=too-many-public-methods
         )
 
         qp: dict[str, str] = {}
-        if params.type:
-            qp["type"] = params.type
+
 
         _, result = self._exec("GET", uri, params=qp if qp else None)
         return result
@@ -2579,10 +2570,10 @@ class Client:  # pylint: disable=too-many-public-methods
 
         _, result = self._exec("GET", uri, params=qp if qp else None)
 
-        if params.rule_id is not None and result:
-            rules = result.get("rules", [])
+        if params.rule_id and result:
+            rules = result.get("ruleActions", [])
             filtered = [r for r in rules if r.get("id") == params.rule_id]
-            return {"rules": filtered}
+            return {"ruleActions": filtered}
 
         return result
 
