@@ -1676,10 +1676,10 @@ class Client:
             query_params: dict[str, str] = {}
             if params.zone_query_string is not None:
                 zqs = params.zone_query_string
-                if zqs.contract_id:
-                    query_params["contractId"] = zqs.contract_id
-                if zqs.gid:
-                    query_params["gid"] = zqs.gid
+                if zqs.contract:
+                    query_params["contractId"] = zqs.contract
+                if zqs.group:
+                    query_params["gid"] = zqs.group
 
             url = "/config-dns/v2/zones"
 
@@ -1821,7 +1821,7 @@ class Client:
                 f"{dns_errors.ErrGetZoneNameTypes}: struct validation: {err}"
             )
 
-        url = f"/config-dns/v2/zones/{params.zone}/names/{params.name}/types"
+        url = f"/config-dns/v2/zones/{params.zone}/names/{params.zone_name}/types"
 
         _, resp = self._session.exec(
             "GET", url, expect_json=True,
@@ -1881,10 +1881,10 @@ class Client:
         query_params: dict[str, str] = {}
         if params.zone_query_string is not None:
             zqs = params.zone_query_string
-            if zqs.contract_id:
-                query_params["contractId"] = zqs.contract_id
-            if zqs.gid:
-                query_params["gid"] = zqs.gid
+            if zqs.contract:
+                query_params["contractId"] = zqs.contract
+            if zqs.group:
+                query_params["gid"] = zqs.group
 
         url = "/config-dns/v2/zones/create-requests"
 
