@@ -104,13 +104,9 @@ The library provides typed API client packages for 23 Akamai service domains. Ea
 The `Session` class provides a convenient way to create an authenticated session for making API calls. It handles request execution, JSON serialization/deserialization, response status checking, and structured error handling.
 
 ```python
-from akamai.edgegrid import EdgeRc
 from akamai.edgegrid.session import Session
 
-edgerc = EdgeRc('~/.edgerc')
-section = 'default'
-
-session = Session(edgerc=edgerc, section=section)
+session = Session(edgerc_path='~/.edgerc', section='default')
 ```
 
 ### Using a Service Client
@@ -118,13 +114,11 @@ session = Session(edgerc=edgerc, section=section)
 Once you have a session, you can use it with any of the available service client packages. For example, to use the IAM (Identity & Access Management) client:
 
 ```python
-from akamai.edgegrid import EdgeRc
 from akamai.edgegrid.session import Session
 from akamai.edgegrid.iam import IAMClient
 from akamai.edgegrid.iam.models import ListAPIClientsRequest
 
-edgerc = EdgeRc('~/.edgerc')
-session = Session(edgerc=edgerc, section='default')
+session = Session(edgerc_path='~/.edgerc', section='default')
 
 client = IAMClient(session=session)
 response = client.list_api_clients(ListAPIClientsRequest(actions=True))
@@ -161,6 +155,30 @@ The following service client packages are available under `akamai.edgegrid`:
 | `mtlstruststore` | mTLS Trust Store |
 
 Each package includes typed request/response models, request validation, and comprehensive error handling.
+
+### Error Handling
+
+The library exposes two error types for handling API and validation errors:
+
+- `Error` — A base exception class representing an Akamai API error response (RFC 7807 problem detail). Contains `type`, `title`, `detail`, `instance`, `status_code`, and `errors` fields. Raised by service clients when an API call returns an error response.
+- `ErrStructValidation` — A sentinel exception raised when request model validation fails before any HTTP request is made. This occurs when required fields are missing or field values violate constraints.
+
+```python
+from akamai.edgegrid import Error, ErrStructValidation
+from akamai.edgegrid.session import Session
+from akamai.edgegrid.iam import IAMClient
+from akamai.edgegrid.iam.models import ListAPIClientsRequest
+
+session = Session(edgerc_path='~/.edgerc', section='default')
+client = IAMClient(session=session)
+
+try:
+    response = client.list_api_clients(ListAPIClientsRequest(actions=True))
+except ErrStructValidation as err:
+    print(f"Validation error: {err}")
+except Error as err:
+    print(f"API error (status {err.status_code}): {err.title} - {err.detail}")
+```
 
 ### Query string parameters
 
