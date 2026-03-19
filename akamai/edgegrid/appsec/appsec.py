@@ -386,7 +386,7 @@ class Client:  # pylint: disable=too-many-public-methods
 
         uri = (
             f"/appsec/v1/configs/{params.config_id}"
-            f"/versions"
+            f"/versions?page=-1&detail=false"
         )
         _, result = self._exec("GET", uri)
         return result
