@@ -531,7 +531,7 @@ class IAMClient:
                 resp, iam_errors.ErrCreateCIDRBlock,
             ),
         )
-        return [models.CIDRBlock.from_dict(item) for item in result]
+        return models.CIDRBlock.from_dict(result)
 
     def get_cidr_block(
         self, params: models.GetCIDRBlockRequest,
@@ -1500,7 +1500,10 @@ class IAMClient:
 
         err = iam_validation.validate_create_user_request(params)
         if err is not None:
-            raise err
+            raise ValueError(
+                f"{iam_errors.ErrCreateUser}: "
+                f"{iam_errors.ErrStructValidation}:\n{err}"
+            )
 
         path = "/identity-management/v3/user-admin/ui-identities"
         query_params = {
@@ -1533,7 +1536,10 @@ class IAMClient:
 
         err = iam_validation.validate_get_user_request(params)
         if err is not None:
-            raise err
+            raise ValueError(
+                f"{iam_errors.ErrGetUser}: "
+                f"{iam_errors.ErrStructValidation}:\n{err}"
+            )
 
         path = (
             "/identity-management/v3/user-admin/ui-identities/"
@@ -1601,7 +1607,10 @@ class IAMClient:
 
         err = iam_validation.validate_remove_user_request(params)
         if err is not None:
-            raise err
+            raise ValueError(
+                f"{iam_errors.ErrRemoveUser}: "
+                f"{iam_errors.ErrStructValidation}:\n{err}"
+            )
 
         path = (
             "/identity-management/v3/user-admin/ui-identities/"
@@ -1631,7 +1640,10 @@ class IAMClient:
 
         err = iam_validation.validate_update_user_auth_grants_request(params)
         if err is not None:
-            raise err
+            raise ValueError(
+                f"{iam_errors.ErrUpdateUserAuthGrants}: "
+                f"{iam_errors.ErrStructValidation}:\n{err}"
+            )
 
         path = (
             "/identity-management/v3/user-admin/ui-identities/"
@@ -1664,7 +1676,10 @@ class IAMClient:
 
         err = iam_validation.validate_update_user_info_request(params)
         if err is not None:
-            raise err
+            raise ValueError(
+                f"{iam_errors.ErrUpdateUserInfo}: "
+                f"{iam_errors.ErrStructValidation}:\n{err}"
+            )
 
         path = (
             "/identity-management/v3/user-admin/ui-identities/"
@@ -1696,7 +1711,10 @@ class IAMClient:
 
         err = iam_validation.validate_update_user_notifications_request(params)
         if err is not None:
-            raise err
+            raise ValueError(
+                f"{iam_errors.ErrUpdateUserNotifications}: "
+                f"{iam_errors.ErrStructValidation}:\n{err}"
+            )
 
         path = (
             "/identity-management/v3/user-admin/ui-identities/"
@@ -1729,7 +1747,10 @@ class IAMClient:
 
         err = iam_validation.validate_update_mfa_request(params)
         if err is not None:
-            raise err
+            raise ValueError(
+                f"{iam_errors.ErrUpdateMFA}: "
+                f"{iam_errors.ErrStructValidation}:\n{err}"
+            )
 
         path = (
             "/identity-management/v3/user-admin/ui-identities/"
@@ -1794,7 +1815,10 @@ class IAMClient:
 
         err = iam_validation.validate_lock_user_request(params)
         if err is not None:
-            raise err
+            raise ValueError(
+                f"{iam_errors.ErrLockUser}: "
+                f"{iam_errors.ErrStructValidation}:\n{err}"
+            )
 
         path = (
             "/identity-management/v3/user-admin/ui-identities/"
@@ -1824,7 +1848,10 @@ class IAMClient:
 
         err = iam_validation.validate_unlock_user_request(params)
         if err is not None:
-            raise err
+            raise ValueError(
+                f"{iam_errors.ErrUnlockUser}: "
+                f"{iam_errors.ErrStructValidation}:\n{err}"
+            )
 
         path = (
             "/identity-management/v3/user-admin/ui-identities/"
@@ -1862,7 +1889,10 @@ class IAMClient:
 
         err = iam_validation.validate_reset_user_password_request(params)
         if err is not None:
-            raise err
+            raise ValueError(
+                f"{iam_errors.ErrResetUserPassword}: "
+                f"{iam_errors.ErrStructValidation}:\n{err}"
+            )
 
         path = (
             "/identity-management/v3/user-admin/ui-identities/"
@@ -1906,7 +1936,10 @@ class IAMClient:
 
         err = iam_validation.validate_set_user_password_request(params)
         if err is not None:
-            raise err
+            raise ValueError(
+                f"{iam_errors.ErrSetUserPassword}: "
+                f"{iam_errors.ErrStructValidation}:\n{err}"
+            )
 
         path = (
             "/identity-management/v3/user-admin/ui-identities/"

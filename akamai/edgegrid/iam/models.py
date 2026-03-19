@@ -1533,15 +1533,22 @@ class CreateCIDRBlockRequest:
 class GetCIDRBlockRequest:
     """Request parameters for the GetCIDRBlock endpoint."""
     cidr_block_id: int = 0
+    actions: bool = False
 
     def to_dict(self) -> dict:
         """Serialize to dict using JSON field names."""
-        return {"cidrBlockId": self.cidr_block_id}
+        return {
+            "cidrBlockId": self.cidr_block_id,
+            "actions": self.actions,
+        }
 
     @classmethod
     def from_dict(cls, data: dict) -> GetCIDRBlockRequest:
         """Deserialize from dict using JSON field names."""
-        return cls(cidr_block_id=data.get("cidrBlockId", 0))
+        return cls(
+            cidr_block_id=data.get("cidrBlockId", 0),
+            actions=data.get("actions", False),
+        )
 
 
 @dataclass

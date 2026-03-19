@@ -1,3 +1,4 @@
+# pylint: disable=too-many-lines
 """Request validation functions for the IAM service client."""
 
 import ipaddress
@@ -158,6 +159,8 @@ def validate_api_access_request(access) -> str | None:
 
     When AllAccessibleAPIs is false, APIs list is required.
     """
+    if access is None:
+        return None
     errors = {}
     if not access.all_accessible_apis:
         if access.apis is None:
@@ -194,6 +197,8 @@ def validate_group_access_request(access) -> str | None:
 
     When CloneAuthorizedUserGroups is false, Groups list is required.
     """
+    if access is None:
+        return None
     errors = {}
     if not access.clone_authorized_user_groups:
         if access.groups is None:
@@ -384,15 +389,18 @@ def validate_update_blocked_properties_request(request) -> str | None:
 def validate_create_cidr_block_request(request) -> str | None:
     """Validate CreateCIDRBlockRequest fields.
 
-    CIDRBlock must be non-empty and valid CIDR notation.
+    Body and its CIDRBlock field must be non-empty and valid CIDR notation.
     """
     errors = {}
-    if not request.cidr_block:
-        errors["CIDRBlock"] = "cannot be blank"
+    if request.body is None:
+        errors["Body"] = "cannot be blank"
     else:
-        cidr_err = _validate_cidr_format(request.cidr_block)
-        if cidr_err:
-            errors["CIDRBlock"] = cidr_err
+        if not request.body.cidr_block:
+            errors["CIDRBlock"] = "cannot be blank"
+        else:
+            cidr_err = _validate_cidr_format(request.body.cidr_block)
+            if cidr_err:
+                errors["CIDRBlock"] = cidr_err
     result = parse_validation_errors(errors)
     if result:
         return result
@@ -702,7 +710,7 @@ def validate_block_users_request(request) -> str | None:
     errors = {}
     if not request.property_id:
         errors["PropertyID"] = "cannot be blank"
-    if request.body is None:
+    if not request.body:
         errors["Body"] = "cannot be blank"
     result = parse_validation_errors(errors)
     if result:
