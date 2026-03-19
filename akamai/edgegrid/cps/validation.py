@@ -445,13 +445,22 @@ def validate_upload_third_party_cert_request(enrollment_id, change_id,
 
     Uses :func:`~akamai.edgegrid.validation.parse_validation_errors`
     (mirroring Go's ``edgegriderr.ParseValidationErrors``).
+
+    Chains into :func:`validate_third_party_certificates` so that nested
+    ``CertificateAndTrustChain`` entries are also validated (matching
+    ozzo-validation's ``Validatable`` interface traversal).
     """
     errs = {
         "EnrollmentID": _required(enrollment_id),
         "ChangeID": _required(change_id),
         "Certificates": _required(certificates),
     }
-    return parse_validation_errors(errs)
+    basic = parse_validation_errors(errs)
+    if basic is not None:
+        return basic
+    # Chain into nested ThirdPartyCertificates / CertificateAndTrustChain
+    # validation (mirrors Go's ozzo Validatable interface traversal).
+    return validate_third_party_certificates(certificates)
 
 
 def validate_third_party_certificates(certs):
@@ -460,12 +469,18 @@ def validate_third_party_certificates(certs):
     Go reference: ``pkg/cps/third_party_csr.go`` –
     ``ThirdPartyCertificates.Validate()``.
 
-    In Go, ``validation.Validate(r.CertificatesAndTrustChains)`` is called
-    with no rules.  Since slices do not implement ``Validatable`` and no
-    ``Each`` rule is applied, this always returns ``nil``.
+    In Go, ``validation.Field(&r.CertificatesAndTrustChains)`` triggers
+    element-level ``Validatable`` calls for each ``CertificateAndTrustChain``.
     """
     if certs is None:
         return None
+    chains = getattr(certs, "certificates_and_trust_chains", None)
+    if not chains:
+        return None
+    for entry in chains:
+        entry_err = validate_certificate_and_trust_chain(entry)
+        if entry_err is not None:
+            return entry_err
     return None
 
 
