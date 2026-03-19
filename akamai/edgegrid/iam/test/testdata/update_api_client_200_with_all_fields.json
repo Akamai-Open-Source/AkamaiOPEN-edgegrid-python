@@ -1,0 +1,93 @@
+{
+   "clientId": "abcdefgh12345678",
+   "clientName": "test_user_1",
+   "clientDescription": "test_user_1 description",
+   "clientType": "CLIENT",
+   "authorizedUsers": [
+	   "user1"
+   ],
+   "canAutoCreateCredential": true,
+   "notificationEmails": [
+	   "user1@example.com"
+   ],
+   "activeCredentialCount": 1,
+   "allowAccountSwitch": true,
+   "createdDate": "2024-07-16T23:01:50.000Z",
+   "createdBy": "admin",
+   "isLocked": false,
+   "groupAccess": {
+	   "cloneAuthorizedUserGroups": false,
+	   "groups": [
+		   {
+			   "groupId": 123,
+			   "groupName": "GroupName-G-R0UP",
+			   "roleId": 1,
+			   "roleName": "Admin",
+			   "roleDescription": "This role provides the maximum access to users. An Administrator can perform admin tasks such as creating users and groups; configuration-related tasks such as creating and editing configurations; publishing tasks",
+			   "isBlocked": false,
+			   "subGroups": []
+		   }
+	   ]
+   },
+   "apiAccess": {
+	   "allAccessibleApis": false,
+	   "apis": [
+		   {
+			   "apiId": 1,
+			   "apiName": "API Client Administration",
+			   "description": "API Client Administration",
+			   "endPoint": "/identity-management",
+			   "documentationUrl": "https://developer.akamai.com",
+			   "accessLevel": "READ-ONLY"
+		   },
+		   {
+			   "apiId": 2,
+			   "apiName": "CCU APIs",
+			   "description": "Content control utility APIs",
+			   "endPoint": "/ccu",
+			   "documentationUrl": "https://developer.akamai.com",
+			   "accessLevel": "READ-WRITE"
+		   }
+	   ]
+   },
+   "purgeOptions": {
+	   "canPurgeByCpcode": true,
+	   "canPurgeByCacheTag": true,
+	   "cpcodeAccess": {
+		   "allCurrentAndNewCpcodes": false,
+		   "cpcodes": [321]
+	   }
+   },
+   "baseURL": "https://akaa-d4c3b2a1d4c3b2a1-d4c3b2a1d4c3b2a1.luna-dev.akamaiapis.net",
+   "accessToken": "akaa-1a2b3c4d1a2b3c4d-1a2b3c4d1a2b3c4d",
+   "credentials": [
+        {
+            "credentialId": 456,
+            "clientToken": "akaa-bc78bc78bc78bc78-bc78bc78bc78bc78",
+            "status": "ACTIVE",
+            "createdOn": "2023-01-03T07:44:08.000Z",
+            "description": "desc",
+            "expiresOn": "2025-01-03T07:44:08.000Z",
+            "actions": {
+                "deactivate": true,
+                "delete": false,
+                "activate": false,
+                "editDescription": true,
+                "editExpiration": true
+            }
+        }
+    ],
+   "actions": {
+	   "editGroups": true,
+	   "editApis": true,
+	   "lock": true,
+	   "unlock": false,
+	   "editAuth": true,
+	   "edit": true,
+	   "editSwitchAccount": false,
+	   "transfer": true,
+	   "editIpAcl": true,
+	   "delete": true,
+	   "deactivateAll": false
+   }
+}

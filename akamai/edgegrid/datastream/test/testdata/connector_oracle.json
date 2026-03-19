@@ -1,0 +1,10 @@
+{
+    "accessKey": "testAccessKey",
+    "displayName": "testDisplayName",
+    "path": "testPath",
+    "bucket": "testBucket",
+    "region": "testRegion",
+    "secretAccessKey": "testSecretAccessKey",
+    "destinationType": "Oracle_Cloud_Storage",
+    "namespace": "testNamespace"
+}

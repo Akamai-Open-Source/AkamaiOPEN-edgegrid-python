@@ -1,0 +1,119 @@
+{
+    "TestGetCASetDeletionStatus": {
+        "202 - in progress": {
+            "httpStatus": 202,
+            "headers": {
+                "Retry-After": "Tue, 15 Apr 2025 12:15:02 GMT"
+            },
+            "body": {
+                "caSetId": "1",
+                "caSetLink": "/mtls-edge-truststore/v2/ca-sets/1",
+                "caSetName": "test1",
+                "deletions": [
+                    {
+                        "failureReason": null,
+                        "network": "PRODUCTION",
+                        "percentComplete": 0,
+                        "status": "IN_PROGRESS"
+                    },
+                    {
+                        "failureReason": null,
+                        "network": "STAGING",
+                        "percentComplete": 0,
+                        "status": "IN_PROGRESS"
+                    }
+                ],
+                "endTime": null,
+                "estimatedEndTime": "2025-04-15T12:25:02.183294Z",
+                "failureReason": null,
+                "resourceMethod": "delete",
+                "startTime": "2025-04-15T12:10:02.039140Z",
+                "status": "IN_PROGRESS",
+                "statusLink": "/mtls-edge-truststore/v2/ca-sets/1/status/delete"
+            }
+        },
+        "200 - completed": {
+            "httpStatus": 200,
+            "body": {
+                "caSetId": "1",
+                "caSetLink": "/mtls-edge-truststore/v2/ca-sets/1",
+                "caSetName": "test1",
+                "deletions": [
+                    {
+                        "failureReason": null,
+                        "network": "PRODUCTION",
+                        "percentComplete": 100,
+                        "status": "COMPLETE"
+                    },
+                    {
+                        "failureReason": null,
+                        "network": "STAGING",
+                        "percentComplete": 100,
+                        "status": "COMPLETE"
+                    }
+                ],
+                "endTime": "2025-04-15T12:13:30.082193Z",
+                "estimatedEndTime": null,
+                "failureReason": null,
+                "resourceMethod": "delete",
+                "startTime": "2025-04-15T12:10:02.039140Z",
+                "status": "COMPLETE",
+                "statusLink": "/mtls-edge-truststore/v2/ca-sets/1/status/delete"
+            }
+        },
+        "207 - partial": {
+            "httpStatus": 202,
+            "headers": {
+                "Retry-After": "Tue, 15 Apr 2025 12:15:02 GMT"
+            },
+            "body": {
+                "caSetId": "1",
+                "caSetLink": "/mtls-edge-truststore/v2/ca-sets/1",
+                "caSetName": "test1",
+                "deletions": [
+                    {
+                        "failureReason": "Reason for failure",
+                        "network": "STAGING",
+                        "percentComplete": 100,
+                        "status": "FAILED"
+                    },
+                    {
+                        "network": "PRODUCTION",
+                        "percentComplete": 100,
+                        "status": "COMPLETE"
+                    }
+                ],
+                "endTime": "2025-04-15T12:13:30.082193Z",
+                "failureReason": "Indication of which network had a failure in deletion.",
+                "resourceMethod": "delete",
+                "startTime": "2025-04-15T12:10:02.039140Z",
+                "status": "FAILED",
+                "statusLink": "/mtls-edge-truststore/v2/ca-sets/1/status/delete"
+            }
+        },
+        "404 ca set not found": {
+            "httpStatus": 404,
+            "body": {
+                "contextInfo": {
+                    "caSetId": "2"
+                },
+                "detail": "Cannot get CA set deletions as the CA set with caSetId 2 is not found.",
+                "status": 404,
+                "title": "CA set is not found.",
+                "type": "/mtls-edge-truststore/error-types/ca-set-not-found"
+            }
+        },
+        "400 - ca set is not during delete": {
+            "httpStatus": 400,
+            "body": {
+                "contextInfo": {
+                    "caSetId": "1"
+                },
+                "detail": "No active deletions were found for CA Certificate Set with set ID 1.",
+                "status": 400,
+                "title": "No active cert deletions found",
+                "type": "/mtls-edge-truststore/error-types/no-active-cert-deletions"
+            }
+        }
+    }
+}

@@ -1,0 +1,7 @@
+{
+    "instance": "",
+    "httpStatus": 404,
+    "detail": "Role ID not found",
+    "title": "Role ID not found",
+    "type": "/useradmin-api/error-types/1311"
+}

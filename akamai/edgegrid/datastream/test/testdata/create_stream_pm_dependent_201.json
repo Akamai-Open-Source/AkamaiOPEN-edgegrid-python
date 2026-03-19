@@ -1,0 +1,37 @@
+{
+    "contractId": "2-AB1234",
+    "createdBy": "pmuser",
+    "createdDate": "2023-01-20T10:00:00Z",
+    "integrationType": "PM_DEPENDENT",
+    "samplingPercentage": 75,
+    "collectMidgress": true,
+    "datasetFields": [
+        {"datasetFieldId": 2020, "datasetFieldName": "pm_field", "datasetFieldJsonKey": "pm_key"}
+    ],
+    "deliveryConfiguration": {
+        "fieldDelimiter": "SPACE",
+        "format": "STRUCTURED",
+        "frequency": {"intervalInSeconds": 15},
+        "uploadFilePrefix": "pm_logs",
+        "uploadFileSuffix": "pmx"
+    },
+    "destination": {
+        "bucket": "pmbucket.com",
+        "compressLogs": false,
+        "destinationType": "S3",
+        "displayName": "pm display-name",
+        "path": "pm-path/{%Y/%m/%d}",
+        "region": "eu-central-1"
+    },
+    "groupId": 1234,
+    "latestVersion": 2,
+    "modifiedBy": "pmuser2",
+    "modifiedDate": "2023-01-21T12:00:00Z",
+    "notificationEmails": ["pmuser@akamai.com"],
+    "productId": "PMDelivery",
+    "properties": [{"propertyId": 4321, "propertyName": "pmprop"}],
+    "streamId": 9500,
+    "streamName": "PMStream",
+    "streamStatus": "ACTIVATED",
+    "streamVersion": 2
+}

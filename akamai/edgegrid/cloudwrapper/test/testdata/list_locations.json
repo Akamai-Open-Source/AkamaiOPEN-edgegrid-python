@@ -1,0 +1,38 @@
+{
+    "locations": [
+        {
+            "locationId": 1,
+            "locationName": "US East",
+            "trafficTypes": [
+                {
+                    "trafficTypeId": 1,
+                    "trafficType": "TEST_TT1",
+                    "mapName": "cw-essl-use"
+                },
+                {
+                    "trafficTypeId": 2,
+                    "trafficType": "TEST_TT2",
+                    "mapName": "cw-s-use-live"
+                }
+            ],
+            "multiCdnLocationId": "0123"
+        },
+        {
+            "locationId": 2,
+            "locationName": "US West",
+            "trafficTypes": [
+                {
+                    "trafficTypeId": 3,
+                    "trafficType": "TEST_TT1",
+                    "mapName": "cw-essl-use"
+                },
+                {
+                    "trafficTypeId": 4,
+                    "trafficType": "TEST_TT2",
+                    "mapName": "cw-s-use-live"
+                }
+            ],
+            "multiCdnLocationId": "4567"
+        }
+    ]
+}

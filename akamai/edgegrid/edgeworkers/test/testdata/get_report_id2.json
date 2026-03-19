@@ -1,0 +1,146 @@
+{
+  "reportId": 2,
+  "name": "Initialization and execution times by EdgeWorker ID and event handler",
+  "description": "This report lists execution and initialization times, grouped by EdgeWorker ID and event handler.",
+  "start": "2022-01-10T03:00:00Z",
+  "end": "2022-01-17T10:43:15Z",
+  "data": [
+    {
+      "edgeWorkerId": 37017,
+      "data": {
+        "onClientRequest": [
+          {
+            "startDateTime": "2022-01-10T03:00:00Z",
+            "edgeWorkerVersion": "10.18",
+            "invocations": 8,
+            "execDuration": {
+              "avg": 0.113125,
+              "min": 0.095,
+              "max": 0.148
+            }
+          },
+          {
+            "startDateTime": "2022-01-10T03:05:00Z",
+            "edgeWorkerVersion": "10.18",
+            "invocations": 15,
+            "execDuration": {
+              "avg": 0.14859999999999998,
+              "min": 0.087,
+              "max": 0.348
+            }
+          }
+        ],
+        "onOriginRequest": [
+          {
+            "startDateTime": "2022-01-10T03:45:00Z",
+            "edgeWorkerVersion": "10.18",
+            "invocations": 1,
+            "execDuration": {
+              "avg": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            }
+          },
+          {
+            "startDateTime": "2022-01-10T06:00:00Z",
+            "edgeWorkerVersion": "10.18",
+            "invocations": 1,
+            "execDuration": {
+              "avg": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            }
+          }
+        ],
+        "onOriginResponse": [
+          {
+            "startDateTime": "2022-01-10T03:45:00Z",
+            "edgeWorkerVersion": "10.18",
+            "invocations": 1,
+            "execDuration": {
+              "avg": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            }
+          },
+          {
+            "startDateTime": "2022-01-10T06:00:00Z",
+            "edgeWorkerVersion": "10.18",
+            "invocations": 1,
+            "execDuration": {
+              "avg": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            }
+          }
+        ],
+        "onClientResponse": [
+          {
+            "startDateTime": "2022-01-10T03:00:00Z",
+            "edgeWorkerVersion": "10.18",
+            "invocations": 8,
+            "execDuration": {
+              "avg": 0.029625,
+              "min": 0.018,
+              "max": 0.059
+            }
+          },
+          {
+            "startDateTime": "2022-01-10T03:05:00Z",
+            "edgeWorkerVersion": "10.18",
+            "invocations": 15,
+            "execDuration": {
+              "avg": 0.031933333,
+              "min": 0.018,
+              "max": 0.062
+            }
+          }
+        ],
+        "responseProvider": [
+          {
+            "startDateTime": "2022-01-10T03:45:00Z",
+            "edgeWorkerVersion": "10.18",
+            "invocations": 1,
+            "execDuration": {
+              "avg": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            }
+          },
+          {
+            "startDateTime": "2022-01-10T06:00:00Z",
+            "edgeWorkerVersion": "10.18",
+            "invocations": 1,
+            "execDuration": {
+              "avg": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            }
+          }
+        ],
+        "init": [
+          {
+            "startDateTime": "2022-01-10T03:05:00Z",
+            "edgeWorkerVersion": "10.18",
+            "invocations": 7,
+            "initDuration": {
+              "avg": 1.03,
+              "min": 1.03,
+              "max": 1.03
+            }
+          },
+          {
+            "startDateTime": "2022-01-10T05:10:00Z",
+            "edgeWorkerVersion": "10.18",
+            "invocations": 1,
+            "initDuration": {
+              "avg": 0.729,
+              "min": 0.729,
+              "max": 0.729
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+[
+    {
+        "uiIdentityId": "test-identity",
+        "firstName": "jhon",
+        "lastName": "doe",
+        "accountId": "test-account",
+        "email": "john.doe@mycompany.com",
+        "uiUserName": "john.doe@mycompany.com",
+        "lastLoginDate": "2022-02-22T17:06:50.000Z"
+    }
+]

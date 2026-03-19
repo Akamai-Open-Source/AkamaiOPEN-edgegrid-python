@@ -1,0 +1,19 @@
+{
+    "domains": [
+        {
+            "domainName": "sample1.com",
+            "domainStatus": "INVALIDATED",
+            "validationScope": "HOST"
+        },
+        {
+            "domainName": "sample2.com",
+            "domainStatus": "INVALIDATED",
+            "validationScope": "WILDCARD"
+        },
+        {
+            "domainName": "sample3.com",
+            "domainStatus": "INVALIDATED",
+            "validationScope": "DOMAIN"
+        }
+    ]
+}

@@ -1,0 +1,14 @@
+[
+  {
+    "accountName": "Test Name A",
+    "accountSwitchKey": "ABC-123"
+  },
+  {
+    "accountName": "Test Name A",
+    "accountSwitchKey": "ABCD-1234"
+  },
+  {
+    "accountName": "Test Name B",
+    "accountSwitchKey": "ABCDE-12345"
+  }
+]

@@ -1,0 +1,88 @@
+{
+    "TestListCASetActivities": {
+        "200 - no query params": {
+            "httpStatus": 200,
+            "body": {
+                "activities": [
+                    {
+                        "activityBy": "user1",
+                        "activityDate": "2025-04-18T11:30:35.866481Z",
+                        "network": "PRODUCTION",
+                        "type": "DELETE_CA_SET",
+                        "version": null
+                    },
+                    {
+                        "activityBy": "user1",
+                        "activityDate": "2025-04-18T11:30:35.852930Z",
+                        "network": "STAGING",
+                        "type": "DELETE_CA_SET",
+                        "version": null
+                    },
+                    {
+                        "activityBy": "user1",
+                        "activityDate": "2025-04-16T13:14:46.183261Z",
+                        "network": null,
+                        "type": "CREATE_CA_SET_VERSION",
+                        "version": 2
+                    },
+                    {
+                        "activityBy": "user1",
+                        "activityDate": "2025-04-15T13:35:48.292127Z",
+                        "network": null,
+                        "type": "CREATE_CA_SET_VERSION",
+                        "version": 1
+                    },
+                    {
+                        "activityBy": "user1",
+                        "activityDate": "2025-04-15T13:35:48.257574Z",
+                        "network": null,
+                        "type": "CREATE_CA_SET",
+                        "version": null
+                    }
+                ],
+                "caSetId": "1",
+                "caSetLink": "/mtls-edge-truststore/v2/ca-sets/1",
+                "caSetName": "test1",
+                "caSetStatus": "DELETED",
+                "createdBy": "user1",
+                "createdDate": "2025-04-15T13:35:48.211999Z",
+                "deletedBy": "user1",
+                "deletedDate": "2025-04-18T11:31:40.225213Z"
+            }
+        },
+        "200 - all query params": {
+            "httpStatus": 200,
+            "body": {
+                "activities": [
+                    {
+                        "activityBy": "user1",
+                        "activityDate": "2025-04-16T13:14:46.183261Z",
+                        "network": null,
+                        "type": "CREATE_CA_SET_VERSION",
+                        "version": 2
+                    }
+                ],
+                "caSetId": "1",
+                "caSetLink": "/mtls-edge-truststore/v2/ca-sets/1",
+                "caSetName": "test1",
+                "caSetStatus": "DELETED",
+                "createdBy": "user1",
+                "createdDate": "2025-04-15T13:35:48.211999Z",
+                "deletedBy": "user1",
+                "deletedDate": "2025-04-18T11:31:40.225213Z"
+            }
+        },
+        "404 ca set not found": {
+            "httpStatus": 404,
+            "body": {
+                "contextInfo": {
+                    "caSetId": "2"
+                },
+                "detail": "Cannot get CA set activities as the CA set with caSetId 2 is not found.",
+                "status": 404,
+                "title": "CA set is not found.",
+                "type": "/mtls-edge-truststore/error-types/ca-set-not-found"
+            }
+        }
+    }
+}

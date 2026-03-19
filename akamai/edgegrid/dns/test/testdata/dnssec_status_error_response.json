@@ -1,0 +1,8 @@
+{
+    "type": "https://problems.luna.akamaiapis.net/authoritative-dns/serverError",
+    "title": "Server error",
+    "instance": "29aa48de-ec7d-4214-ad6c-649163889be7",
+    "status": 500,
+    "detail": "An internal error occurred.",
+    "problemId": "29aa48de-ec7d-4214-ad6c-649163889be7"
+}

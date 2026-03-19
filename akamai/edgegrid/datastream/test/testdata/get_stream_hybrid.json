@@ -1,0 +1,34 @@
+{
+    "contractId": "HYB-777",
+    "createdBy": "hybriduser",
+    "createdDate": "2025-01-01T12:00:00Z",
+    "integrationType": "HYBRID",
+    "samplingPercentage": 88,
+    "datasetFields": [],
+    "deliveryConfiguration": {
+        "fieldDelimiter": "SPACE",
+        "format": "STRUCTURED",
+        "frequency": { "intervalInSeconds": 60 },
+        "uploadFilePrefix": "hybrid",
+        "uploadFileSuffix": "hyx"
+    },
+    "destination": {
+        "bucket": "hybucket",
+        "compressLogs": false,
+        "destinationType": "S3",
+        "displayName": "hyBucket",
+        "path": "/hy_archive",
+        "region": "ap-south-2"
+    },
+    "groupId": 9876,
+    "latestVersion": 6,
+    "modifiedBy": "hyadmin",
+    "modifiedDate": "2025-01-01T16:00:00Z",
+    "notificationEmails": ["hybriduser@akamai.com"],
+    "productId": "HYProd",
+    "properties": [],
+    "streamId": 4,
+    "streamName": "hy_stream",
+    "streamStatus": "INACTIVE",
+    "streamVersion": 6
+}

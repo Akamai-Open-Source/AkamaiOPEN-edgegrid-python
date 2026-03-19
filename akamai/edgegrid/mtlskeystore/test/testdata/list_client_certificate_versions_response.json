@@ -1,0 +1,27 @@
+{
+    "versions": [
+        {
+            "certificateBlock": {
+                "certificate": "-----BEGIN CERTIFICATE-----....-----END CERTIFICATE-----",
+                "keyAlgorithm": "RSA",
+                "trustChain": "-----BEGIN CERTIFICATE-----....-----END CERTIFICATE-----"
+            },
+            "createdBy": "jperez",
+            "createdDate": "2024-05-21T04:35:20Z",
+            "expiryDate": "2024-08-21T04:35:21Z",
+            "issuedDate": "2024-05-21T04:35:21Z",
+            "issuer": "1360 Account CA G366",
+            "keyAlgorithm": "RSA",
+            "keySizeInBytes": "2048",
+            "signatureAlgorithm": "SHA256_WITH_RSA",
+            "status": "DEPLOYMENT_PENDING",
+            "subject": "/C=US/O=Akamai Technologies/OU=KMI/CN=/",
+            "validation": {
+                "errors": [],
+                "warnings": []
+            },
+            "version": 4,
+            "versionGuid": "13d16e57-22fa-4475-af0a-b2b745115128"
+        }
+    ]
+}

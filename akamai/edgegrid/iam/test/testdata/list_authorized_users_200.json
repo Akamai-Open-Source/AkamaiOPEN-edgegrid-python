@@ -1,0 +1,23 @@
+[
+	{
+      	"username": "test.example.user",
+        "firstName": "Edd",
+        "lastName": "Example",
+        "email": "test_example@akamai.com",
+        "uiIdentityId": "X-YZ-1111111"
+    },
+    {
+        "username": "test.example.user2",
+        "firstName": "Fred",
+        "lastName": "Example2",
+        "email": "test_example2@akamai.com",
+        "uiIdentityId": "X-YZ-2222222"
+    },
+    {
+        "username": "test.example.user3",
+        "firstName": "Ted",
+        "lastName": "Example3",
+        "email": "test_example3@akamai.com",
+        "uiIdentityId": "X-YZ-3333333"
+    }
+]

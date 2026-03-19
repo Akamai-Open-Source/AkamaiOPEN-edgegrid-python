@@ -1,0 +1,9 @@
+{
+    "errors": [
+        {
+            "type": "INVALID_GZIP_FORMAT",
+            "message": "invalid GZIP file format"
+        }
+    ],
+    "warnings": []
+}

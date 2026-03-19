@@ -32,10 +32,12 @@ usage:
 
 from .edgegrid import EdgeGridAuth
 from .edgerc import EdgeRc
+from .session import Session
+from .errors import Error, ErrStructValidation
 
-__all__ = ['EdgeGridAuth', 'EdgeRc']
+__all__ = ['EdgeGridAuth', 'EdgeRc', 'Session', 'Error', 'ErrStructValidation']
 
 __title__ = 'edgegrid-python'
-__version__ = '2.0.5'
+__version__ = '3.0.0'
 __license__ = 'Apache 2.0'
 __copyright__ = 'Copyright 2026 Akamai Technologies'

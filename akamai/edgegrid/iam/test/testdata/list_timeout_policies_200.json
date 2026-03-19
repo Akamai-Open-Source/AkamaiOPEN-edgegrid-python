@@ -1,0 +1,10 @@
+[
+    {
+        "name": "after15Minutes",
+        "value": 900
+    },
+    {
+        "name": "after30Minutes",
+        "value": 1800
+    }
+]

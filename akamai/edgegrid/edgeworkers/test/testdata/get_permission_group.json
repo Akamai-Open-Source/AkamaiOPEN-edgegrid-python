@@ -1,0 +1,14 @@
+{
+    "groupId": 123,
+    "groupName": "Permission Group",
+    "capabilities": [
+        "VIEW",
+        "EDIT",
+        "DELETE",
+        "VIEW_VERSION",
+        "CREATE_VERSION",
+        "DELETE_VERSION",
+        "VIEW_ACTIVATION",
+        "ACTIVATE"
+    ]
+}

@@ -1,0 +1,10 @@
+{
+    "cidrBlockId": 1,
+    "enabled": true,
+    "comments": "abc",
+    "cidrBlock": "1.2.3.4/8",
+    "createdDate": "2024-06-17T08:46:41.000Z",
+    "createdBy": "johndoe",
+    "modifiedDate": "2024-06-17T08:46:41.000Z",
+    "modifiedBy": "johndoe"
+}

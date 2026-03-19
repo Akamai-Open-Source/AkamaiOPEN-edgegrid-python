@@ -1,0 +1,26 @@
+{
+    "groupId": 12345,
+    "properties": [
+    {
+        "contractId": "1-7KLGU",
+        "propertyId": 382631,
+        "propertyName": "customp.akamai.com",
+        "productId": "Ion_Standard",
+        "productName": "Ion Standard",
+        "hostnames": [
+            "customp.akamaize.net",
+            "customp.akamaized-staging.net"
+        ]
+    },
+    {
+        "contractId": "1-7KLGU",
+        "propertyId": 347459,
+        "propertyName": "example.com",
+        "productId": "Dynamic_Site_Accelerator",
+        "productName": "Dynamic Site Accelerator",
+        "hostnames": [
+            "example.edgekey.net"
+        ]
+    }
+]
+}

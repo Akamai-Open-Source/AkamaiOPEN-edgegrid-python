@@ -1,0 +1,16 @@
+{
+    "action": "ACTIVATE",
+    "activationId": 12,
+    "activationStatus": "PENDING_ACTIVATION",
+    "comments": "latest activation",
+    "createDate": "2023-04-05T18:46:56.365Z",
+    "createdBy": "jdoe",
+    "fast": true,
+    "listId": "1234_NORTHAMERICAGEOALLOWLIST",
+    "network": "PRODUCTION",
+    "notificationRecipients": [
+        "qw@ff.com"
+    ],
+    "siebelTicketId": "q",
+    "version": 1
+}

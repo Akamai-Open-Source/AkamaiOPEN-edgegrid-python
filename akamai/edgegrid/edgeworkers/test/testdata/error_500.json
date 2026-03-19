@@ -1,0 +1,8 @@
+{
+    "type": "/edgeworkers/error-types/edgeworkers-server-error",
+    "title": "An unexpected error has occurred.",
+    "detail": "Error processing request",
+    "instance": "/edgeworkers/error-instances/abc",
+    "status": 500,
+    "errorCode": "EW4303"
+}

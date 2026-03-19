@@ -1,0 +1,10 @@
+{
+    "requestId": "15bc138f-8d82-451b-80b7-a56b88ffc474",
+    "successfullyDeletedZones": [],
+    "failedZones": [
+        {
+            "zone": "one.testbulk.net",
+            "failureReason": "ZONE_ALREADY_EXISTS"
+        }
+    ]
+}

@@ -1,0 +1,6 @@
+{
+    "type": "internal_error",
+    "title": "Internal Server Error",
+    "detail": "Error processing request",
+    "status": 500
+}

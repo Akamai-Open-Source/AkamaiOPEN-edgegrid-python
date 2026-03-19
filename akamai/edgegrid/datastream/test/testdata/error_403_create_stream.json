@@ -1,0 +1,14 @@
+{
+    "type": "forbidden",
+    "title": "Forbidden",
+    "detail": "forbidden",
+    "instance": "72a7654e-3f95-454f-a174-104bc946be52",
+    "statusCode": 403,
+    "errors": [
+        {
+            "type": "forbidden",
+            "title": "Forbidden",
+            "detail": "User is not having access for the group. Access denied, please contact support."
+        }
+    ]
+}

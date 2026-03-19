@@ -1,0 +1,15 @@
+{
+    "certificateName": "test-certificate1",
+    "contractId": "test-contract",
+    "geography": "CORE",
+    "groupId": 12345,
+    "keyAlgorithm": "RSA",
+    "notificationEmails": [
+        "jsmith@akamai.com",
+        "jkowalski@akamai.com"
+    ],
+    "preferredCa": "AKAMAI",
+    "secureNetwork": "STANDARD_TLS",
+    "signer": "AKAMAI",
+    "subject": "CN=test-certificate1"
+}

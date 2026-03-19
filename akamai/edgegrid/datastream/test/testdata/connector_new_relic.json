@@ -1,0 +1,9 @@
+{
+    "destinationType": "NEWRELIC",
+    "displayName": "testDisplayName",
+    "endpoint": "testEndpoint",
+    "authToken": "testAuthToken",
+    "contentType": "testContentType",
+    "customHeaderName": "testCustomHeaderName",
+    "customHeaderValue": "testCustomHeaderValue"
+}

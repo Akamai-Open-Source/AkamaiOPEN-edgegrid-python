@@ -1,0 +1,23 @@
+{
+    "content": [
+        {
+            "createDate": "2023-06-06T15:58:39.225+00:00",
+            "createdBy": "ccare2",
+            "deprecated": false,
+            "filePrefix": "CL",
+            "itemsCount": 1,
+            "listId": "91596_AUDITLOGSTESTLIST",
+            "listType": "CL",
+            "name": "AUDIT LOGS - TEST LIST",
+            "productionActivationStatus": "INACTIVE",
+            "readOnly": false,
+            "shared": false,
+            "stagingActivationStatus": "INACTIVE",
+            "tags": ["green"],
+            "type": "IP",
+            "updateDate": "2023-06-06T15:58:39.225+00:00",
+            "updatedBy": "ccare2",
+            "version": 1
+        }
+    ]
+}

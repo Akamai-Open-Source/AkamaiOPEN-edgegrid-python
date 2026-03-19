@@ -1,0 +1,22 @@
+[
+  {
+        "contractId": "1-123",
+        "createdBy": "abc",
+        "createdDate": "2022-07-25T08:36:32Z",
+        "groupId": 123,
+        "latestVersion": 2,
+        "modifiedBy": "abc",
+        "modifiedDate": "2022-12-26T20:00:02Z",
+        "productId": "Object_Delivery",
+        "properties": [
+            {
+                "propertyId": 123,
+                "propertyName": "abc.net"
+            }
+        ],
+        "streamId": 123,
+        "streamName": "test-stream",
+        "streamStatus": "ACTIVATED",
+        "streamVersion": 2
+    }
+]

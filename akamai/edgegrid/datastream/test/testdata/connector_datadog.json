@@ -1,0 +1,10 @@
+{
+    "service": "testService",
+    "authToken": "testAuthToken",
+    "displayName": "testDisplayName",
+    "endpoint": "testURL",
+    "source": "testSource",
+    "tags": "testTags",
+    "destinationType": "DATADOG",
+    "compressLogs": false
+}

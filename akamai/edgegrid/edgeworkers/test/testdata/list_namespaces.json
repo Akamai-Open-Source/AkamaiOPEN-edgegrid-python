@@ -1,0 +1,7 @@
+{
+    "namespaces": [
+        {"namespace": "testNs_1"},
+        {"namespace": "testNs_2"},
+        {"namespace": "testNs_3"}
+    ]
+}

@@ -1,0 +1,9 @@
+{
+    "errors": [],
+    "warnings": [
+        {
+            "type": "ACCESS_TOKEN_EXPIRING_SOON",
+            "message": "token expiring soon"
+        }
+    ]
+}

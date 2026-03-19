@@ -1,0 +1,11 @@
+{
+    "createdDate": "2023-08-18T09:10:37.000Z",
+    "createdBy": "user1",
+    "modifiedDate": "2023-08-18T09:10:37.000Z",
+    "modifiedBy": "user2",
+    "groupName": "group1",
+    "groupId": 11,
+    "arlConfigFile": "test.xml",
+    "propertyId": 1,
+    "propertyName": "name1"
+}

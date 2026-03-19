@@ -1,0 +1,26 @@
+{
+    "roleId": 123456,
+    "roleName": "Terraform admin updated",
+    "roleDescription": "Admin granted role for tests",
+    "type": "custom",
+    "createdDate": "2022-04-11T10:52:03.000Z",
+    "createdBy": "jBond",
+    "modifiedDate": "2022-04-11T10:59:30.000Z",
+    "modifiedBy": "jBond",
+    "actions": {
+        "edit": true,
+        "delete": true
+    },
+    "grantedRoles": [
+        {
+            "grantedRoleId": 54321,
+            "grantedRoleName": "View Audience Analytics Reports",
+            "grantedRoleDescription": "Publisher Self-Provisioning"
+        },
+        {
+            "grantedRoleId": 12345,
+            "grantedRoleName": "WebAP User",
+            "grantedRoleDescription": "Web Application Protector User Role"
+        }
+    ]
+}

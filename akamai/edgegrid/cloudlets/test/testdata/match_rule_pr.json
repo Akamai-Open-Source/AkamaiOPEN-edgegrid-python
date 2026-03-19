@@ -1,0 +1,35 @@
+[
+    {
+        "type": "cdMatchRule",
+        "end": 0,
+        "id": 0,
+        "matchURL": null,
+        "forwardSettings": {
+            "originId": "fr_test_krk_dc2",
+            "percent": 62
+        },
+        "matches": [
+            {
+                "caseSensitive": false,
+                "matchOperator": "equals",
+                "matchType": "protocol",
+                "matchValue": "https",
+                "negate": false
+            },
+            {
+                "caseSensitive": false,
+                "matchOperator": "equals",
+                "matchType": "method",
+                "negate": false,
+                "objectMatchValue": {
+                    "type": "simple",
+                    "value": [
+                        "GET"
+                    ]
+                }
+            }
+        ],
+        "name": "Rule3",
+        "start": 0
+    }
+]

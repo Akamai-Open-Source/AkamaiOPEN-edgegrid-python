@@ -1,0 +1,56 @@
+{
+    "createDate": "2023-06-06T15:58:39.225+00:00",
+    "createdBy": "ccare2",
+    "deprecated": false,
+    "filePrefix": "CL",
+    "itemsCount": 1,
+    "listId": "12_AB",
+    "listType": "CL",
+    "name": "AUDIT LOGS - TEST LIST",
+    "productionActivationStatus": "INACTIVE",
+    "readOnly": false,
+    "shared": false,
+    "stagingActivationStatus": "INACTIVE",
+    "productionActiveVersion": 2,
+    "stagingActiveVersion": 2,
+    "tags": ["green"],
+    "type": "IP",
+    "updateDate": "2023-06-06T15:58:39.225+00:00",
+    "updatedBy": "ccare2",
+    "version": 1,
+    "groupId": 12,
+    "groupName": "123_ABC",
+    "contractId": "12_CO",
+    "items": [
+        {
+            "createDate": "2022-07-12T20:14:29.189+00:00",
+            "createdBy": "ccare2",
+            "createdVersion": 9,
+            "productionStatus": "INACTIVE",
+            "stagingStatus": "PENDING_ACTIVATION",
+            "tags": [],
+            "type": "IP",
+            "updateDate": "2022-07-12T20:14:29.189+00:00",
+            "updatedBy": "ccare2",
+            "value": "7d0:1:0::0/64"
+        },
+        {
+            "createDate": "2022-07-12T20:14:29.189+00:00",
+            "createdBy": "ccare2",
+            "createdVersion": 9,
+            "description": "Item with description, tags, expiration date",
+            "expirationDate": "2030-12-31T12:40:00.000+00:00",
+            "productionStatus": "INACTIVE",
+            "stagingStatus": "PENDING_ACTIVATION",
+            "tags": [
+                "red",
+                "green",
+                "blue"
+            ],
+            "type": "IP",
+            "updateDate": "2022-07-12T20:14:29.189+00:00",
+            "updatedBy": "ccare2",
+            "value": "7d0:1:1::0/64"
+        }
+    ]
+}

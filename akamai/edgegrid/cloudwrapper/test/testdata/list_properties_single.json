@@ -1,0 +1,11 @@
+{
+    "properties": [
+        {
+            "propertyId": 1,
+            "propertyName": "TestPropertyName1",
+            "contractId": "TestContractID1",
+            "groupId": 11,
+            "type": "MEDIA"
+        }
+    ]
+}

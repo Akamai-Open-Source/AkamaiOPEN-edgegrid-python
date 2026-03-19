@@ -2,6 +2,42 @@
 
 History
 -------
+3.0.0 (2026-XX-XX)
+++++++++++++++++++
+
+* New features
+    - Added full feature parity with the AkamaiOPEN-edgegrid-golang v12 SDK
+    - Added base session/client class (``Session``) wrapping ``requests.Session`` with ``EdgeGridAuth`` for HTTP request execution, JSON marshaling, response status checking, and structured error handling
+    - Added base error classes (``Error``, ``ErrStructValidation``) with RFC 7807 error response parsing
+    - Added validation error formatting utility (``parse_validation_errors``)
+    - Added HTML content unescaping utility (``unescape_content``)
+    - Added shared test utilities for HTTP mock helpers and fixture loading
+    - Added 23 new service-specific API client packages:
+        - ``papi`` — Property Manager API
+        - ``appsec`` — Application Security API
+        - ``botman`` — Bot Manager API
+        - ``gtm`` — Global Traffic Management API
+        - ``cloudwrapper`` — Cloud Wrapper API
+        - ``networklists`` — Network Lists API
+        - ``cps`` — Certificate Provisioning API
+        - ``hapi`` — Hostname API
+        - ``clientlists`` — Client Lists API
+        - ``iam`` — Identity & Access Management API
+        - ``accountprotection`` — Account Protection API
+        - ``datastream`` — DataStream API
+        - ``cloudaccess`` — Cloud Access Manager API
+        - ``apidefinitions`` — API Definitions API
+        - ``dns`` — Edge DNS API
+        - ``cloudcertificates`` — Cloud Certificates API
+        - ``cloudlets`` — Cloudlets API
+        - ``cloudlets_v3`` — Cloudlets V3 API
+        - ``imaging`` — Image & Video Manager API
+        - ``domainownership`` — Domain Ownership API
+        - ``edgeworkers`` — EdgeWorkers/EdgeKV API
+        - ``mtlskeystore`` — mTLS Key Store API
+        - ``mtlstruststore`` — mTLS Trust Store API
+    - Each service client package includes: client class, request/response models (dataclasses), request validation, sentinel errors, and comprehensive pytest unit tests mirroring Go v12 test scenarios
+
 2.0.5 (2026-01-27)
 ++++++++++++++++++
 

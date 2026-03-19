@@ -1,0 +1,37 @@
+{
+    "contractId": "X-DS-123",
+    "createdBy": "admin",
+    "createdDate": "2023-12-01T11:22:33Z",
+    "collectMidgress": true,
+    "integrationType": "DS_MANAGED",
+    "samplingPercentage": 33,
+    "datasetFields": [],
+    "deliveryConfiguration": {
+        "fieldDelimiter": "SPACE",
+        "format": "STRUCTURED",
+        "frequency": { "intervalInSeconds": 22 },
+        "uploadFilePrefix": "prefix",
+        "uploadFileSuffix": "suffix"
+    },
+    "destination": {
+        "bucket": "dsbucket",
+        "compressLogs": false,
+        "destinationType": "S3",
+        "displayName": "adminBucket",
+        "path": "/archive",
+        "region": "us-east-2"
+    },
+    "groupId": 4567,
+    "latestVersion": 5,
+    "modifiedBy": "admin2",
+    "modifiedDate": "2023-12-01T14:00:00Z",
+    "notificationEmails": [
+        "admin@akamai.com"
+    ],
+    "productId": "DSProd",
+    "properties": [],
+    "streamId": 2,
+    "streamName": "stream-ds",
+    "streamStatus": "ACTIVATED",
+    "streamVersion": 5
+}

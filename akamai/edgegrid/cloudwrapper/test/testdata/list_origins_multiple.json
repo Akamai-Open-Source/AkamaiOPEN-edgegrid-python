@@ -1,0 +1,36 @@
+{
+    "default": [
+        {
+            "originType": "CUSTOMER",
+            "hostname": "origin-www.example.com"
+        },
+        {
+            "originType": "NET_STORAGE",
+            "hostname": "origin-www.example2.com"
+        }
+    ],
+    "children": [
+        {
+            "name": "Default CORS Policy",
+            "behaviors": [
+                {
+                    "originType": "NET_STORAGE",
+                    "hostname": "origin-www.example3.com"
+                }
+            ]
+        },
+        {
+            "name": "Cloud Wrapper",
+            "behaviors": [
+                {
+                    "originType": "CUSTOMER",
+                    "hostname": "origin-www.example4.com"
+                },
+                {
+                    "originType": "CUSTOMER",
+                    "hostname": "origin-www.example5.com"
+                }
+            ]
+        }
+    ]
+}

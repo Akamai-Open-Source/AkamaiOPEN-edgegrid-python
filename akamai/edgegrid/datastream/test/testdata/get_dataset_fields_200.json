@@ -1,0 +1,25 @@
+{
+    "datasetFields": [
+        {
+            "datasetFieldDescription": "datasetFieldDescription_1",
+            "datasetFieldGroup": "datasetFieldGroup_1",
+            "datasetFieldId": 1000,
+            "datasetFieldJsonKey": "datasetFieldJsonKey_1",
+            "datasetFieldName": "datasetFieldName_1"
+        },
+        {
+            "datasetFieldDescription": "datasetFieldDescription_2",
+            "datasetFieldGroup": "datasetFieldGroup_2",
+            "datasetFieldId": 1001,
+            "datasetFieldJsonKey": "datasetFieldJsonKey_2",
+            "datasetFieldName": "datasetFieldName_2"
+        },
+        {
+            "datasetFieldDescription": "datasetFieldDescription_3",
+            "datasetFieldGroup": "datasetFieldGroup_3",
+            "datasetFieldId": 1002,
+            "datasetFieldJsonKey": "datasetFieldJsonKey_3",
+            "datasetFieldName": "datasetFieldName_3"
+        }
+    ]
+}

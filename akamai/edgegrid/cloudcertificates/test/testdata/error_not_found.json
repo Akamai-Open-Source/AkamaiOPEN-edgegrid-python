@@ -1,0 +1,9 @@
+{
+    "certificateIdentifier": "certificateSubscriptionId",
+    "certificateIdentifierValue": "1234",
+    "detail": "Certificate subscription with {certificateSubscriptionId}: {1234} is not found.",
+    "instance": "/error-types/certificate-not-found?traceId=-1234",
+    "status": 404,
+    "title": "Certificate subscription is not found.",
+    "type": "/error-types/certificate-not-found"
+}

@@ -1,0 +1,122 @@
+{
+  "TestCloneCASet": {
+    "200 - No version provided": {
+      "httpStatus": 201,
+      "body": {
+        "accountId": "1-ACC",
+        "caSetId": "2",
+        "caSetLink": "/mtls-edge-truststore/v2/ca-sets/2",
+        "caSetName": "new-set",
+        "caSetStatus": "NOT_DELETED",
+        "createdBy": "user1",
+        "createdDate": "2025-04-10T07:03:32.987904Z",
+        "deletedBy": null,
+        "deletedDate": null,
+        "description": "New CA Set",
+        "latestVersion": 1,
+        "latestVersionLink": "/mtls-edge-truststore/v2/ca-sets/2/versions/1",
+        "productionVersion": null,
+        "productionVersionLink": null,
+        "stagingVersion": null,
+        "stagingVersionLink": null,
+        "versionsLink": "/mtls-edge-truststore/v2/ca-sets/2/versions/"
+      },
+      "requestBody": {
+        "caSetName": "new-set",
+        "description": "New CA Set"
+      }
+    },
+    "200 - Version provided, no description": {
+      "httpStatus": 201,
+      "body": {
+        "accountId": "1-ACC",
+        "caSetId": "2",
+        "caSetLink": "/mtls-edge-truststore/v2/ca-sets/2",
+        "caSetName": "new-set",
+        "caSetStatus": "NOT_DELETED",
+        "createdBy": "user1",
+        "createdDate": "2025-04-10T07:03:32.987904Z",
+        "deletedBy": null,
+        "deletedDate": null,
+        "description": null,
+        "latestVersion": 1,
+        "latestVersionLink": "/mtls-edge-truststore/v2/ca-sets/2/versions/1",
+        "productionVersion": null,
+        "productionVersionLink": null,
+        "stagingVersion": null,
+        "stagingVersionLink": null,
+        "versionsLink": "/mtls-edge-truststore/v2/ca-sets/2/versions/"
+      },
+      "requestBody": {
+        "caSetName": "new-set",
+        "description": null
+      }
+    },
+    "400 ca set does not have any version": {
+      "httpStatus": 400,
+      "body": {
+        "contextInfo": {
+          "caSetId": "1",
+          "caSetName": "test1"
+        },
+        "detail": "CA set with caSetId 1 does not contain any versions. At least one version must be present to clone the CA set.",
+        "status": 400,
+        "title": "CA set does not contain any versions.",
+        "type": "/mtls-edge-truststore/error-types/missing-caset-version"
+      }
+    },
+    "404 ca set not found": {
+      "httpStatus": 404,
+      "body": {
+        "contextInfo": {
+          "caSetId": 2
+        },
+        "detail": "Cannot clone CA set as the CA set with caSetId 2 is not found.",
+        "status": 404,
+        "title": "CA set is not found.",
+        "type": "/mtls-edge-truststore/error-types/ca-set-not-found"
+      }
+    },
+    "404 ca set version not found": {
+      "httpStatus": 404,
+      "body": {
+        "type": "/mtls-edge-truststore/error-types/ca-set-version-not-found",
+        "title": "CA set version not found",
+        "status": 404,
+        "detail": "Cannot clone CA set as the CA set version with version 2 is not found in the CA set under caSetName test1.",
+        "contextInfo": {
+          "caSetName": "test1",
+          "caSetId": "1",
+          "version": 2
+        }
+      }
+    },
+    "409 duplicate": {
+      "httpStatus": 409,
+      "body": {
+        "type": "/mtls-edge-truststore/error-types/ca-set-name-is-not-unique",
+        "title": "CA set name already exists",
+        "status": 409,
+        "detail": "CA set with caSetName new-set cannot be created as another CA set with the same name exists in the account with accountId 1-ACC.",
+        "contextInfo": {
+          "caSetName": "new-set",
+          "accountId": "1-ACC"
+        }
+      }
+    },
+    "422 reached limit": {
+      "httpStatus": 422,
+      "body": {
+        "type": "/mtls-edge-truststore/error-types/ca-set-limit-reached",
+        "title": "Cannot create a new CA set. Maximum allowed CA set limit has been reached.",
+        "status": 422,
+        "detail": "Cannot create CA set as you have already reached or exceeded the maximum allowed CA set limit of 2 for your account. Please delete any unused or unwanted CA sets before you attempt to create a new CA set.",
+        "contextInfo": {
+          "accountId": "1-ACC",
+          "currentSetCount": 2,
+          "limit": 2
+        }
+      }
+    }
+  }
+}

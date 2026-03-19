@@ -1,0 +1,15 @@
+[
+  {
+    	"apiId": 1111,
+        "serviceProviderId": 1,
+        "apiName": "Test API Name",
+        "description": "Test API Name",
+        "endPoint": "/test-api-name/",
+        "documentationUrl": "https://example.akamai.com/",
+        "accessLevels": [
+            "READ-WRITE",
+            "READ-ONLY"
+        ],
+        "hasAccess": false
+  }
+]

@@ -1,0 +1,89 @@
+{
+    "TestCreateCASet": {
+        "201 Created": {
+            "httpStatus": 201,
+            "body": {
+                "accountId": "A-CCOUNT",
+                "caSetId": "199",
+                "caSetLink": "/mtls-edge-truststore/v2/ca-sets/199",
+                "caSetName": "test",
+                "caSetStatus": "NOT_DELETED",
+                "createdBy": "jdoe",
+                "createdDate": "2025-04-01T15:33:48.464941Z",
+                "deletedBy": null,
+                "deletedDate": null,
+                "description": "",
+                "latestVersion": null,
+                "latestVersionLink": null,
+                "productionVersion": null,
+                "productionVersionLink": null,
+                "stagingVersion": null,
+                "stagingVersionLink": null,
+                "versionsLink": "/mtls-edge-truststore/v2/ca-sets/199/versions/"
+            },
+            "headers": {
+                "Location": "/mtls-edge-truststore/v2/ca-sets/199"
+            }
+        },
+        "500 internal server error": {
+            "httpStatus": 500,
+            "body": {
+                "type": "internal-server-error",
+                "title": "Internal Server Error",
+                "detail": "Error processing request",
+                "instance": "TestInstances",
+                "status": 500
+            }
+        },
+        "409 error response - duplicate CA set": {
+            "httpStatus": 409,
+            "body": {
+                "contextInfo": {
+                    "accountId": "A-CCOUNT",
+                    "caSetName": "testCAsetType"
+                },
+                "errors": [
+                    {
+                        "detail": "CA set with caSetName testCAsetType cannot be created as another CA set with the same name exists in the account with accountId A-CCOUNT.",
+                        "pointer": "/caSetName",
+                        "title": "CA set with the same name exists in the account.",
+                        "type": "/mtls-edge-truststore/error-types/ca-set-name-is-not-unique"
+                    }
+                ],
+                "instance": "/mtls-edge-truststore/error-types/ca-set-name-is-not-unique/dadce1c2d3e34567",
+                "status": 409,
+                "title": "CA set with the same name exists in the account.",
+                "type": "/mtls-edge-truststore/error-types/ca-set-name-is-not-unique"
+            }
+        },
+        "415 error response - wrong content type header": {
+            "httpStatus": 415,
+            "body": {
+                "contextInfo": {
+                    "allowedMediaTypes": [
+                        "application/json"
+                    ],
+                    "unsupportedMediaType": "application/json1"
+                },
+                "detail": "Media type application/json1 is not supported. Supported media type(s) are [application/json].",
+                "instance": "/mtls-edge-truststore/error-types/media-type-not-supported/5de24ab7be0613b4",
+                "status": 415,
+                "title": "Media type not supported.",
+                "type": "/mtls-edge-truststore/error-types/media-type-not-supported"
+            }
+        },
+        "400 error response - wrong content type header": {
+            "httpStatus": 400,
+            "body": {
+                "contextInfo": {
+                    "message": "instance type (integer) does not match any allowed primitive type (allowed: [\"string\"])"
+                },
+                "instance": "/mtls-edge-truststore/error-types/json-schema-validation-error/12345a6c78caa9bb",
+                "pointer": "/caSetName",
+                "status": 400,
+                "title": "Body failed JSON schema validation.",
+                "type": "/mtls-edge-truststore/error-types/json-schema-validation-error"
+            }
+        }
+    }
+}

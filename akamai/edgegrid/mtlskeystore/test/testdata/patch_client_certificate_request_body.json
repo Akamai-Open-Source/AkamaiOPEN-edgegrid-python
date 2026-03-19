@@ -1,0 +1,6 @@
+{
+    "certificateName": "test-certificate1",
+    "notificationEmails": [
+        "jsmith@akamai.com"
+    ]
+}

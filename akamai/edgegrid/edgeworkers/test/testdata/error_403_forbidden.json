@@ -1,0 +1,8 @@
+{
+    "type": "/edgeworkers/error-types/edgeworkers-forbidden",
+    "title": "Forbidden \u2013 The client does not have access to the requested resource.",
+    "detail": "Access is forbidden",
+    "instance": "/edgeworkers/error-instances/abc",
+    "status": 403,
+    "errorCode": "EW2301"
+}

@@ -1,0 +1,34 @@
+{
+    "contractId": "PM-DEP-001",
+    "createdBy": "userpm",
+    "createdDate": "2024-02-01T07:00:00Z",
+    "integrationType": "PM_DEPENDENT",
+    "samplingPercentage": 50,
+    "datasetFields": [],
+    "deliveryConfiguration": {
+        "fieldDelimiter": "SPACE",
+        "format": "STRUCTURED",
+        "frequency": { "intervalInSeconds": 90 },
+        "uploadFilePrefix": "pm",
+        "uploadFileSuffix": "pmx"
+    },
+    "destination": {
+        "bucket": "pmbucket",
+        "compressLogs": true,
+        "destinationType": "S3",
+        "displayName": "pmBucket",
+        "path": "/pmdata",
+        "region": "eu-west-2"
+    },
+    "groupId": 2222,
+    "latestVersion": 3,
+    "modifiedBy": "pmadmin",
+    "modifiedDate": "2024-02-01T09:00:00Z",
+    "notificationEmails": ["userpm@akamai.com"],
+    "productId": "PMProdX",
+    "properties": [],
+    "streamId": 3,
+    "streamName": "pm_stream",
+    "streamStatus": "INACTIVE",
+    "streamVersion": 3
+}

@@ -1,0 +1,1 @@
+Item was upserted in KV store with database 123456, namespace marketing, group countries, and key GB.

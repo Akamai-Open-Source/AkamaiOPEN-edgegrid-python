@@ -1,0 +1,22 @@
+{
+    "capacities": [
+        {
+            "locationId": 1,
+            "locationName": "US East",
+            "contractId": "A-BCDEFG",
+            "type": "MEDIA",
+            "approvedCapacity": {
+                "value": 2000,
+                "unit": "GB"
+            },
+            "assignedCapacity": {
+                "value": 2,
+                "unit": "GB"
+            },
+            "unassignedCapacity": {
+                "value": 1998,
+                "unit": "GB"
+            }
+        }
+    ]
+}

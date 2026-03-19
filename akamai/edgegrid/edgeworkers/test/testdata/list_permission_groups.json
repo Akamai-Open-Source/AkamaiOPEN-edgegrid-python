@@ -1,0 +1,46 @@
+{
+    "groups": [
+        {
+            "groupId": 11111,
+            "groupName": "First test group",
+            "capabilities": [
+                "VIEW",
+                "EDIT",
+                "DELETE",
+                "VIEW_VERSION",
+                "CREATE_VERSION",
+                "DELETE_VERSION",
+                "VIEW_ACTIVATION",
+                "ACTIVATE"
+            ]
+        },
+        {
+            "groupId": 22222,
+            "groupName": "Second test group",
+            "capabilities": [
+                "VIEW",
+                "EDIT",
+                "DELETE",
+                "VIEW_VERSION",
+                "CREATE_VERSION",
+                "DELETE_VERSION",
+                "VIEW_ACTIVATION",
+                "ACTIVATE"
+            ]
+        },
+        {
+            "groupId": 33333,
+            "groupName": "Third test group",
+            "capabilities": [
+                "VIEW",
+                "EDIT",
+                "DELETE",
+                "VIEW_VERSION",
+                "CREATE_VERSION",
+                "DELETE_VERSION",
+                "VIEW_ACTIVATION",
+                "ACTIVATE"
+            ]
+        }
+    ]
+}

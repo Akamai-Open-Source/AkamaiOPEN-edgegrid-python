@@ -1,0 +1,35 @@
+{
+    "accountId": "A-CCT7890",
+    "certificateId": "123",
+    "certificateName": "test-cert",
+    "certificateStatus": "CSR_READY",
+    "certificateType": "THIRD_PARTY",
+    "contractId": "C-0N7RAC7",
+    "createdBy": "jsmith",
+    "createdDate": "2025-09-01T06:16:05.952613Z",
+    "csrExpirationDate": "2026-11-03T06:16:07Z",
+    "csrPem": "-----BEGIN CERTIFICATE REQUEST-----\nexample-PEM\n-----END CERTIFICATE REQUEST-----\n",
+    "keySize": "2048",
+    "keyType": "RSA",
+    "modifiedBy": "jsmith",
+    "modifiedDate": "2025-09-02T06:16:05.952613Z",
+    "sans": [
+        "example.com",
+        "www.example.com"
+    ],
+    "secureNetwork": "ENHANCED_TLS",
+    "signedCertificateIssuer": null,
+    "signedCertificateNotValidAfterDate": null,
+    "signedCertificateNotValidBeforeDate": null,
+    "signedCertificatePem": null,
+    "signedCertificateSHA256Fingerprint": null,
+    "signedCertificateSerialNumber": null,
+    "subject": {
+        "commonName": "example.com",
+        "country": "US",
+        "locality": "Cambridge",
+        "organization": "ExampleOrg",
+        "state": "Massachusetts"
+    },
+    "trustChainPem": null
+}

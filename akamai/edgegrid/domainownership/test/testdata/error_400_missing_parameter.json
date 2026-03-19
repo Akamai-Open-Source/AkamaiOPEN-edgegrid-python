@@ -1,0 +1,6 @@
+{
+    "detail": "Required parameter 'validationScope' is missing.",
+    "status": 400,
+    "title": "Bad Request",
+    "type": "bad-request"
+}

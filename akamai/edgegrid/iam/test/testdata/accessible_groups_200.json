@@ -1,0 +1,27 @@
+[
+  	{
+        "groupId": 1111,
+        "groupName": "TestGroupName",
+        "roleId": 123123,
+        "roleName": "Test Role Name",
+        "roleDescription": "Test Role Description",
+        "isBlocked": false,
+        "subGroups": [
+            {
+                "groupId": 3333,
+                "groupName": "TestSubGroupName",
+                "parentGroupId": 1111,
+                "subGroups": []
+            }
+		]
+	},
+	{
+        "groupId": 2222,
+        "groupName": "TestGroupName2",
+        "roleId": 321321,
+        "roleName": "Test Role Name 2",
+        "roleDescription": "Test Role Description 2",
+        "isBlocked": false,
+		"subGroups": []
+	}
+]

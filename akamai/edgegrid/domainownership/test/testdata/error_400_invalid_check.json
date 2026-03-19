@@ -1,0 +1,17 @@
+{
+    "type": "bad-request",
+    "title": "Bad Request",
+    "instance": "d87ca377-f864-4054-bfa8-f567c44567c5",
+    "status": 400,
+    "detail": "Oops, something wasn't right. Please correct the errors.",
+    "errors": [
+        {
+            "type": "error-types/invalid",
+            "title": "Invalid Check",
+            "detail": "Domain cannot be invalidated for the current state.",
+            "field": "domains[0].domainName",
+            "problemId": "d87ca377-f864-4054-bfa8-f567c44567c5"
+        }
+    ],
+    "problemId": "d87ca377-f864-4054-bfa8-f567c44567c5"
+}

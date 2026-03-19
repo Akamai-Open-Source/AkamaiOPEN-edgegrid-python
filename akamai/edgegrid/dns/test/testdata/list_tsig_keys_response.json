@@ -1,0 +1,13 @@
+{
+    "metadata": {
+        "totalElements": 1
+    },
+    "keys": [
+        {
+            "name": "a.test.key.",
+            "algorithm": "hmac-sha256",
+            "secret": "DjY16JfIi3JnSDosQWE7Xkx60MbCLo1K7hUCqng8ccg=",
+            "zonesCount": 3
+        }
+    ]
+}

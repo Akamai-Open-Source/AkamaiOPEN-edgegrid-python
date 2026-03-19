@@ -1,0 +1,25 @@
+{
+    "properties": [
+        {
+            "propertyId": 1,
+            "propertyName": "property_name_1",
+            "stagingVersion": null,
+            "productionVersion": null,
+            "latestVersion": 1
+        },
+        {
+            "propertyId": 2,
+            "propertyName": "property_name_2",
+            "stagingVersion": null,
+            "productionVersion": null,
+            "latestVersion": 2
+        },
+        {
+            "propertyId": 3,
+            "propertyName": "property_name_3",
+            "stagingVersion": null,
+            "productionVersion": null,
+            "latestVersion": 3
+        }
+    ]
+}

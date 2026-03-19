@@ -1,0 +1,15 @@
+{
+    "destinationType": "ELASTICSEARCH",
+    "displayName": "testDisplayName",
+    "endpoint": "testEndpoint",
+    "indexName": "testIndexName",
+    "userName": "testUserName",
+    "password": "testPassword",
+    "contentType": "testContentType",
+    "customHeaderName": "testCustomHeaderName",
+    "customHeaderValue": "testCustomHeaderValue",
+    "tlsHostname": "testTLSHostname",
+    "caCert": "testCACert",
+    "clientCert": "testClientCert",
+    "clientKey": "testClientKey"
+}

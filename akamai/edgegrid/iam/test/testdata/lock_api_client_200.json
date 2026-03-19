@@ -1,0 +1,19 @@
+{
+  "accessToken": "test_token1234",
+  "activeCredentialCount": 1,
+  "allowAccountSwitch": false,
+  "authorizedUsers": [
+    "jdoe"
+  ],
+  "clientDescription": "Test",
+  "clientId": "abcd1234",
+  "clientName": "test",
+  "clientType": "CLIENT",
+  "createdBy": "jdoe",
+  "createdDate": "2022-05-13T20:04:35.000Z",
+  "isLocked": true,
+  "notificationEmails": [
+    "jdoe@example.com"
+  ],
+  "serviceConsumerToken": "test_token12345"
+}

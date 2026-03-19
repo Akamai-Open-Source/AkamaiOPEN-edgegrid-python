@@ -1,0 +1,16 @@
+[
+  {
+    "firstName": "John",
+    "isBlocked": true,
+    "lastName": "Doe",
+    "uiIdentityId": "A-test-1234",
+    "uiUserName": "jdoe"
+  },
+  {
+    "firstName": "Jan",
+    "isBlocked": true,
+    "lastName": "Kowalski",
+    "uiIdentityId": "A-test-12345",
+    "uiUserName": "jkowalski"
+  }
+]

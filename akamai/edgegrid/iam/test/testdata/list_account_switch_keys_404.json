@@ -1,0 +1,7 @@
+{
+	"instances": "",
+    "type": "/identity-management/error-types/2",
+    "status": 404,
+    "title": "invalid open identity",
+	"detail": ""
+}

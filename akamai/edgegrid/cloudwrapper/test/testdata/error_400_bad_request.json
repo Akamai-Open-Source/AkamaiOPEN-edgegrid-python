@@ -1,0 +1,27 @@
+{
+  "type": "bad-request",
+  "title": "Bad Request",
+  "instance": "30109837-7ea6-4b14-a41d-50cfb12a4b03",
+  "status": 400,
+  "detail": "Erroneous data input",
+  "errors": [
+    {
+      "type": "bad-request",
+      "title": "Bad Request",
+      "detail": "Configuration with name UpdateConfiguration already exists in account 1234-3KNWKV.",
+      "illegalValue": "UpdateConfiguration",
+      "illegalParameter": "configurationName"
+    },
+    {
+      "type": "bad-request",
+      "title": "Bad Request",
+      "detail": "One or more ARL Property is already used in another configuration.",
+      "illegalValue": [
+        {
+          "propertyId": "123010"
+        }
+      ],
+      "illegalParameter": "properties"
+    }
+  ]
+}

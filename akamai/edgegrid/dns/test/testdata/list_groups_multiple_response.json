@@ -1,0 +1,30 @@
+{
+    "groups": [
+        {
+            "groupId": 9012,
+            "groupName": "example-name1",
+            "contractIds": [
+                "1-2ABCDE"
+            ],
+            "permissions": [
+                "READ",
+                "WRITE",
+                "ADD",
+                "DELETE"
+            ]
+        },
+        {
+            "groupId": 9013,
+            "groupName": "example-name2",
+            "contractIds": [
+                "1-2ABCDE"
+            ],
+            "permissions": [
+                "READ",
+                "WRITE",
+                "ADD",
+                "DELETE"
+            ]
+        }
+    ]
+}

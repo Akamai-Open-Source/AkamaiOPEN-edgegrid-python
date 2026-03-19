@@ -1,0 +1,7 @@
+{
+    "instance": "",
+    "httpStatus": 404,
+    "detail": "group not found",
+    "title": "Not found",
+    "type": "/useradmin-api/error-types/1700"
+}

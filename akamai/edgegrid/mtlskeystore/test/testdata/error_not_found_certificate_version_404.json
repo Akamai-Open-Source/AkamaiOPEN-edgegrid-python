@@ -1,0 +1,10 @@
+{
+    "detail": "The requested resource could not be found on the server.",
+    "field": "certificateId",
+    "instance": "32be8a77-cc41-495e-94d8-cb536afea149",
+    "problemId": "32be8a77-cc41-495e-94d8-cb536afea149",
+    "status": 404,
+    "title": "Resource Not Found",
+    "type": "resource-not-found",
+    "value": "180131"
+}

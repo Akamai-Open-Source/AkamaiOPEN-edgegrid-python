@@ -1,0 +1,8 @@
+{
+    "type": "/ip-acl/error-types/1010",
+    "httpStatus": 404,
+    "title": "no data found",
+    "detail": "",
+    "instance": "",
+    "errors": []
+}

@@ -1,0 +1,16 @@
+[
+    {
+        "propertyId": 1,
+        "propertyName": "property1",
+        "propertyTypeDescription": "Site",
+        "groupId": 11,
+        "groupName": "group1"
+    },
+    {
+        "propertyId": 2,
+        "propertyName": "property2",
+        "propertyTypeDescription": "Site",
+        "groupId": 22,
+        "groupName": "group2"
+    }
+]

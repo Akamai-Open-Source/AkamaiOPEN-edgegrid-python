@@ -1,0 +1,14 @@
+{
+    "type": "bad-request",
+    "title": "Bad Request",
+    "detail": "bad-request",
+    "instance": "d0d2497e-ed93-4685-b44c-93a8eb8f3dea",
+    "statusCode": 400,
+    "errors": [
+        {
+            "type": "bad-request",
+            "title": "Bad Request",
+            "detail": "The credentials provided don't give you write access to the bucket. Check your AWS credentials or bucket permissions in the S3 account and try again."
+        }
+    ]
+}

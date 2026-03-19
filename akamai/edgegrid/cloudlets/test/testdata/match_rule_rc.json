@@ -1,0 +1,32 @@
+[
+    {
+        "type": "igMatchRule",
+        "end": 0,
+        "allowDeny": "allow",
+        "id": 0,
+        "matchURL": null,
+        "matches": [
+            {
+                "caseSensitive": false,
+                "matchOperator": "equals",
+                "matchType": "protocol",
+                "matchValue": "https",
+                "negate": false
+            },
+            {
+                "caseSensitive": false,
+                "matchOperator": "equals",
+                "matchType": "method",
+                "negate": false,
+                "objectMatchValue": {
+                    "type": "simple",
+                    "value": [
+                        "GET"
+                    ]
+                }
+            }
+        ],
+        "name": "Rule3",
+        "start": 0
+    }
+]

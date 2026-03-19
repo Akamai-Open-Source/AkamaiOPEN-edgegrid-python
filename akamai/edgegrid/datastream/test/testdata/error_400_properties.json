@@ -1,0 +1,14 @@
+{
+    "type": "bad-request",
+    "title": "Bad Request",
+    "detail": "",
+    "instance": "baf2671f-7b3a-406d-9dd8-63ef20a01296",
+    "statusCode": 400,
+    "errors": [
+        {
+            "type": "bad-request",
+            "title": "Bad Request",
+            "detail": "Invalid Product Name"
+        }
+    ]
+}

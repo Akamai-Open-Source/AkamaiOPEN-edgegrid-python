@@ -1,0 +1,15 @@
+{
+    "errors": [
+        {
+            "detail": "Invalid product ID. Provide the correct product ID and try again.",
+            "problemId": "800a7291-c694-434a-99b7-8940d788239a",
+            "title": "Bad Request",
+            "type": "bad-request"
+        }
+    ],
+    "instance": "6e067164-4a61-429a-abaf-87452fd47036",
+    "problemId": "6e067164-4a61-429a-abaf-87452fd47036",
+    "status": 400,
+    "title": "Bad Request",
+    "type": "bad-request"
+}

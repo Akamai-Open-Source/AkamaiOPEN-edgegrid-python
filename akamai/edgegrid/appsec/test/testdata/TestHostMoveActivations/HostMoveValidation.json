@@ -1,0 +1,21 @@
+{
+  "hostsToMove": [
+    {
+      "allowed": true,
+      "fromConfig": {
+        "configId": 12345,
+        "configName": "Source Config",
+        "configVersion": 2,
+        "invalidHosts": []
+      },
+      "host": "example.com",
+      "toConfig": {
+        "configId": 43253,
+        "configName": "Target Config",
+        "configVersion": 1,
+        "invalidHosts": []
+      }
+    }
+  ],
+  "network": "STAGING"
+}

@@ -1,0 +1,22 @@
+{
+    "tokens": [
+        {
+            "name": "my_token",
+            "uuid": "8301fef4-80e5-5efb-9bfb-8f5869a5df7b",
+            "expiry": "2022-03-30",
+            "issueDate": "2022-01-30",
+            "latestRefreshDate": "2022-03-30",
+            "nextScheduledRefreshDate": "2022-05-30",
+            "tokenActivationStatus": "COMPLETE"
+        },
+        {
+            "name": "token1",
+            "uuid": "5b5d3bfb-8d2e-5fbb-858d-33807edc9554",
+            "expiry": "2022-01-22",
+            "issueDate": "2022-04-30",
+            "latestRefreshDate": null,
+            "nextScheduledRefreshDate": "2022-06-30",
+            "tokenActivationStatus": "IN_PROGRESS"
+        }
+    ]
+}

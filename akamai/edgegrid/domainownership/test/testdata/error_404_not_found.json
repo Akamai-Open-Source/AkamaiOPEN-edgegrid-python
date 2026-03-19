@@ -1,0 +1,9 @@
+{
+    "type": "not-found",
+    "title": "Not Found",
+    "instance": "fe111e63-225d-45ea-8e0a-dd182496092d",
+    "status": 404,
+    "detail": "The requested resource could not be found on the server.",
+    "field": "domainName",
+    "value": "example.com"
+}

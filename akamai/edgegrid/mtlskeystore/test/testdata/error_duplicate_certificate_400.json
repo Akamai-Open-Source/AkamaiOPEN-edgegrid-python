@@ -1,0 +1,16 @@
+{
+    "detail": "Bad Request",
+    "errors": [
+        {
+            "detail": "Certificate with same name already exists.",
+            "field": "certificateName",
+            "problemId": "00c4e7b5-dc7b-43f9-9f18-de8de3c82527",
+            "title": "Invalid Input",
+            "type": "error-types/invalid"
+        }
+    ],
+    "instance": "/f311c60f-9914-4e23-be2c-db8dbb711a8a",
+    "status": 400,
+    "title": "Bad Request",
+    "type": "bad-request"
+}

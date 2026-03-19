@@ -1,0 +1,12 @@
+{
+    "edgeWorkerId": 54322,
+    "name": "Clone EdgeWorkerID",
+    "accountId": "B-123-WNKA6P",
+    "groupId": 12345,
+    "resourceTierId": 123,
+    "sourceEdgeWorkerId": 54321,
+    "createdBy": "jbond",
+    "createdTime": "2021-12-14T11:23:02Z",
+    "lastModifiedBy": "jbond",
+    "lastModifiedTime": "2021-12-14T11:23:02Z"
+}

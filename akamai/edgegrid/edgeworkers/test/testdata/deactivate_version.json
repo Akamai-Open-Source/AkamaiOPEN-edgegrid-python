@@ -1,0 +1,12 @@
+{
+    "edgeWorkerId": 1,
+    "version": "123",
+    "deactivationId": 1,
+    "accountId": "B-3-WNKA6P",
+    "status": "PRESUBMIT",
+    "network": "PRODUCTION",
+    "note": "not used",
+    "createdBy": "agrebenk",
+    "createdTime": "2021-12-17T10:07:35Z",
+    "lastModifiedTime": "2021-12-17T10:07:35Z"
+}

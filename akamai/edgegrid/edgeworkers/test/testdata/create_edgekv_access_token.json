@@ -1,0 +1,26 @@
+{
+    "name": "devexp-token-1",
+    "uuid": "1ab0e94b-c47e-568e-ab3e-1921ffcefe0c",
+    "allowOnProduction": true,
+    "allowOnStaging": false,
+    "cpcode": "1234567",
+    "expiry": "9999-12-31",
+    "issueDate": "2022-04-30",
+    "namespacePermissions": {
+        "default": [
+            "r",
+            "w",
+            "d"
+        ],
+        "devexp-jsmith-test": [
+            "r",
+            "w"
+        ]
+    },
+    "nextScheduledRefreshDate": "2022-06-30",
+    "restrictToEdgeWorkerIds": [
+        "1234",
+        "5678"
+    ],
+    "tokenActivationStatus": "IN_PROGRESS"
+}

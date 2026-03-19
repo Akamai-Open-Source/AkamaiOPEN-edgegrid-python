@@ -1,0 +1,2271 @@
+{
+	"configId": 43253,
+	"configName": "Akamai Tools",
+	"version": 15,
+	"basedOn": 3,
+	"staging": {
+		"status": "Inactive"
+	},
+	"production": {
+		"status": "Inactive"
+	},
+	"targetProduct" : "KSD",
+	"createDate": "2020-10-06T18:00:20Z",
+	"createdBy": "akava-terraform",
+	"selectedHosts": [
+		"rinaldi.sandbox.akamaideveloper.com",
+		"sujala.sandbox.akamaideveloper.com"
+	],
+	"selectableHosts": [
+		"bsingh-sydney.world-tour.akamaideveloper.net",
+		"dev.mdeepal-bangalore.world-tour.akamaideveloper.net",
+		"artorresr.sandbox.akamaideveloper.com",
+		"rbc-yyy.world-tour.akamaideveloper.net",
+		"ayush.world-tour.akamaideveloper.net",
+		"vader.sandbox.akamaideveloper.com",
+		"dev.acachero.world-tour.akamaideveloper.net",
+		"geert-stockholm-181030.world-tour.akamaideveloper.net",
+		"msuzuki.world-tour.akamaideveloper.net",
+		"cute-benny-sg.world-tour.akamaideveloper.net"
+	],
+	"ratePolicies": [
+		{
+			"additionalMatchOptions": [
+				{
+					"positiveMatch": true,
+					"type": "NetworkListCondition",
+					"values": [
+						"365_AKAMAITOREXITNODES"
+					]
+				}
+			],
+			"averageThreshold": 1,
+			"burstThreshold": 1,
+			"burstWindow": 5,
+			"clientIdentifiers": ["ip"],
+			"condition": {
+				"atomicConditions": [
+					{
+						"className": "TlsFingerprintCondition",
+						"positiveMatch": true,
+						"value": [
+							"fedca33016b974c390faa610378b5a61"
+						]
+					}
+				]
+			},
+			"matchType": "path",
+			"name": "UI created ",
+			"pathMatchType": "Custom",
+			"pathUriPositiveMatch": true,
+			"requestType": "ClientRequest",
+			"sameActionOnIpv6": true,
+			"type": "WAF",
+			"useXForwardForHeaders": false
+		}
+	],
+	"reputationProfiles": [
+		{
+			"context": "WEBATCK",
+			"contextReadable": "Web Attackers",
+			"enabled": false,
+			"id": 1685092,
+			"name": "Web Attackers (High Threat)",
+			"sharedIpHandling": "NON_SHARED",
+			"threshold": 9
+		},
+		{
+			"context": "DOSATCK",
+			"contextReadable": "DoS Attackers",
+			"enabled": false,
+			"id": 1685093,
+			"name": "DoS Attackers (High Threat)",
+			"sharedIpHandling": "NON_SHARED",
+			"threshold": 9
+		},
+		{
+			"context": "SCANTL",
+			"contextReadable": "Scanning Tools",
+			"enabled": false,
+			"id": 1685094,
+			"name": "Scanning Tools (High Threat)",
+			"sharedIpHandling": "NON_SHARED",
+			"threshold": 9
+		},
+		{
+			"context": "WEBATCK",
+			"contextReadable": "Web Attackers",
+			"enabled": false,
+			"id": 1685095,
+			"name": "Web Attackers (Low Threat)",
+			"sharedIpHandling": "NON_SHARED",
+			"threshold": 5
+		},
+		{
+			"context": "DOSATCK",
+			"contextReadable": "DoS Attackers",
+			"enabled": false,
+			"id": 1685096,
+			"name": "DoS Attackers (Low Threat)",
+			"sharedIpHandling": "NON_SHARED",
+			"threshold": 5
+		},
+		{
+			"context": "SCANTL",
+			"contextReadable": "Scanning Tools",
+			"enabled": false,
+			"id": 1685097,
+			"name": "Scanning Tools (Low Threat)",
+			"sharedIpHandling": "NON_SHARED",
+			"threshold": 5
+		},
+		{
+			"context": "WEBSCRP",
+			"contextReadable": "Web Scrapers",
+			"enabled": false,
+			"id": 1685098,
+			"name": "Web Scrapers (Low Threat)",
+			"sharedIpHandling": "NON_SHARED",
+			"threshold": 5
+		},
+		{
+			"context": "WEBSCRP",
+			"contextReadable": "Web Scrapers",
+			"enabled": false,
+			"id": 1685099,
+			"name": "Web Scrapers (High Threat)",
+			"sharedIpHandling": "NON_SHARED",
+			"threshold": 9
+		}
+	],
+	"customRules": [
+		{
+			"conditions": [
+				{
+					"positiveMatch": true,
+					"type": "geoMatch",
+					"value": [
+						"AD"
+					],
+					"useXForwardForHeaders": false
+				},
+				{
+					"type": "requestMethodMatch",
+					"positiveMatch": true,
+					"value": [
+						"GET",
+						"CONNECT",
+						"TRACE",
+						"PUT",
+						"POST",
+						"OPTIONS",
+						"DELETE",
+						"HEAD"
+					]
+				},
+				{
+					"type": "pathMatch",
+					"positiveMatch": true,
+					"value": [
+						"/H",
+						"/O",
+						"/Li",
+						"/He"
+					]
+				},
+				{
+					"type": "extensionMatch",
+					"positiveMatch": true,
+					"value": [
+						"Li",
+						"He",
+						"H"
+					],
+					"valueCase": true,
+					"valueWildcard": true
+				}
+			],
+			"description": "Can I create all conditions?",
+			"id": 60036362,
+			"name": "Existing Test Rule 1",
+			"ruleActivated": false,
+			"structured": true,
+			"tag": [
+				"test"
+			],
+			"version": 1
+		},
+		{
+			"conditions": [
+				{
+					"type": "requestMethodMatch",
+					"positiveMatch": true,
+					"value": [
+						"GET",
+						"CONNECT",
+						"TRACE",
+						"PUT",
+						"POST",
+						"OPTIONS",
+						"DELETE",
+						"HEAD"
+					]
+				},
+				{
+					"type": "pathMatch",
+					"positiveMatch": true,
+					"value": [
+						"/H",
+						"/O",
+						"/Li",
+						"/He"
+					]
+				},
+				{
+					"type": "extensionMatch",
+					"positiveMatch": true,
+					"value": [
+						"Li",
+						"He",
+						"H"
+					],
+					"valueCase": true,
+					"valueWildcard": true
+				}
+			],
+			"description": "Can I create all conditions?",
+			"id": 60036088,
+			"name": "Fat Rule 1",
+			"ruleActivated": false,
+			"structured": true,
+			"tag": [
+				"test"
+			],
+			"version": 1
+		},
+		{
+			"conditions": [
+				{
+					"type": "requestMethodMatch",
+					"positiveMatch": true,
+					"value": [
+						"GET",
+						"CONNECT",
+						"TRACE",
+						"PUT",
+						"POST",
+						"OPTIONS",
+						"DELETE",
+						"HEAD"
+					]
+				},
+				{
+					"type": "pathMatch",
+					"positiveMatch": true,
+					"value": [
+						"/H",
+						"/O",
+						"/Li",
+						"/He"
+					]
+				},
+				{
+					"type": "extensionMatch",
+					"positiveMatch": true,
+					"value": [
+						"Li",
+						"He",
+						"H"
+					],
+					"valueCase": true,
+					"valueWildcard": true
+				}
+			],
+			"description": "Can I create all conditions?",
+			"id": 60036332,
+			"name": "Existing Test Rule 1",
+			"ruleActivated": false,
+			"structured": true,
+			"tag": [
+				"test"
+			],
+			"version": 1
+		},
+		{
+			"conditions": [
+				{
+					"type": "requestMethodMatch",
+					"positiveMatch": true,
+					"value": [
+						"GET",
+						"CONNECT",
+						"TRACE",
+						"PUT",
+						"POST",
+						"OPTIONS",
+						"DELETE",
+						"HEAD"
+					]
+				},
+				{
+					"type": "pathMatch",
+					"positiveMatch": true,
+					"value": [
+						"/H",
+						"/O",
+						"/Li",
+						"/He"
+					]
+				},
+				{
+					"type": "extensionMatch",
+					"positiveMatch": true,
+					"value": [
+						"Li",
+						"He",
+						"H"
+					],
+					"valueCase": true,
+					"valueWildcard": true
+				}
+			],
+			"description": "Can I create all conditions?",
+			"id": 60036360,
+			"name": "Existing Test Rule 1",
+			"ruleActivated": false,
+			"structured": true,
+			"tag": [
+				"test"
+			],
+			"version": 1
+		},
+		{
+			"conditions": [
+				{
+					"type": "requestMethodMatch",
+					"positiveMatch": true,
+					"value": [
+						"GET",
+						"CONNECT",
+						"TRACE",
+						"PUT",
+						"POST",
+						"OPTIONS",
+						"DELETE",
+						"HEAD"
+					]
+				},
+				{
+					"type": "pathMatch",
+					"positiveMatch": true,
+					"value": [
+						"/H",
+						"/O",
+						"/Li",
+						"/He"
+					]
+				},
+				{
+					"type": "extensionMatch",
+					"positiveMatch": true,
+					"value": [
+						"Li",
+						"He",
+						"H"
+					],
+					"valueCase": true,
+					"valueWildcard": true
+				}
+			],
+			"description": "Can I create all conditions?",
+			"id": 60039893,
+			"name": "Fat Rule 1",
+			"ruleActivated": false,
+			"structured": true,
+			"tag": [
+				"test"
+			],
+			"version": 1
+		},
+		{
+			"conditions": [
+				{
+					"type": "requestMethodMatch",
+					"positiveMatch": true,
+					"value": [
+						"GET",
+						"CONNECT",
+						"TRACE",
+						"PUT",
+						"POST",
+						"OPTIONS",
+						"DELETE",
+						"HEAD"
+					]
+				},
+				{
+					"type": "pathMatch",
+					"positiveMatch": true,
+					"value": [
+						"/H",
+						"/O",
+						"/Li",
+						"/He"
+					]
+				},
+				{
+					"type": "extensionMatch",
+					"positiveMatch": true,
+					"value": [
+						"Li",
+						"He",
+						"H"
+					],
+					"valueCase": true,
+					"valueWildcard": true
+				}
+			],
+			"description": "Can I create all conditions?",
+			"id": 60039068,
+			"name": "Fat Rule 1",
+			"ruleActivated": false,
+			"structured": true,
+			"tag": [
+				"test"
+			],
+			"version": 1
+		},
+		{
+			"conditions": [
+				{
+					"type": "requestMethodMatch",
+					"positiveMatch": true,
+					"value": [
+						"GET",
+						"CONNECT",
+						"TRACE",
+						"PUT",
+						"POST",
+						"OPTIONS",
+						"DELETE",
+						"HEAD"
+					]
+				},
+				{
+					"type": "pathMatch",
+					"positiveMatch": true,
+					"value": [
+						"/H",
+						"/O",
+						"/Li",
+						"/He"
+					]
+				},
+				{
+					"type": "extensionMatch",
+					"positiveMatch": true,
+					"value": [
+						"Li",
+						"He",
+						"H"
+					],
+					"valueCase": true,
+					"valueWildcard": true
+				}
+			],
+			"description": "Can I create all conditions?",
+			"id": 60036370,
+			"name": "Existing Test Rule 1",
+			"ruleActivated": false,
+			"structured": true,
+			"tag": [
+				"test"
+			],
+			"version": 1
+		},
+		{
+			"conditions": [
+				{
+					"type": "requestMethodMatch",
+					"positiveMatch": true,
+					"value": [
+						"GET",
+						"CONNECT",
+						"TRACE",
+						"PUT",
+						"POST",
+						"OPTIONS",
+						"DELETE",
+						"HEAD"
+					]
+				},
+				{
+					"type": "pathMatch",
+					"positiveMatch": true,
+					"value": [
+						"/H",
+						"/O",
+						"/Li",
+						"/He"
+					]
+				},
+				{
+					"type": "extensionMatch",
+					"positiveMatch": true,
+					"value": [
+						"Li",
+						"He",
+						"H"
+					],
+					"valueCase": true,
+					"valueWildcard": true
+				}
+			],
+			"description": "Can I create all conditions?",
+			"id": 60036213,
+			"name": "Existing Test Rule 1",
+			"ruleActivated": false,
+			"structured": true,
+			"tag": [
+				"test"
+			],
+			"version": 1
+		},
+		{
+			"conditions": [
+				{
+					"type": "requestMethodMatch",
+					"positiveMatch": true,
+					"value": [
+						"GET",
+						"CONNECT",
+						"TRACE",
+						"PUT",
+						"POST",
+						"OPTIONS",
+						"DELETE",
+						"HEAD"
+					]
+				},
+				{
+					"type": "pathMatch",
+					"positiveMatch": true,
+					"value": [
+						"/H",
+						"/O",
+						"/Li",
+						"/He"
+					]
+				},
+				{
+					"type": "extensionMatch",
+					"positiveMatch": true,
+					"value": [
+						"Li",
+						"He",
+						"H"
+					],
+					"valueCase": true,
+					"valueWildcard": true
+				}
+			],
+			"description": "Can I create all conditions?",
+			"id": 60035868,
+			"name": "Fat Rule 1",
+			"ruleActivated": false,
+			"structured": true,
+			"tag": [
+				"test"
+			],
+			"version": 1
+		},
+		{
+			"conditions": [
+				{
+					"type": "requestMethodMatch",
+					"positiveMatch": true,
+					"value": [
+						"GET",
+						"CONNECT",
+						"TRACE",
+						"PUT",
+						"POST",
+						"OPTIONS",
+						"DELETE",
+						"HEAD"
+					]
+				},
+				{
+					"type": "pathMatch",
+					"positiveMatch": true,
+					"value": [
+						"/H",
+						"/O",
+						"/Li",
+						"/He"
+					]
+				},
+				{
+					"type": "extensionMatch",
+					"positiveMatch": true,
+					"value": [
+						"Li",
+						"He",
+						"H"
+					],
+					"valueCase": true,
+					"valueWildcard": true
+				}
+			],
+			"description": "Can I create all conditions?",
+			"id": 60036115,
+			"name": "Fat Rule 1",
+			"ruleActivated": false,
+			"structured": true,
+			"tag": [
+				"test"
+			],
+			"version": 1
+		},
+		{
+			"conditions": [
+				{
+					"type": "requestMethodMatch",
+					"positiveMatch": true,
+					"value": [
+						"GET",
+						"CONNECT",
+						"TRACE",
+						"PUT",
+						"POST",
+						"OPTIONS",
+						"DELETE",
+						"HEAD"
+					]
+				},
+				{
+					"type": "pathMatch",
+					"positiveMatch": true,
+					"value": [
+						"/H",
+						"/O",
+						"/Li",
+						"/He"
+					]
+				},
+				{
+					"type": "extensionMatch",
+					"positiveMatch": true,
+					"value": [
+						"Li",
+						"He",
+						"H"
+					],
+					"valueCase": true,
+					"valueWildcard": true
+				}
+			],
+			"description": "Can I create all conditions?",
+			"id": 60036134,
+			"name": "Fat Rule 1",
+			"ruleActivated": false,
+			"structured": true,
+			"tag": [
+				"test"
+			],
+			"version": 1
+		},
+		{
+			"conditions": [
+				{
+					"type": "requestMethodMatch",
+					"positiveMatch": true,
+					"value": [
+						"GET",
+						"CONNECT",
+						"TRACE",
+						"PUT",
+						"POST",
+						"OPTIONS",
+						"DELETE",
+						"HEAD"
+					]
+				},
+				{
+					"type": "pathMatch",
+					"positiveMatch": true,
+					"value": [
+						"/H",
+						"/O",
+						"/Li",
+						"/He"
+					]
+				},
+				{
+					"type": "extensionMatch",
+					"positiveMatch": true,
+					"value": [
+						"Li",
+						"He",
+						"H"
+					],
+					"valueCase": true,
+					"valueWildcard": true
+				}
+			],
+			"description": "Can I create all conditions?",
+			"id": 60036188,
+			"name": "Fat Rule 1",
+			"ruleActivated": false,
+			"structured": true,
+			"tag": [
+				"test"
+			],
+			"version": 1
+		},
+		{
+			"conditions": [
+				{
+					"type": "requestMethodMatch",
+					"positiveMatch": true,
+					"value": [
+						"GET",
+						"CONNECT",
+						"TRACE",
+						"PUT",
+						"POST",
+						"OPTIONS",
+						"DELETE",
+						"HEAD"
+					]
+				},
+				{
+					"type": "pathMatch",
+					"positiveMatch": true,
+					"value": [
+						"/H",
+						"/O",
+						"/Li",
+						"/He"
+					]
+				},
+				{
+					"type": "extensionMatch",
+					"positiveMatch": true,
+					"value": [
+						"Li",
+						"He",
+						"H"
+					],
+					"valueCase": true,
+					"valueWildcard": true
+				}
+			],
+			"description": "Can I create all conditions?",
+			"id": 60036189,
+			"name": "Fat Rule 1",
+			"ruleActivated": false,
+			"structured": true,
+			"tag": [
+				"test"
+			],
+			"version": 1
+		},
+		{
+			"conditions": [
+				{
+					"type": "requestMethodMatch",
+					"positiveMatch": true,
+					"value": [
+						"GET",
+						"CONNECT",
+						"TRACE",
+						"PUT",
+						"POST",
+						"OPTIONS",
+						"DELETE",
+						"HEAD"
+					]
+				},
+				{
+					"type": "pathMatch",
+					"positiveMatch": true,
+					"value": [
+						"/H",
+						"/O",
+						"/Li",
+						"/He"
+					]
+				},
+				{
+					"type": "extensionMatch",
+					"positiveMatch": true,
+					"value": [
+						"Li",
+						"He",
+						"H"
+					],
+					"valueCase": true,
+					"valueWildcard": true
+				}
+			],
+			"description": "Can I create all conditions?",
+			"id": 60036374,
+			"name": "Existing Test Rule 1",
+			"ruleActivated": false,
+			"structured": true,
+			"tag": [
+				"test"
+			],
+			"version": 1
+		},
+		{
+			"conditions": [
+				{
+					"type": "requestMethodMatch",
+					"positiveMatch": true,
+					"value": [
+						"GET",
+						"CONNECT",
+						"TRACE",
+						"PUT",
+						"POST",
+						"OPTIONS",
+						"DELETE",
+						"HEAD"
+					]
+				},
+				{
+					"type": "pathMatch",
+					"positiveMatch": true,
+					"value": [
+						"/H",
+						"/O",
+						"/Li",
+						"/He"
+					]
+				},
+				{
+					"type": "extensionMatch",
+					"positiveMatch": true,
+					"value": [
+						"Li",
+						"He",
+						"H"
+					],
+					"valueCase": true,
+					"valueWildcard": true
+				}
+			],
+			"description": "Can I create all conditions?",
+			"id": 60036377,
+			"name": "Existing Test Rule 1",
+			"ruleActivated": false,
+			"structured": true,
+			"tag": [
+				"test"
+			],
+			"version": 1
+		},
+		{
+			"conditions": [
+				{
+					"type": "requestMethodMatch",
+					"positiveMatch": true,
+					"value": [
+						"GET",
+						"CONNECT",
+						"TRACE",
+						"PUT",
+						"POST",
+						"OPTIONS",
+						"DELETE",
+						"HEAD"
+					]
+				},
+				{
+					"type": "pathMatch",
+					"positiveMatch": true,
+					"value": [
+						"/H",
+						"/O",
+						"/Li",
+						"/He"
+					]
+				},
+				{
+					"type": "extensionMatch",
+					"positiveMatch": true,
+					"value": [
+						"Li",
+						"He",
+						"H"
+					],
+					"valueCase": true,
+					"valueWildcard": true
+				}
+			],
+			"description": "Can I create all conditions?",
+			"id": 60036190,
+			"name": "Fat Rule 1",
+			"ruleActivated": false,
+			"structured": true,
+			"tag": [
+				"test"
+			],
+			"version": 1
+		},
+		{
+			"conditions": [
+				{
+					"type": "requestMethodMatch",
+					"positiveMatch": true,
+					"value": [
+						"GET",
+						"CONNECT",
+						"TRACE",
+						"PUT",
+						"POST",
+						"OPTIONS",
+						"DELETE",
+						"HEAD"
+					]
+				},
+				{
+					"type": "pathMatch",
+					"positiveMatch": true,
+					"value": [
+						"/H",
+						"/O",
+						"/Li",
+						"/He"
+					]
+				},
+				{
+					"type": "extensionMatch",
+					"positiveMatch": true,
+					"value": [
+						"Li",
+						"He",
+						"H"
+					],
+					"valueCase": true,
+					"valueWildcard": true
+				}
+			],
+			"description": "Can I create all conditions?",
+			"id": 60038316,
+			"name": "Fat Rule 1",
+			"ruleActivated": false,
+			"structured": true,
+			"tag": [
+				"test"
+			],
+			"version": 1
+		},
+		{
+			"conditions": [
+				{
+					"type": "requestMethodMatch",
+					"positiveMatch": true,
+					"value": [
+						"GET",
+						"CONNECT",
+						"TRACE",
+						"PUT",
+						"POST",
+						"OPTIONS",
+						"DELETE",
+						"HEAD"
+					]
+				},
+				{
+					"type": "pathMatch",
+					"positiveMatch": true,
+					"value": [
+						"/H",
+						"/O",
+						"/Li",
+						"/He"
+					]
+				},
+				{
+					"type": "extensionMatch",
+					"positiveMatch": true,
+					"value": [
+						"Li",
+						"He",
+						"H"
+					],
+					"valueCase": true,
+					"valueWildcard": true
+				}
+			],
+			"description": "Can I create all conditions?",
+			"id": 60038317,
+			"name": "Fat Rule 1",
+			"ruleActivated": false,
+			"structured": true,
+			"tag": [
+				"test"
+			],
+			"version": 1
+		},
+		{
+			"conditions": [
+				{
+					"type": "requestMethodMatch",
+					"positiveMatch": true,
+					"value": [
+						"GET",
+						"CONNECT",
+						"TRACE",
+						"PUT",
+						"POST",
+						"OPTIONS",
+						"DELETE",
+						"HEAD"
+					]
+				},
+				{
+					"type": "pathMatch",
+					"positiveMatch": true,
+					"value": [
+						"/H",
+						"/O",
+						"/Li",
+						"/He"
+					]
+				},
+				{
+					"type": "extensionMatch",
+					"positiveMatch": true,
+					"value": [
+						"Li",
+						"He",
+						"H"
+					],
+					"valueCase": true,
+					"valueWildcard": true
+				}
+			],
+			"description": "Can I create all conditions?",
+			"id": 60036195,
+			"name": "Fat Rule 1",
+			"ruleActivated": false,
+			"structured": true,
+			"tag": [
+				"test"
+			],
+			"version": 1
+		},
+		{
+			"conditions": [
+				{
+					"type": "requestMethodMatch",
+					"positiveMatch": true,
+					"value": [
+						"GET",
+						"CONNECT",
+						"TRACE",
+						"PUT",
+						"POST",
+						"OPTIONS",
+						"DELETE",
+						"HEAD"
+					]
+				},
+				{
+					"type": "pathMatch",
+					"positiveMatch": true,
+					"value": [
+						"/H",
+						"/O",
+						"/Li",
+						"/He"
+					]
+				},
+				{
+					"type": "extensionMatch",
+					"positiveMatch": true,
+					"value": [
+						"Li",
+						"He",
+						"H"
+					],
+					"valueCase": true,
+					"valueWildcard": true
+				}
+			],
+			"description": "Can I create all conditions?",
+			"id": 60036330,
+			"name": "Existing Test Rule 1",
+			"ruleActivated": false,
+			"structured": true,
+			"tag": [
+				"test"
+			],
+			"version": 1
+		},
+		{
+			"conditions": [
+				{
+					"type": "requestMethodMatch",
+					"positiveMatch": true,
+					"value": [
+						"GET",
+						"CONNECT",
+						"TRACE",
+						"PUT",
+						"POST",
+						"OPTIONS",
+						"DELETE",
+						"HEAD"
+					]
+				},
+				{
+					"type": "pathMatch",
+					"positiveMatch": true,
+					"value": [
+						"/H",
+						"/O",
+						"/Li",
+						"/He"
+					]
+				},
+				{
+					"type": "extensionMatch",
+					"positiveMatch": true,
+					"value": [
+						"Li",
+						"He",
+						"H"
+					],
+					"valueCase": true,
+					"valueWildcard": true
+				}
+			],
+			"description": "Can I create all conditions?",
+			"id": 60036209,
+			"name": "Existing Test Rule 1",
+			"ruleActivated": false,
+			"structured": true,
+			"tag": [
+				"test"
+			],
+			"version": 1
+		},
+		{
+			"conditions": [
+				{
+					"type": "requestMethodMatch",
+					"positiveMatch": true,
+					"value": [
+						"GET",
+						"CONNECT",
+						"TRACE",
+						"PUT",
+						"POST",
+						"OPTIONS",
+						"DELETE",
+						"HEAD"
+					]
+				},
+				{
+					"type": "pathMatch",
+					"positiveMatch": true,
+					"value": [
+						"/H",
+						"/O",
+						"/Li",
+						"/He"
+					]
+				},
+				{
+					"type": "extensionMatch",
+					"positiveMatch": true,
+					"value": [
+						"Li",
+						"He",
+						"H"
+					],
+					"valueCase": true,
+					"valueWildcard": true
+				}
+			],
+			"description": "Can I create all conditions?",
+			"id": 60036192,
+			"name": "Fat Rule 1",
+			"ruleActivated": false,
+			"structured": true,
+			"tag": [
+				"test"
+			],
+			"version": 1
+		},
+		{
+			"conditions": [
+				{
+					"type": "requestMethodMatch",
+					"positiveMatch": true,
+					"value": [
+						"GET",
+						"CONNECT",
+						"TRACE",
+						"PUT",
+						"POST",
+						"OPTIONS",
+						"DELETE",
+						"HEAD"
+					]
+				},
+				{
+					"type": "pathMatch",
+					"positiveMatch": true,
+					"value": [
+						"/H",
+						"/O",
+						"/Li",
+						"/He"
+					]
+				},
+				{
+					"type": "extensionMatch",
+					"positiveMatch": true,
+					"value": [
+						"Li",
+						"He",
+						"H"
+					],
+					"valueCase": true,
+					"valueWildcard": true
+				}
+			],
+			"description": "Can I create all conditions?",
+			"id": 60038318,
+			"name": "Fat Rule 1",
+			"ruleActivated": false,
+			"structured": true,
+			"tag": [
+				"test"
+			],
+			"version": 1
+		},
+		{
+			"conditions": [
+				{
+					"type": "requestMethodMatch",
+					"positiveMatch": true,
+					"value": [
+						"GET",
+						"CONNECT",
+						"TRACE",
+						"PUT",
+						"POST",
+						"OPTIONS",
+						"DELETE",
+						"HEAD"
+					]
+				},
+				{
+					"type": "pathMatch",
+					"positiveMatch": true,
+					"value": [
+						"/H",
+						"/O",
+						"/Li",
+						"/He"
+					]
+				},
+				{
+					"type": "extensionMatch",
+					"positiveMatch": true,
+					"value": [
+						"Li",
+						"He",
+						"H"
+					],
+					"valueCase": true,
+					"valueWildcard": true
+				}
+			],
+			"description": "Can I create all conditions?",
+			"id": 60038315,
+			"name": "Fat Rule 1",
+			"ruleActivated": false,
+			"structured": true,
+			"tag": [
+				"test"
+			],
+			"version": 1
+		},
+		{
+			"conditions": [
+				{
+					"type": "requestMethodMatch",
+					"positiveMatch": true,
+					"value": [
+						"GET",
+						"CONNECT",
+						"TRACE",
+						"PUT",
+						"POST",
+						"OPTIONS",
+						"DELETE",
+						"HEAD"
+					]
+				},
+				{
+					"type": "pathMatch",
+					"positiveMatch": true,
+					"value": [
+						"/H",
+						"/O",
+						"/Li",
+						"/He"
+					]
+				},
+				{
+					"type": "extensionMatch",
+					"positiveMatch": true,
+					"value": [
+						"Li",
+						"He",
+						"H"
+					],
+					"valueCase": true,
+					"valueWildcard": true
+				}
+			],
+			"description": "Can I create all conditions?",
+			"id": 60039625,
+			"name": "Fat Rule 1",
+			"ruleActivated": false,
+			"structured": true,
+			"tag": [
+				"test"
+			],
+			"version": 1
+		},
+		{
+			"conditions": [
+				{
+					"type": "requestMethodMatch",
+					"positiveMatch": true,
+					"value": [
+						"GET",
+						"CONNECT",
+						"TRACE",
+						"PUT",
+						"POST",
+						"OPTIONS",
+						"DELETE",
+						"HEAD"
+					]
+				},
+				{
+					"type": "pathMatch",
+					"positiveMatch": true,
+					"value": [
+						"/H",
+						"/O",
+						"/Li",
+						"/He"
+					]
+				},
+				{
+					"type": "extensionMatch",
+					"positiveMatch": true,
+					"value": [
+						"Li",
+						"He",
+						"H"
+					],
+					"valueCase": true,
+					"valueWildcard": true
+				}
+			],
+			"description": "Can I create all conditions?",
+			"id": 60038437,
+			"name": "Fat Rule 1",
+			"ruleActivated": false,
+			"structured": true,
+			"tag": [
+				"test"
+			],
+			"version": 1
+		},
+		{
+			"conditions": [
+				{
+					"type": "requestMethodMatch",
+					"positiveMatch": true,
+					"value": [
+						"GET",
+						"CONNECT",
+						"TRACE",
+						"PUT",
+						"POST",
+						"OPTIONS",
+						"DELETE",
+						"HEAD"
+					]
+				},
+				{
+					"type": "pathMatch",
+					"positiveMatch": true,
+					"value": [
+						"/H",
+						"/O",
+						"/Li",
+						"/He"
+					]
+				},
+				{
+					"type": "extensionMatch",
+					"positiveMatch": true,
+					"value": [
+						"Li",
+						"He",
+						"H"
+					],
+					"valueCase": true,
+					"valueWildcard": true
+				}
+			],
+			"description": "Can I create all conditions?",
+			"id": 60039430,
+			"name": "Fat Rule 1",
+			"ruleActivated": false,
+			"structured": true,
+			"tag": [
+				"test"
+			],
+			"version": 1
+		},
+		{
+			"conditions": [
+				{
+					"type": "requestMethodMatch",
+					"positiveMatch": true,
+					"value": [
+						"GET",
+						"CONNECT",
+						"TRACE",
+						"PUT",
+						"POST",
+						"OPTIONS",
+						"DELETE",
+						"HEAD"
+					]
+				},
+				{
+					"type": "pathMatch",
+					"positiveMatch": true,
+					"value": [
+						"/H",
+						"/Li",
+						"/He"
+					]
+				},
+				{
+					"type": "extensionMatch",
+					"positiveMatch": true,
+					"value": [
+						"Li",
+						"He",
+						"H"
+					],
+					"valueCase": true,
+					"valueWildcard": true
+				}
+			],
+			"description": "Can I create all conditions?",
+			"id": 60036378,
+			"name": "Existing Test Rule",
+			"ruleActivated": false,
+			"structured": true,
+			"tag": [
+				"test"
+			],
+			"version": 1
+		}
+	],
+	"rulesets": [],
+	"matchTargets": {
+		"websiteTargets": [
+			{
+				"type": "website",
+				"defaultFile": "NO_MATCH",
+				"effectiveSecurityControls": {
+					"applyApplicationLayerControls": false,
+					"applyNetworkLayerControls": true,
+					"applyRateControls": true,
+					"applyReputationControls": true,
+					"applySlowPostControls": true
+				},
+				"fileExtensions": [
+					"carb",
+					"pct",
+					"pdf",
+					"swf",
+					"cct",
+					"jpeg",
+					"js",
+					"wmls",
+					"hdml",
+					"pws"
+				],
+				"filePaths": [
+					"/cache/aaabbc*",
+					"/price_toy/*",
+					"/sssi/*"
+				],
+				"hostnames": [
+					"n.example.com",
+					"www.example.net",
+					"example.com"
+				],
+				"id": 3008967,
+				"isNegativeFileExtensionMatch": true,
+				"isNegativePathMatch": false,
+				"securityPolicy": {
+					"policyId": "AAAA_81230"
+				},
+				"sequence": 1
+			}
+		]
+	},
+	"securityPolicies": [
+		{
+			"id": "AAAA_81230",
+			"name": "akamaitools",
+			"hasRatePolicyWithApiKey": false,
+			"securityControls": {
+				"applyApiConstraints": true,
+				"applyApplicationLayerControls": false,
+				"applyBotmanControls": true,
+				"applyNetworkLayerControls": true,
+				"applyRateControls": true,
+				"applyReputationControls": true,
+				"applySlowPostControls": true
+			},
+			"webApplicationFirewall": {
+				"ruleActions": [
+					{
+						"action": "alert",
+						"id": 950002,
+						"rulesetVersionId": 7392
+					},
+					{
+						"action": "alert",
+						"id": 950006,
+						"rulesetVersionId": 7392
+					}
+				],
+				"attackGroupActions": [
+					{
+						"action": "alert",
+						"group": "POLICY",
+						"rulesetVersionId": 7392
+					},
+					{
+						"action": "alert",
+						"group": "WAT",
+						"rulesetVersionId": 7392
+					},
+					{
+						"action": "alert",
+						"group": "PROTOCOL",
+						"rulesetVersionId": 7392
+					},
+					{
+						"action": "alert",
+						"group": "SQL",
+						"rulesetVersionId": 7392
+					},
+					{
+						"action": "alert",
+						"group": "XSS",
+						"rulesetVersionId": 7392,
+						"exception": {
+							"specificHeaderCookieParamXmlOrJsonNames": [
+								{
+									"names": [
+										"ASE-Manual-EVAL-HEADER"
+									],
+									"selector": "REQUEST_HEADERS"
+								}
+							]
+						}
+					},
+					{
+						"action": "alert",
+						"group": "CMD",
+						"rulesetVersionId": 7392
+					},
+					{
+						"action": "alert",
+						"group": "LFI",
+						"rulesetVersionId": 7392,
+						"exception": {
+							"specificHeaderCookieParamXmlOrJsonNames": [
+								{
+									"names": [
+										"ASE-Manual-Active-COOKIES"
+									],
+									"selector": "REQUEST_COOKIES",
+									"wildcard": true
+								}
+							]
+						}
+					},
+					{
+						"action": "alert",
+						"group": "RFI",
+						"rulesetVersionId": 7392
+					},
+					{
+						"action": "alert",
+						"group": "PLATFORM",
+						"rulesetVersionId": 7392
+					}
+				],
+				"evaluation": {
+					"attackGroupActions": [
+						{
+							"action": "alert",
+							"group": "POLICY"
+						},
+						{
+							"action": "alert",
+							"group": "WAT"
+						},
+						{
+							"action": "alert",
+							"group": "PROTOCOL"
+						},
+						{
+							"action": "alert",
+							"group": "SQL"
+						},
+						{
+							"action": "alert",
+							"group": "XSS"
+						},
+						{
+							"action": "deny",
+							"group": "CMD"
+						},
+						{
+							"action": "alert",
+							"group": "LFI"
+						},
+						{
+							"action": "alert",
+							"group": "RFI"
+						},
+						{
+							"action": "alert",
+							"group": "PLATFORM"
+						}
+					],
+					"evaluationId": 13904,
+					"evaluationVersion": 1,
+					"ruleActions": [
+						{
+							"action": "alert",
+							"id": 950002
+						},
+						{
+							"action": "alert",
+							"id": 950006
+						}
+					],
+					"rulesetVersionId": 7592
+				},
+				"threatIntel": "on"
+			},
+			"apiRequestConstraints": {
+				"apiEndpoints": []
+			},
+			"ipGeoFirewall": {
+				"block": "blockSpecificIPGeo"
+			},
+			"penaltyBoxConditions": {
+				"conditionOperator": "AND",
+				"conditions": [
+					{
+						"type": "filenameMatch",
+						"filenames": [
+							"appptest45"
+						],
+						"positiveMatch": true
+					}
+				]
+			},
+			"evaluationPenaltyBoxConditions": {
+				"conditionOperator": "AND",
+				"conditions": [
+					{
+						"type": "filenameMatch",
+						"filenames": [
+							"appptest46"
+						],
+						"positiveMatch": true
+					}
+				]
+			},
+			"slowPost": {
+				"action": "alert",
+				"slowRateThreshold": {
+					"period": 60,
+					"rate": 10
+				}
+			},
+			"accountProtection": {
+                "generalSettings": {
+                    "accountProtection": true,
+                    "originSignalHeader": true,
+                    "usernameInRequestHeader": false,
+                    "originUserIdInRequestHeader": false
+                },
+                "transactionalEndpoints": [
+                    {
+                        "operationId": "c2b20de9-bb2e-4da8-ac99-f5b6e9ae4e10",
+                        "apiEndPointId": 650201,
+                        "telemetryTypeStates": {
+                            "standard": {
+                                "enabled": true,
+                                "disabledAction": "monitor",
+                                "ajaxSupportEnabled": false
+                            },
+                            "inline": {
+                                "enabled": false,
+                                "disabledAction": "none",
+                                "ajaxSupportEnabled": false
+                            },
+                            "nativeSdk": {
+                                "enabled": false,
+                                "disabledAction": "none",
+                                "ajaxSupportEnabled": false
+                            }
+                        },
+                        "traffic": {
+                            "standard": {
+                                "overrideThresholds": true,
+                                "cautious": {
+                                "threshold": 22,
+                                "action": "monitor"
+                                },
+                                "strict": {
+                                "threshold": 51,
+                                "action": "deny"
+                                },
+                                "aggressive": {
+                                "threshold": 76,
+                                "action": "monitor"
+                                }
+                            },
+                            "inline": {
+                                "overrideThresholds": false,
+                                "cautious": {
+                                "action": "monitor"
+                                },
+                                "strict": {
+                                "action": "monitor"
+                                },
+                                "aggressive": {
+                                "action": "monitor"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+			"botManagement": {
+				"akamaiBotCategoryActions": [
+					{
+						"categoryId": "0b116152-1d20-4715-8fa7-dcacb1c697e2",
+						"primitiveKey": "primitiveValueA",
+						"arrayKey": [
+							"arrayValueA1",
+							"arrayValueA2"
+						],
+						"objectKey": {
+							"innerKey": "innerValueA"
+						}
+					},
+					{
+						"categoryId": "da0596ba-2379-4657-9b84-79b460d66070",
+						"primitiveKey": "primitiveValueB",
+						"arrayKey": [
+							"arrayValueB1",
+							"arrayValueB2"
+						],
+						"objectKey": {
+							"innerKey": "innerValueB"
+						}
+					}
+				],
+				"botDetectionActions": [
+					{
+						"detectionId": "179e6bd6-5077-4f22-9a5b-3b09ee731eca",
+						"primitiveKey": "primitiveValueA",
+						"arrayKey": [
+							"arrayValueA1",
+							"arrayValueA2"
+						],
+						"objectKey": {
+							"innerKey": "innerValueA"
+						}
+					},
+					{
+						"detectionId": "c4d20de1-af7a-476f-911d-73aedd97e294",
+						"primitiveKey": "primitiveValueB",
+						"arrayKey": [
+							"arrayValueB1",
+							"arrayValueB2"
+						],
+						"objectKey": {
+							"innerKey": "innerValueB"
+						}
+					}
+				],
+				"botManagementSettings": {
+					"primitiveKey": "primitiveValueA",
+					"arrayKey": [
+						"arrayValueA1",
+						"arrayValueA2"
+					],
+					"objectKey": {
+						"innerKey": "innerValueA"
+					}
+				},
+				"customBotCategoryActions": [
+					{
+						"categoryId": "dae597b8-b552-4c95-ab8b-066a3fef2f75",
+						"primitiveKey": "primitiveValueA",
+						"arrayKey": [
+							"arrayValueA1",
+							"arrayValueA2"
+						],
+						"objectKey": {
+							"innerKey": "innerValueA"
+						}
+					},
+					{
+						"categoryId": "c3362371-4b98-40fe-a7b9-cd7fab93eec5",
+						"primitiveKey": "primitiveValueB",
+						"arrayKey": [
+							"arrayValueB1",
+							"arrayValueB2"
+						],
+						"objectKey": {
+							"innerKey": "innerValueB"
+						}
+					}
+				],
+				"javascriptInjectionRules": {
+					"primitiveKey": "primitiveValueA",
+					"arrayKey": [
+						"arrayValueA1",
+						"arrayValueA2"
+					],
+					"objectKey": {
+						"innerKey": "innerValueA"
+					}
+				},
+				"transactionalEndpoints": {
+					"botProtection": [
+						{
+							"operationId": "061429d0-a709-418e-9311-1c3b4ee28792",
+							"primitiveKey": "primitiveValueA",
+							"arrayKey": [
+								"arrayValueA1",
+								"arrayValueA2"
+							],
+							"objectKey": {
+								"innerKey": "innerValueA"
+							}
+						},
+						{
+							"operationId": "c2b20de9-bb2e-4da8-ac99-f5b6e9ae4e10",
+							"primitiveKey": "primitiveValueB",
+							"arrayKey": [
+								"arrayValueB1",
+								"arrayValueB2"
+							],
+							"objectKey": {
+								"innerKey": "innerValueB"
+							}
+						}
+					],
+					"botProtectionExceptions": {
+						"primitiveKey": "primitiveValueA",
+						"arrayKey": [
+							"arrayValueA1",
+							"arrayValueA2"
+						],
+						"objectKey": {
+							"innerKey": "innerValueA"
+						}
+					}
+				},
+				"contentProtectionRules": [
+					{
+						"contentProtectionRuleId": "fakeba52-5c9e-4aa0-b5f7-5b88601d0d76",
+						"contentProtectionRuleName": "New Rule",
+						"primitiveKey": "primitiveValueA",
+						"arrayKey": [
+							"arrayValueA1",
+							"arrayValueA2"
+						],
+						"objectKey": {
+							"innerKey": "innerValueA"
+						}
+					}
+				],
+				"contentProtectionRuleSequence": [
+					"fakeba52-5c9e-4aa0-b5f7-5b88601d0d76"
+				],
+				"contentProtectionJavaScriptInjectionRules": [
+					{
+						"contentProtectionJavaScriptInjectionRuleId": "fakeb37c-15ce-4ec8-ad99-0252d8a4580b",
+						"contentProtectionJavaScriptInjectionRuleName": "New Injection Rule",
+						"primitiveKey": "primitiveValueA",
+						"arrayKey": [
+							"arrayValueA1",
+							"arrayValueA2"
+						],
+						"objectKey": {
+							"innerKey": "innerValueA"
+						}
+					}
+				]
+			},
+			"RequestBody": {
+				"requestBodyInspectionLimitInKB" : "8"
+			}
+		}
+	],
+	"advancedOptions": {
+		"attackPayloadLogging": {
+			"enabled": true,
+			"requestBody": {
+				"type": "NONE"
+			},
+			"responseBody": {
+				"type": "ATTACK_PAYLOAD"
+			}
+		},
+		"logging": {
+			"allowSampling": true,
+			"cookies": {
+				"type": "all"
+			},
+			"customHeaders": {
+				"type": "all"
+			},
+			"standardHeaders": {
+				"type": "all"
+			}
+		},
+		"prefetch": {
+			"allExtensions": false,
+			"enableAppLayer": true,
+			"enableRateControls": false,
+			"extensions": [
+				"cgi",
+				"jsp",
+				"aspx",
+				"EMPTY_STRING",
+				"php",
+				"py",
+				"asp"
+			]
+		}
+	},
+	"customDenyList": [],
+	"advancedSettings": {
+		"botAnalyticsCookieSettings": {
+			"primitiveKey": "primitiveValueA",
+			"arrayKey": [
+				"arrayValueA1",
+				"arrayValueA2"
+			],
+			"objectKey": {
+				"innerKey": "innerValueA"
+			}
+		},
+		"clientSideSecuritySettings": {
+			"primitiveKey": "primitiveValueA",
+			"arrayKey": [
+				"arrayValueA1",
+				"arrayValueA2"
+			],
+			"objectKey": {
+				"innerKey": "innerValueA"
+			}
+		},
+		"transactionalEndpointProtectionSettings": {
+			"primitiveKey": "primitiveValueA",
+			"arrayKey": [
+				"arrayValueA1",
+				"arrayValueA2"
+			],
+			"objectKey": {
+				"innerKey": "innerValueA"
+			}
+		},
+		"userRiskResponseStrategySettings": {
+            "traffic": {
+                "standard": {
+                    "cautious": {
+                        "threshold": 0
+                    },
+                    "strict": {
+                        "threshold": 51
+                    },
+                    "aggressive": {
+                        "threshold": 76
+                    }
+                },
+                "inline": {
+                    "cautious": {
+                        "threshold": 0
+                    },
+                    "strict": {
+                        "threshold": 51
+                    },
+                    "aggressive": {
+                        "threshold": 76
+                    }
+                },
+                "nativeSdkIos": {
+                    "cautious": {
+                        "threshold": 0
+                    },
+                    "strict": {
+                        "threshold": 51
+                    },
+                    "aggressive": {
+                        "threshold": 76
+                    }
+                },
+                "nativeSdkAndroid": {
+                    "cautious": {
+                        "threshold": 0
+                    },
+                    "strict": {
+                        "threshold": 51
+                    },
+                    "aggressive": {
+                        "threshold": 76
+                    }
+                }
+            }
+        },
+        "userAllowListIdSettings": {
+            "userAllowListId": "82004_APRE2ENLDONOTDELETE"
+        }
+	},
+	"customBotCategories": [
+		{
+			"categoryId": "dae597b8-b552-4c95-ab8b-066a3fef2f75",
+			"categoryName": "category a",
+			"metadata": {
+				"akamaiDefinedBotIds": [
+					"eceac3f9-871b-4c57-9a24-c25b0237949a",
+					"c590d2e5-a041-4f05-8fda-71608f42d720"
+				],
+				"someKey": "someValue"
+			},
+			"ruleId": "RULE_ID_B",
+			"primitiveKey": "primitiveValueA",
+			"arrayKey": [
+				"arrayValueA1",
+				"arrayValueA2"
+			],
+			"objectKey": {
+				"innerKey": "innerValueA"
+			}
+		},
+		{
+			"categoryId": "c3362371-4b98-40fe-a7b9-cd7fab93eec5",
+			"categoryName": "category b",
+			"metadata": {
+				"someKey": "someValue"
+			},
+			"ruleId": "RULE_ID_B",
+			"primitiveKey": "primitiveValueB",
+			"arrayKey": [
+				"arrayValueB1",
+				"arrayValueB2"
+			],
+			"objectKey": {
+				"innerKey": "innerValueB"
+			}
+		}
+	],
+	"customBotCategorySequence": [
+		"c3362371-4b98-40fe-a7b9-cd7fab93eec5",
+		"dae597b8-b552-4c95-ab8b-066a3fef2f75"
+	],
+	"customClients": [
+		{
+			"customClientId": "a7fe489d-0354-43bd-b81c-8cabbe850cdd",
+			"customClientName": "Custom Client A",
+			"primitiveKey": "primitiveValueA",
+			"arrayKey": [
+				"arrayValueA1",
+				"arrayValueA2"
+			],
+			"objectKey": {
+				"innerKey": "innerValueA"
+			}
+		},
+		{
+			"customClientId": "60374346-2d1d-444d-91c1-90373e3f804a",
+			"customClientName": "Custom Client B",
+			"primitiveKey": "primitiveValueB",
+			"arrayKey": [
+				"arrayValueB1",
+				"arrayValueB2"
+			],
+			"objectKey": {
+				"innerKey": "innerValueB"
+			}
+		}
+	],
+	"customClientSequence": [
+		"a7fe489d-0354-43bd-b81c-8cabbe850cdd",
+		"60374346-2d1d-444d-91c1-90373e3f804a"
+	],
+	"customDefinedBots": [
+		{
+			"botId": "50789280-ba99-4f8f-b4c6-ad9c1c69569a",
+			"botName": "Bot A",
+			"primitiveKey": "primitiveValueA",
+			"arrayKey": [
+				"arrayValueA1",
+				"arrayValueA2"
+			],
+			"objectKey": {
+				"innerKey": "innerValueA"
+			}
+		},
+		{
+			"botId": "da1de35e-deda-4273-933d-3131291fa3d4",
+			"botName": "Bot B",
+			"primitiveKey": "primitiveValueB",
+			"arrayKey": [
+				"arrayValueB1",
+				"arrayValueB2"
+			],
+			"objectKey": {
+				"innerKey": "innerValueB"
+			}
+		}
+	],
+	"responseActions": {
+		"challengeActions": [
+			{
+				"actionId": "action_A",
+				"actionName": "Challenge Action A",
+				"primitiveKey": "primitiveValueA",
+				"arrayKey": [
+					"arrayValueA1",
+					"arrayValueA2"
+				],
+				"objectKey": {
+					"innerKey": "innerValueA"
+				}
+			},
+			{
+				"actionId": "action_B",
+				"actionName": "Challenge Action B",
+				"primitiveKey": "primitiveValueB",
+				"arrayKey": [
+					"arrayValueB1",
+					"arrayValueB2"
+				],
+				"objectKey": {
+					"innerKey": "innerValueB"
+				}
+			}
+		],
+		"challengeInterceptionRules": {
+			"primitiveKey": "primitiveValueA",
+			"arrayKey": [
+				"arrayValueA1",
+				"arrayValueA2"
+			],
+			"objectKey": {
+				"innerKey": "innerValueA"
+			}
+		},
+		"challengeInjectionRules": {
+			"primitiveKey": "primitiveValueA",
+			"arrayKey": [
+				"arrayValueA1",
+				"arrayValueA2"
+			],
+			"objectKey": {
+				"innerKey": "innerValueA"
+			}
+		},
+		"conditionalActions": [
+			{
+				"actionId": "action_A",
+				"actionName": "Conditional Action A",
+				"primitiveKey": "primitiveValueA",
+				"arrayKey": [
+					"arrayValueA1",
+					"arrayValueA2"
+				],
+				"objectKey": {
+					"innerKey": "innerValueA"
+				}
+			},
+			{
+				"actionId": "action_B",
+				"actionName": "Conditional Action B",
+				"primitiveKey": "primitiveValueB",
+				"arrayKey": [
+					"arrayValueB1",
+					"arrayValueB2"
+				],
+				"objectKey": {
+					"innerKey": "innerValueB"
+				}
+			}
+		],
+		"serveAlternateActions": [
+			{
+				"actionId": "action_A",
+				"actionName": "Serve Alternate Action A",
+				"primitiveKey": "primitiveValueA",
+				"arrayKey": [
+					"arrayValueA1",
+					"arrayValueA2"
+				],
+				"objectKey": {
+					"innerKey": "innerValueA"
+				}
+			},
+			{
+				"actionId": "action_B",
+				"actionName": "Serve Alternate Action B",
+				"primitiveKey": "primitiveValueB",
+				"arrayKey": [
+					"arrayValueB1",
+					"arrayValueB2"
+				],
+				"objectKey": {
+					"innerKey": "innerValueB"
+				}
+			}
+		]
+	}
+}

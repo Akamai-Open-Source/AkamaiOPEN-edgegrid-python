@@ -1,0 +1,46 @@
+[
+   {
+      "contractId": "1-ABC",
+      "createdBy": "abc",
+      "createdDate": "2022-04-21T17:02:58Z",
+      "groupId": 123,
+      "latestVersion": 15,
+      "modifiedBy": "abc",
+      "modifiedDate": "2022-12-26T17:00:03Z",
+      "productId": "API_Acceleration",
+      "properties": [
+         {
+            "propertyId": 123,
+            "propertyName": "example.com"
+         },
+         {
+            "propertyId": 123,
+            "propertyName": "abc.media"
+         }
+      ],
+      "streamId": 123,
+      "streamName": "test-stream-1",
+      "streamStatus": "ACTIVATED",
+      "streamVersion": 15
+   },
+   {
+      "contractId": "1-123",
+      "createdBy": "abc",
+      "createdDate": "2023-01-03T12:44:15Z",
+      "groupId": 123,
+      "latestVersion": 1,
+      "modifiedBy": "abc",
+      "modifiedDate": "2023-01-03T12:44:15Z",
+      "productId": "Download_Delivery",
+      "properties": [
+         {
+            "propertyId": 123,
+            "propertyName": "abc"
+         }
+      ],
+      "streamId": 123,
+      "streamName": "test-stream-2",
+      "streamStatus": "INACTIVE",
+      "streamVersion": 1
+   }
+]

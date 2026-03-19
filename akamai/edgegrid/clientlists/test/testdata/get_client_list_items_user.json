@@ -1,0 +1,36 @@
+{
+    "content": [
+        {
+            "createDate": "2022-07-12T20:14:29.189+00:00",
+            "createdBy": "ccare2",
+            "createdVersion": 9,
+            "productionStatus": "INACTIVE",
+            "stagingStatus": "PENDING_ACTIVATION",
+            "tags": [],
+            "type": "USER_ID",
+            "updateDate": "2022-07-12T20:14:29.189+00:00",
+            "updatedBy": "ccare2",
+            "value": "3a453537-faa8-4525-b5db-022447bbbf2a",
+            "username": "user1"
+        },
+        {
+            "createDate": "2022-07-12T20:14:29.189+00:00",
+            "createdBy": "ccare2",
+            "createdVersion": 9,
+            "description": "Item with description, tags, expiration date",
+            "expirationDate": "2030-12-31T12:40:00.000+00:00",
+            "productionStatus": "INACTIVE",
+            "stagingStatus": "PENDING_ACTIVATION",
+            "tags": [
+                "red",
+                "green",
+                "blue"
+            ],
+            "type": "USER_ID",
+            "updateDate": "2022-07-12T20:14:29.189+00:00",
+            "updatedBy": "ccare2",
+            "value": "07e29045-7739-4bd9-8cfb-9f118e000337",
+            "username": "user2"
+        }
+    ]
+}

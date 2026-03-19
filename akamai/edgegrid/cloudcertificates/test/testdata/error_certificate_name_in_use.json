@@ -1,0 +1,9 @@
+{
+    "certificateIdentifier": "certificateName",
+    "certificateIdentifierValue": "test-cert",
+    "detail": "Certificate with {certificateName}: {test-cert} already exists with the current account Id!",
+    "instance": "/error-types/certificate-name-already-in-use?traceId=-123",
+    "status": 409,
+    "title": "Certificate name already in use.",
+    "type": "/error-types/certificate-name-already-in-use"
+}

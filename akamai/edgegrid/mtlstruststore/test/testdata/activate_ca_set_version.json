@@ -1,0 +1,93 @@
+{
+    "TestActivateCASetVersion": {
+        "202 Accepted": {
+            "httpStatus": 202,
+            "body": {
+                "activationId": 84707,
+                "activationLink": "/mtls-edge-truststore/v2/ca-sets/199/versions/1/activations/84707",
+                "caSetId": "199",
+                "caSetName": "test1",
+                "caSetLink": "/mtls-edge-truststore/v2/ca-sets/199",
+                "createdBy": "jsmith@example.com",
+                "createdDate": "2023-06-01T23:02:29.876589Z",
+                "failureReason": null,
+                "modifiedBy": null,
+                "modifiedDate": null,
+                "network": "STAGING",
+                "activationStatus": "IN_PROGRESS",
+                "activationType": "ACTIVATE",
+                "percentComplete": 0,
+                "validation": {
+                    "warnings": []
+                },
+                "version": 1,
+                "versionLink": "/mtls-edge-truststore/v2/ca-sets/199/versions/1"
+            },
+            "requestBody": {
+                "network": "PRODUCTION"
+            }
+        },
+        "202 Accepted with warning": {
+            "httpStatus": 202,
+            "body": {
+                "activationId": 84707,
+                "activationLink": "/mtls-edge-truststore/v2/ca-sets/199/versions/1/activations/84707",
+                "caSetId": "199",
+                "caSetName": "test1",
+                "caSetLink": "/mtls-edge-truststore/v2/ca-sets/199",
+                "createdBy": "jsmith@example.com",
+                "createdDate": "2023-06-01T23:02:29.876589Z",
+                "failureReason": null,
+                "modifiedBy": null,
+                "modifiedDate": null,
+                "network": "STAGING",
+                "activationStatus": "IN_PROGRESS",
+                "activationType": "ACTIVATE",
+                "percentComplete": 0,
+                "validation": {
+                    "warnings": [
+                        {
+                            "detail": "A request was submitted to activate the CA set version on production without activating on staging first. While this is allowed, it is highly recommended to first deploy the CA set version on staging network and ensure that there are no issues in serving the traffic.",
+                            "title": "Request was submitted to activate the CA set version on production without activating on staging first.",
+                            "type": "/mtls-edge-truststore/error-types/activate-version-on-production-without-activating-on-staging"
+                        }
+                    ]
+                },
+                "version": 1,
+                "versionLink": "/mtls-edge-truststore/v2/ca-sets/199/versions/1"
+            },
+            "requestBody": {
+                "network": "PRODUCTION"
+            }
+        },
+        "409 cannot be activated": {
+            "httpStatus": 409,
+            "body": {
+                "contextInfo": {
+                    "caSetId": "199",
+                    "caSetName": "DXE-5498",
+                    "network": "STAGING",
+                    "version": 1
+                },
+                "detail": "CA set version with version 1 cannot be activated as it is already active on the STAGING network.",
+                "instance": "/mtls-edge-truststore/error-types/ca-set-version-already-active-on-network/1916882c5af2b20b",
+                "status": 409,
+                "title": "CA set version cannot be activated as it is already active on the network.",
+                "type": "/mtls-edge-truststore/error-types/ca-set-version-already-active-on-network"
+            },
+            "requestBody": {
+                "network": "STAGING"
+            }
+        },
+        "500 internal server error": {
+            "httpStatus": 500,
+            "body": {
+                "type": "internal-server-error",
+                "title": "Internal Server Error",
+                "detail": "Error processing request",
+                "instance": "TestInstances",
+                "status": 500
+            }
+        }
+    }
+}

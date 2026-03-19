@@ -1,0 +1,93 @@
+{
+  "TestNewError": {
+    "Bad request 400": {
+      "httpStatus": 400,
+      "body": {
+        "contextInfo": {
+          "parameterName": "caSetId"
+        },
+        "detail": "The type of Parameter caSetId is invalid.",
+        "status": 400,
+        "title": "Type mismatch for any of path variable or query param or both.",
+        "type": "/mtls-edge-truststore/error-types/path-variable-query-param-type-mismatch"
+      }
+    },
+    "Invalid request 400": {
+      "httpStatus": 400,
+      "body": {
+        "contextInfo": {
+          "invalidParameterValue": "v2-api-create-ca set",
+          "parameterName": "caSetName"
+        },
+        "errors": [
+          {
+            "contextInfo": {},
+            "detail": "Provided CA set name v2-api-create-ca set does not match validation constraints. Allowed characters are alphanumerics (a-z, A-Z, 0-9), underscore (_), hyphen (-), percent (%) and period (.) with no three consecutive periods (\u2026). Length must be between 3 and 64 characters.",
+            "pointer": "/caSetName"
+          }
+        ],
+        "status": 400,
+        "title": "Invalid field value.",
+        "type": "/mtls-edge-truststore/error-types/invalid-field"
+      }
+    },
+    "CASet does not exists 404": {
+      "httpStatus": 404,
+      "body": {
+        "contextInfo": {
+          "caSetId": 0
+        },
+        "detail": "Cannot get CA set as the CA set with caSetId 0 is not found.",
+        "status": 404,
+        "title": "CA set is not found.",
+        "type": "/mtls-edge-truststore/error-types/ca-set-not-found"
+      }
+    },
+    "invalid response body, assign status code": {
+      "httpStatus": 500,
+      "body": "test"
+    }
+  },
+  "TestIs": {
+    "different error code": {
+      "err": {
+        "status": 404
+      },
+      "target": {
+        "status": 401
+      },
+      "expected": false
+    },
+    "same error code": {
+      "err": {
+        "status": 404
+      },
+      "target": {
+        "status": 404
+      },
+      "expected": true
+    },
+    "same error code and title": {
+      "err": {
+        "status": 404,
+        "title": "some error"
+      },
+      "target": {
+        "status": 404,
+        "title": "some error"
+      },
+      "expected": true
+    },
+    "same error code and different error message": {
+      "err": {
+        "status": 404,
+        "title": "some error"
+      },
+      "target": {
+        "status": 404,
+        "title": "other error"
+      },
+      "expected": false
+    }
+  }
+}
